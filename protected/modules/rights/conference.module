@@ -1,0 +1,1329 @@
+<?php
+ function conference_menu() {
+ 
+  $items['conference/registration/form'] = array(
+   
+	'title' => t('Registration'),
+    'page callback' => 'conference_registration_form',
+    'access arguments' => array('access content'),
+    'description' => t('Registration'),
+    'type' => MENU_CALLBACK,
+  );
+  $items['conference/registration/step2'] = array(
+    'title' => t('Registration'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('conference_registration_step2_form'),
+    'access arguments' => array('access content'),
+    'description' => t('Registration'),
+    'type' => MENU_CALLBACK,
+  );
+  $items['conference/registration/step3'] = array(
+    'title' => t('Registration'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('conference_registration_step3_form'),
+    'access arguments' => array('access content'),
+    'description' => t('Registration'),
+    'type' => MENU_CALLBACK,
+  );
+   $items['conference/registration/step4'] = array(
+    'title' => t('Registration'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('conference_registration_step4_form'),
+    'access arguments' => array('access content'),
+    'description' => t('Registration'),
+    'type' => MENU_CALLBACK,
+  );
+  $items['conference/registration/step5'] = array(
+     'title' => t('Registration'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('conference_registration_step5_form'),
+    'access arguments' => array('access content'),
+    'description' => t('Registration'),
+    'type' => MENU_CALLBACK,
+  );
+   $items['conference/registration/step6'] = array(
+    'title' => t('Registration'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('conference_registration_step6_form'),
+    'access arguments' => array('access content'),
+    'description' => t('Registration'),
+    'type' => MENU_CALLBACK,
+  );
+   $items['conference/registration/finish'] = array(
+    'title' => t('Registration'),
+    'page callback' => 'conference_registration_finish',
+    'access arguments' => array('access content'),
+    'description' => t('Registration'),
+    'type' => MENU_CALLBACK,
+  );
+  $items['conference/registration/summary'] = array(
+    'title' => t('Registration'),
+    'page callback' => 'conference_registration_summary',
+    'access arguments' => array('access content'),
+    'description' => t('Registration'),
+    'type' => MENU_CALLBACK,
+  );
+    $items['conference/registration/thanks'] = array(
+    'title' => t('Registration'),
+    'page callback' => 'conference_registration_thanks',
+    'access arguments' => array('access content'),
+    'description' => t('Registration'),
+    'type' => MENU_CALLBACK,
+  );
+  
+  return $items;
+}
+function conference_admin_delete(){
+    global $path;
+    //arg(5).
+    $result = db_select('braingym_conference', 'c')
+    ->fields('c')
+    ->condition('id', arg(5),'=')
+    ->condition('status', 0,'>')
+    ->execute()
+    ->fetchAssoc();
+   if(!$result) drupal_goto('admin/braingym/conference');
+   if(arg(6)=="Y" || arg(6)=="y"){
+       db_update('braingym_conference') // Table name no longer needs {}
+        ->fields(array('status' => 0,))
+        ->condition('id', arg(5))
+         ->execute();      
+            
+       drupal_goto('admin/braingym/conference');
+   }
+   $output = 'Are you sure you want to delete <b>'.$result['first_name'].'</b>? <div class="button" id="delete_conference_yes"><span>Delete</span></div><div class="button" id="delete_conference_no"><span>Cancel</span></div>';
+   $output .= '<script>
+      jQuery("#delete_conference_yes").click(function() {
+               location.href = "'.url("admin/braingym/conference/delete/id/".arg(5)."/y").'"
+       }); 
+        jQuery("#delete_conference_no").click(function() {
+               location.href = "'.url("admin/braingym/conference/").'"
+       });
+    </script>';
+   return $output;
+}
+function conference_admin(){
+	$header = array(array('data'=>t('ID'),'field'=>'id','sort'=>'asc'), 
+	array('data'=>t('First Name'),'field'=>'first_name'), 
+	array('data'=>t('Last Name'),'field'=>'last_name'),
+	array('data'=>t('Email'),'field'=>'email'),
+	array('data'=>t('Alamat'),'field'=>'alamat'),
+	//array('data'=>t('Country'),'field'=>'country'),
+	array('data'=>t('ZIP'),'field'=>'zip'),
+	array('data'=>t('Phone'),'field'=>'phone'),
+	array('data'=>t('Citizen'),'field'=>'citizen'),
+	array('data'=>t('Faculty'),'field'=>'faculty'),
+	//array('data'=>t('Package'),'field'=>'package'),
+	array('data'=>t('Day 1'),'field'=>'day1'),
+	array('data'=>t('Day 2'),'field'=>'day2'),
+	array('data'=>t('Day 3'),'field'=>'day3'),
+	array('data'=>t('Day 4'),'field'=>'day4'),
+	array('data'=>t('Course price'),'field'=>'course_price'),
+	array('data'=>t('Accommodation'),'field'=>'accommodation'),
+	array('data'=>t('Checkin'),'field'=>'checkin'),
+	array('data'=>t('Checkout'),'field'=>'checkout'),
+	array('data'=>t('Room'),'field'=>'id_room'),
+	array('data'=>t('Room price'),'field'=>'room_price'),
+	array('data'=>t('Total'),'field'=>'total'),
+	array('data'=>t('Option payment'),'field'=>'option_payment'),
+	array('data'=>t('Share Room'),'field'=>'share_room'),
+	//array('data'=>t('Bedroom'),'field'=>'bedroom'),
+	array('data'=>t('Smoke'),'field'=>'smoke'),
+	array('data'=>t('Submit'),'field'=>'submit'),
+	array('data'=>t('action')));
+
+	$sql_query = db_select('braingym_conference', 'q');
+        $sql_query->leftJoin('countries_country', 'c', 'c.iso2 = q.citizen');
+        $sql_query->leftJoin('braingym_conference_room', 'r', 'r.id_room = q.id_room');
+	$sql_query->fields('q', array('id','first_name','last_name','email','alamat','zip','phone','citizen','faculty','day1','day2','day3','day4','course_price','accommodation','checkin','checkout','id_room','room_price','total','option_payment','share_room','smoke','submit')); 
+	$sql_query->addField('c', 'name', 'name_citizen');
+	$sql_query->fields('r', array('room'));
+        $sql_query->condition('status', 0,'>');
+	$sql_query = $sql_query->extend('TableSort')->extend('PagerDefault')->limit(20);
+	$result = $sql_query->orderByHeader($header)->execute();
+	$accommodation =array(1 => t('Hotel'), 2 => t('Villa'),0 => t('No accommodation'));
+    $option_payment = array('I pay one room for myself ','I will share a room at Aston Hotel with another participant of the conference','I will share a room at Aston Hotel with a company who is not participant of the conference');
+    $smoke = array('no smoking', 'smoking');
+	$yesno = array(0 => t('No'), 1 => t('Yes'));
+	foreach($result as $res){
+
+		$rows[] = array($res->id,$res->first_name,$res->last_name,$res->email,$res->alamat ,$res->zip,$res->phone,$res->name_citizen,$yesno[$res->faculty],$yesno[$res->day1],$yesno[$res->day2],$yesno[$res->day3],$yesno[$res->day4],$res->course_price,$accommodation[$res->accommodation],$res->checkin,$res->checkout,$res->room,$res->room_price,$res->total,isset($res->option_payment) ? $option_payment[$res->option_payment] : '',$res->share_room,isset($res->smoke) ? $smoke[$res->smoke] : '',date("Y-m-d",$res->submit),'<a href="'.url("admin/braingym/conference/delete/id/".$res->id,array()).'">delete </a>');
+	}
+
+	$output = theme('table', array('header' => $header, 'rows' => $rows, 'attributes' => array('id' => 'my-module-table')));
+	$output .= theme('pager');
+
+
+    return $output;
+}
+function conference_registration_form() {
+	 $form['first_name'] = array(
+              '#type' => 'textfield',
+              '#title' => t('First name'),
+              '#size' => 20,
+              '#maxlength' => 20,
+              '#required' => TRUE,
+              '#default_value' => isset($_SESSION["braingym_reg"]["first_name"]) ? $_SESSION["braingym_reg"]["first_name"] : '', 
+	  );
+	  $form['last_name'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Last name'),
+		'#required' => FALSE,
+     '#default_value' => isset($_SESSION["braingym_reg"]["last_name"]) ? $_SESSION["braingym_reg"]["last_name"] : '', 
+	  );
+
+	  $form['email'] = array(
+		'#type' => 'textfield',
+		'#title' => t('E-mail'),
+		'#maxlength' => EMAIL_MAX_LENGTH,
+		//'#description' => t('A valid e-mail address. All e-mails from the system will be sent to this address. The e-mail address is not made public and will only be used if you wish to receive a new password or wish to receive certain news or notifications by e-mail.'),
+		'#required' => TRUE,
+    '#default_value' => isset($_SESSION["braingym_reg"]["email"]) ? $_SESSION["braingym_reg"]["email"] : '',
+	);
+	$form['address'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Address'),
+		'#required' => TRUE,
+    '#default_value' => isset($_SESSION["braingym_reg"]["address"]) ? $_SESSION["braingym_reg"]["address"] : '',
+            
+	 );
+        /*
+        $form['country'] = array(
+             '#type' => 'country',
+             '#title' => t('Country'),
+              '#required' => TRUE,
+              '#default_value' => isset($_SESSION["braingym_reg"]["country"]) ? $_SESSION["braingym_reg"]["country"] : '',
+             );
+         * 
+         */
+          $form['zip'] = array(
+                    '#type' => 'textfield',
+             '#title' => t('Zip/Postal Code'),
+              '#required' => TRUE,
+               '#default_value' => isset($_SESSION["braingym_reg"]["zip"]) ? $_SESSION["braingym_reg"]["zip"] : '',
+                 );
+          $form['phone'] = array(
+                        '#type' => 'textfield',
+             '#title' => t('Phone Number'),
+              '#required' => TRUE,
+              '#default_value' => isset($_SESSION["braingym_reg"]["phone"]) ? $_SESSION["braingym_reg"]["phone"] : '',
+                 );
+          $form['citizen'] = array(
+                        '#type' => 'country',
+             '#title' => t('Citizen'),
+              '#required' => TRUE,
+              '#default_value' => isset($_SESSION["braingym_reg"]["citizen"]) ? $_SESSION["braingym_reg"]["citizen"] : '',
+           );
+          $form['next'] = array(
+                '#type' => 'submit',
+                '#value' => 'Next >>',
+          );
+       // return $form;
+	$output = "Registrasi telah ditutup sejak 1 Juni. Kami tidak menerima pendaftaran di tempat. Kecuali untuk postconference workshop, untuk pendaftaran anda dapat email ke contact@braingym-indonesia.org";
+	$output = "Registration had been closed since June the 1st. No on site registration. Except for the post conference workshop, for registration you may email contact@braingym-indonesia.org";
+    return $output ;
+ }
+function conference_registration_form_validate($form, &$form_state) {
+    if (is_numeric($form_state['values']['zip'])!=1 ) {
+        form_error($form, t('Zipcode must be numeric'));
+    }
+	/*
+    if(valid_email_address($form_state['values']['email'])==false){
+          
+      form_error($form, t('Email not valid'));
+    }
+	*/
+ }
+function conference_registration_form_submit($form, &$form_state) {
+   $_SESSION['braingym_reg']['first_name']=$form_state['values']['first_name'];
+   $_SESSION['braingym_reg']['last_name']=$form_state['values']['last_name'];
+   $_SESSION['braingym_reg']['email']=$form_state['values']['email'];
+   $_SESSION['braingym_reg']['address']=$form_state['values']['address'];
+  //$_SESSION['braingym_reg']['country']=$form_state['values']['country'];
+   $_SESSION['braingym_reg']['zip']=$form_state['values']['zip'];
+   $_SESSION['braingym_reg']['phone']=$form_state['values']['phone'];
+   $_SESSION['braingym_reg']['citizen']=$form_state['values']['citizen'];
+   drupal_goto('conference/registration/step2');
+ }
+function conference_registration_step2_form() {
+ if(!isset($_SESSION['braingym_reg']['first_name']) || !isset($_SESSION['braingym_reg']['last_name']) || !isset($_SESSION['braingym_reg']['email'])  )
+    drupal_goto('conference/registration/form');
+    $form['faculty'] = array(
+		'#type' => 'select',
+		'#title' => t('Are you a faculty member/board member/presenter/key note speaker of the conference ?'),
+		'#options' => array(0 => t('No'), 1 => t('Yes')),
+		'#required' => TRUE,
+                '#default_value' => isset($_SESSION["braingym_reg"]["faculty"]) ? $_SESSION["braingym_reg"]["faculty"] : '',
+	 );
+  
+	  $form['next'] = array(
+		'#type' => 'submit',
+		'#value' => 'Next >>',
+	  );
+    return $form;
+}
+function conference_registration_step2_form_validate($form, &$form_state) {
+   
+    if($form_state['values']['faculty']==1){
+           $_SESSION['braingym_reg']['day1']=TRUE;
+           $_SESSION['braingym_reg']['day2']=TRUE;
+           $_SESSION['braingym_reg']['day3']=TRUE;
+           $_SESSION['braingym_reg']['day4']=TRUE;
+           $_SESSION['braingym_reg']['course_price']=2800000;
+          
+    }
+}
+function conference_registration_step2_form_submit($form, &$form_state) {
+    $_SESSION['braingym_reg']['faculty']=$form_state['values']['faculty'];
+    if($form_state['values']['faculty']==1){
+        drupal_goto('conference/registration/step5');
+    }else{
+        drupal_goto('conference/registration/step3');
+    }
+    
+}
+function conference_registration_step3_form() {
+ if(!isset($_SESSION['braingym_reg']['faculty'])  )
+    drupal_goto('conference/registration/step2');
+ $form['package'] = array(
+		'#type' => 'select',
+		'#title' => t('Conference Package'),
+		'#options' => array(0 => t('All day package')),
+		'#required' => TRUE,
+   '#default_value' => isset($_SESSION["braingym_reg"]["package"]) ? $_SESSION["braingym_reg"]["package"] : '',
+	 );
+  
+	  $form['next'] = array(
+		'#type' => 'submit',
+		'#value' => 'Next >>',
+	  );
+ return $form;
+}
+function conference_registration_step3_form_validate($form, &$form_state) {
+    if($form_state['values']['package']==0){
+           $_SESSION['braingym_reg']['day1']=TRUE;
+           $_SESSION['braingym_reg']['day2']=TRUE;
+           $_SESSION['braingym_reg']['day3']=TRUE;
+           $_SESSION['braingym_reg']['day4']=TRUE;
+           if($_SESSION["braingym_reg"]["citizen"]=='ID'){
+				 $_SESSION['braingym_reg']['course_price']=5000000 ;    
+		   }else{
+				 $_SESSION['braingym_reg']['course_price']=5000000 ;    
+		   }
+          
+    }
+}
+function conference_registration_step3_form_submit($form, &$form_state) {
+    
+    $_SESSION['braingym_reg']['package']=$form_state['values']['package'];
+    if($form_state['values']['package']==0){
+        drupal_goto('conference/registration/step5');
+    }else{
+        drupal_goto('conference/registration/step4');
+    }
+}
+function conference_registration_step4_form() {
+	drupal_goto('conference/registration/step3');
+ if(!isset($_SESSION['braingym_reg']['faculty'])  )
+    drupal_goto('conference/registration/step2');
+	if($_SESSION["braingym_reg"]["citizen"]=='ID'){
+		$deskripsi = '<ul>
+                <li><b>One-day package</b> : IDR 1,500,000</li> 
+                <li><b>Two-day package</b> : IDR 2,000,000</li>
+                <li><b>Three-day package</b> : IDR 2,500,000</li></ul>';
+	}else{
+		$deskripsi = '<ul>
+                <li><b>One-day package</b> : IDR 1,750,000</li> 
+                <li><b>Two-day package</b> : IDR 2,250,000</li>
+                <li><b>Three-day package</b> : IDR 3,000,000</li></ul>';
+	}
+    
+   
+
+    $default_value =array();
+ if(isset( $_SESSION['braingym_reg']['day1']) &&  $_SESSION['braingym_reg']['day1']==TRUE)
+       $default_value[]=1;
+  if(isset( $_SESSION['braingym_reg']['day2']) &&  $_SESSION['braingym_reg']['day2']==TRUE)
+       $default_value[]=2;
+  if(isset( $_SESSION['braingym_reg']['day3']) &&  $_SESSION['braingym_reg']['day3']==TRUE)
+       $default_value[]=3;
+  if(isset( $_SESSION['braingym_reg']['day4']) &&  $_SESSION['braingym_reg']['day4']==TRUE)
+       $default_value[]=4;
+  $form['daily_package'] = array(
+    '#type' => 'checkboxes',
+    '#options' => array(1=>'Day 1', 2=>'Day 2', 3=>'Day 3', 4=>'Day 4'),
+    '#title' => t('Daily Package'),
+    '#description' => $deskripsi,
+    '#default_value' => $default_value,
+	 );
+  
+	  $form['next'] = array(
+		'#type' => 'submit',
+		'#value' => 'Next >>',
+	  );
+    echo $_SESSION['braingym_reg']['day1'];
+ return $form;
+}
+function conference_registration_step4_form_validate($form, &$form_state) {
+    $daily_package=0;
+    if($form_state['values']['daily_package'][1]>0)
+          $daily_package++; 
+     if($form_state['values']['daily_package'][2]>0)
+          $daily_package++; 
+     if($form_state['values']['daily_package'][3]>0)
+          $daily_package++; 
+      if($form_state['values']['daily_package'][4]>0)
+          $daily_package++;
+	if($_SESSION["braingym_reg"]["citizen"]=='ID'){
+		if($daily_package==4)
+          $_SESSION['braingym_reg']['course_price']=3500000; 
+		 if($daily_package==1)
+			  $_SESSION['braingym_reg']['course_price']=1500000; 
+		 if($daily_package==2)
+			  $_SESSION['braingym_reg']['course_price']=2000000;
+		 if($daily_package==3)
+			  $_SESSION['braingym_reg']['course_price']=2500000; 
+	}else{
+		if($daily_package==4)
+          $_SESSION['braingym_reg']['course_price']=4000000; 
+		 if($daily_package==1)
+			  $_SESSION['braingym_reg']['course_price']=1750000; 
+		 if($daily_package==2)
+			  $_SESSION['braingym_reg']['course_price']=2250000;
+		 if($daily_package==3)
+			  $_SESSION['braingym_reg']['course_price']=3000000; 
+	}
+     
+     if($daily_package==0)
+         form_error($form, t('Daily Package must be select, atleast one'));
+    
+}
+function conference_registration_step4_form_submit($form, &$form_state) {
+     if($form_state['values']['daily_package'][1]>0){
+           $_SESSION['braingym_reg']['day1']=TRUE;
+     }else{
+           $_SESSION['braingym_reg']['day1']=FALSE;
+     }
+     if($form_state['values']['daily_package'][2]>0){
+          $_SESSION['braingym_reg']['day2']=TRUE;
+     }else{
+           $_SESSION['braingym_reg']['day2']=FALSE;
+     }
+     if($form_state['values']['daily_package'][3]>0){
+          $_SESSION['braingym_reg']['day3']=TRUE;
+     }else{
+           $_SESSION['braingym_reg']['day3']=FALSE;
+     }
+     if($form_state['values']['daily_package'][4]>0){
+          $_SESSION['braingym_reg']['day4']=TRUE;
+       }else{
+           $_SESSION['braingym_reg']['day4']=FALSE;
+     }
+    drupal_goto('conference/registration/step5');
+   
+}
+function conference_registration_step5_form() {
+ if( isset($_SESSION['braingym_reg']['day1'])  || 
+                isset($_SESSION['braingym_reg']['day2'])  || 
+                isset($_SESSION['braingym_reg']['day3'])  || 
+                isset($_SESSION['braingym_reg']['day4'])) {
+      $form['accommodation'] = array(
+      '#type' => 'select',
+      '#title' => t('Add accommodation'),
+      '#options' => array(1 => t('Hotel'), 2 => t('Villa'),0 => t('No accommodation')),
+      '#required' => TRUE,
+    );
+
+      $form['next'] = array(
+      '#type' => 'submit',
+      '#value' => 'Next >>',
+      );
+    return $form;
+   
+ }else{
+   drupal_goto('conference/registration/step4');
+ }
+
+}
+function conference_registration_step5_form_validate($form, &$form_state) {
+    
+}
+function conference_registration_step5_form_submit($form, &$form_state) {
+    
+   
+       $_SESSION['braingym_reg']['accommodation']=$form_state['values']['accommodation'];
+       if( $_SESSION['braingym_reg']['accommodation']==0){
+		   if(isset($_SESSION['braingym_reg']['checkin'])) $_SESSION['braingym_reg']['checkin']= NULL;
+		   if(isset($_SESSION['braingym_reg']['checkout'])) $_SESSION['braingym_reg']['checkout']= NULL;
+		   if(isset($_SESSION['braingym_reg']['id_room'])) $_SESSION['braingym_reg']['id_room']= NULL;
+		   if(isset($_SESSION['braingym_reg']['room_price'])) $_SESSION['braingym_reg']['room_price']=0;
+		   if(isset($_SESSION['braingym_reg']['option_payment'])) $_SESSION['braingym_reg']['option_payment']=NULL;
+                   if(isset($_SESSION['braingym_reg']['share_room'])) $_SESSION['braingym_reg']['share_room']=NULL;
+                   drupal_goto('conference/registration/summary');
+       }
+       if($form_state['values']['accommodation']==1)
+          drupal_goto('conference/registration/step6');
+       if($form_state['values']['accommodation']==2)
+          drupal_goto('conference/registration/step6');
+    
+}
+function conference_registration_step6_form() {
+      if(       isset($_SESSION['braingym_reg']['day1'])  || 
+                isset($_SESSION['braingym_reg']['day2'])  || 
+                isset($_SESSION['braingym_reg']['day3'])  || 
+                isset($_SESSION['braingym_reg']['day4'])) {
+    
+     
+                
+            global $base_url;
+            drupal_add_library('system','ui.datepicker');
+          drupal_add_js('jQuery(document).ready(function(){jQuery( ".pickadate" ).datepicker({
+              dateFormat: "dd-mm-yy",
+              autoSize: true
+            });});', 'inline'); 
+            $form = array();
+             $form['checkin'] = array(
+                '#type' => 'textfield',
+                '#title' => t('Checkin (dd-mm-yyyy)'),
+                '#size' => 10,
+                '#maxlength' => 10,
+                '#attributes' => array('class' => array('pickadate')),
+                '#required' => TRUE,
+            ); 
+              $form['checkout'] = array(
+                '#type' => 'textfield',
+                '#title' => t('Checkout (dd-mm-yyyy)'),
+                '#size' => 10,
+                '#maxlength' => 10,
+                '#attributes' => array('class' => array('pickadate')),
+                '#required' => TRUE,
+            ); 
+                $uid = 1;
+                $type_ac = array(1=>'hotel',2=>'villa');
+                $result = db_query('SELECT r.id_room, r.id_hotel, r.room, r.price, h.nama, h.image
+                                        FROM {braingym_conference_room} r
+                                        INNER JOIN {braingym_conference_hotel} h ON r.id_hotel = h.id_hotel 
+                                        WHERE r.type=\''.$type_ac[$_SESSION['braingym_reg']['accommodation']].'\' AND r.publish = :publish', array(':publish' => 1));
+                foreach ($result as $record) {
+
+                    $na =$record->image;
+                    $active[$record->id_room]='<a href="'.$base_url.'/'.$na.'" >'.$record->nama.' ('.$record->room.' : &nbsp; '.convert_to_rupiah($record->price).')</a>';
+                }
+                $path = current_path();
+        $path_alias = drupal_lookup_path('alias',$path);
+                $result = db_query('SELECT * FROM {braingym_conference_hotel} h
+                                        WHERE h.publish = :publish', array(':publish' => 1));
+                foreach ($result as $record) {
+
+                       // $na =language_url_split_prefix( $record->image);
+
+                        //$active[$record->id_hotel]=l(t($record->nama), $na, array('language' => '','attributes' => array('id' => 'image'.$record->id_hotel, 'class' => 'image-link')));
+
+
+                }
+               
+                 $form['room'] = array(
+                        '#type' => 'radios',
+                        '#title' => t('Select Hotel'),
+                        '#default_value' => isset($node->active) ? $node->active : 1,
+                        '#options' => $active,
+                        '#required' => TRUE,
+                  );
+                 $option_payment = array('I pay one room for myself ','I will share a room at Aston Hotel with another participant of the conference','I will share a room at Aston Hotel with a company who is not participant of the conference');
+                   $form['option_payment'] = array(
+                        '#type' => 'radios',
+                        '#title' => t('Payment'),
+                      
+                        '#options' => $option_payment,
+                        '#required' => TRUE,
+                  );
+                    $form['share_room'] = array(
+                      '#type' => 'textfield',
+                      '#title' => t('Share room with :'),
+                      '#size' => 30,
+                      '#maxlength' => 30,
+                  ); 
+                   $bedroom = array('singel', 'twin', 'double');
+                   
+                   $smoke = array('no smoking', 'smoking');
+                    $form['smoke'] = array(
+                        '#type' => 'radios',
+                        '#title' => t('Smoking Room'),
+                      
+                        '#options' => $smoke,
+                        '#required' => TRUE,
+                  );
+              $form['next'] = array(
+                    '#type' => 'submit',
+                    '#value' => 'Submit',
+              );
+      
+     }else{
+                     drupal_goto('conference/registration/step4');
+      }
+        return $form;
+}
+function conference_registration_step6_form_validate($form, &$form_state) {
+    
+    if(strtotime($form_state['values']['checkout']) <= strtotime($form_state['values']['checkin'])){
+       form_error($form, t('Date cheking adn checkout not valid'));
+    }
+     if(strtotime($form_state['values']['checkin'])>=1356969600 ){
+       
+    }else{
+   
+        form_error($form, t('Date checkin not valid'));
+    }
+    if(strtotime($form_state['values']['checkout'])>=1356969600 ){
+       
+    }else{
+        form_error($form, t('Date checkout not valid'));
+    }
+    if($form_state['values']['option_payment']==1 && trim($form_state['values']['share_room'])==""){
+        form_error($form, t('Share room with ?'));  
+    }
+          
+    
+    
+}
+function conference_registration_step6_form_submit($form, &$form_state) {
+  if(isset($_SESSION['braingym_reg']['accommodation'])  && $_SESSION['braingym_reg']['accommodation']>=1){
+    $_SESSION['braingym_reg']['accommodation']=1;
+    $_SESSION['braingym_reg']['checkin']=$form_state['values']['checkin'];
+    $_SESSION['braingym_reg']['checkout']=$form_state['values']['checkout'];
+    $_SESSION['braingym_reg']['id_room']=$form_state['values']['room'];
+    $_SESSION['braingym_reg']['share_room']=$form_state['values']['share_room'];
+    $result = db_query('SELECT id_room,price
+				FROM {braingym_conference_room}
+				WHERE id_room = :id_room', array(':id_room' => $form_state['values']['room']));
+    foreach ($result as $record) {
+              $price = $record->price;
+          }
+      $hari = selesih_hari($form_state['values']['checkin'], $form_state['values']['checkout']);
+      $_SESSION['braingym_reg']['room_price']=$price*$hari;
+
+    $_SESSION['braingym_reg']['option_payment']=$form_state['values']['option_payment'];
+    if($form_state['values']['option_payment']!=1){
+         $_SESSION['braingym_reg']['share_room']=NULL;
+    }
+    //$_SESSION['braingym_reg']['bedroom']=$form_state['values']['bedroom'];
+      $_SESSION['braingym_reg']['smoke']=$form_state['values']['smoke'];
+
+      drupal_goto('conference/registration/summary');
+  } else{
+      drupal_goto('conference/registration/step5');
+  }
+    
+    
+   
+}
+function conference_registration_finish() {
+  
+    if(!isset($_SESSION['braingym_reg'])){
+         drupal_goto('conference/registration/form');
+    }
+    
+    if(isset( $_SESSION["braingym_reg"]["package"])){
+          $package=$_SESSION["braingym_reg"]["package"];
+          
+      }else{
+           $package=0;
+          
+      }
+      if(isset( $_SESSION['braingym_reg']['day1']) &&  $_SESSION['braingym_reg']['day1']==TRUE){
+          $day1=1;
+          
+      }else{
+           $day1=0;
+          
+      }
+      if(isset( $_SESSION['braingym_reg']['day2']) &&  $_SESSION['braingym_reg']['day2']==TRUE){
+          $day2=1;
+          
+      }else{
+           $day2=0;
+          
+      }
+      if(isset( $_SESSION['braingym_reg']['day3']) &&  $_SESSION['braingym_reg']['day3']==TRUE){
+          $day3=1;
+          
+      }else{
+           $day3=0;
+          
+      }
+      if(isset( $_SESSION['braingym_reg']['day4']) &&  $_SESSION['braingym_reg']['day4']==TRUE){
+          $day4=1;
+          
+      }else{
+           $day4=0;
+          
+      }
+      
+      if(isset($_SESSION['braingym_reg']['accommodation'])){
+             $accommodation = $_SESSION['braingym_reg']['accommodation'];
+      }else{
+            $accommodation = 0;
+      }
+      
+      if(isset($_SESSION['braingym_reg']['checkin'])){
+             $checkin = $_SESSION['braingym_reg']['checkin'];
+      }else{
+           $checkin = NULL;
+      }
+       if(isset($_SESSION['braingym_reg']['checkout'])){
+             $checkout = $_SESSION['braingym_reg']['checkout'];
+      }else{
+           $checkout = NULL;
+      }
+      if(isset( $_SESSION['braingym_reg']['id_room'])){
+             $id_room= $_SESSION['braingym_reg']['id_room'];
+      }else{
+           $id_room = 0;
+      }
+      if(isset( $_SESSION['braingym_reg']['room_price'])){
+             $room_price= $_SESSION['braingym_reg']['room_price'];
+      } else {
+           $room_price = 0;
+      }
+      
+   
+       $total = $room_price + $_SESSION["braingym_reg"]["course_price"];
+      if(isset( $_SESSION['braingym_reg']['option_payment'])){
+             $option_payment= $_SESSION['braingym_reg']['option_payment'];
+      } else {
+           $option_payment =NULL;
+      }
+       if(isset( $_SESSION['braingym_reg']['bedroom'])){
+             $bedroom= $_SESSION['braingym_reg']['bedroom'];
+      } else {
+           $bedroom = NULL;
+      }
+       if(isset( $_SESSION['braingym_reg']['share_room'])){
+             $share_room= $_SESSION['braingym_reg']['share_room'];
+      } else {
+           $share_room = NULL;
+      }
+       if(isset( $_SESSION['braingym_reg']['smoke'])){
+             $smoke= $_SESSION['braingym_reg']['smoke'];
+      } else {
+           $smoke = NULL;
+      }
+       if(isset($_SESSION['braingym_reg']['share_room'])){
+         $share_room = $_SESSION['braingym_reg']['share_room'];
+      }else{
+          $share_room = NULL;
+      }
+      
+     db_insert('braingym_conference')
+                ->fields(array(
+                  'first_name' => $_SESSION["braingym_reg"]["first_name"],
+                  'last_name' => $_SESSION["braingym_reg"]["last_name"],
+                  'email' => $_SESSION["braingym_reg"]["email"],
+                  'alamat' => $_SESSION["braingym_reg"]["address"],
+                  'country' => $_SESSION["braingym_reg"]["citizen"],
+                    'zip' => $_SESSION["braingym_reg"]["zip"],
+                    'phone' => $_SESSION["braingym_reg"]["phone"],
+                    'citizen' => $_SESSION["braingym_reg"]["citizen"],
+                    'faculty' => $_SESSION["braingym_reg"]["faculty"],
+                    'package' => $package,
+                    'day1' => $day1,
+                    'day2' => $day2,
+                    'day3' => $day3,
+                    'day4' => $day4,
+                    'course_price' =>  $_SESSION["braingym_reg"]["course_price"],
+                    'accommodation' => $accommodation,
+                    'checkin' => $checkin,
+                    'checkout' =>$checkout ,
+                    'id_room' => $id_room,
+                    'room_price' => $room_price,
+                    'total' => $total,
+                    'option_payment' => $option_payment,
+                    'share_room' => $share_room,
+                    'bedroom' => $bedroom,
+                    'smoke' => $smoke,
+                    'submit' => REQUEST_TIME, 
+                ))->execute();
+      
+   
+      
+    //$params['subject'] = 'BrainGym - Conference Registration';
+    //$to = $_SESSION["braingym_reg"]["email"];
+    //$from = 'admin@braingym-indonesia.org';
+    //$lang = language_default();
+    
+     $faculty = array('No', 'Yes');
+  $result = db_query('SELECT c.name FROM {countries_country} c WHERE c.iso2 = :iso2', array(':iso2' => $_SESSION["braingym_reg"]["citizen"]));
+  $country = $result->fetchObject(); 
+  
+  $result = db_query('SELECT c.name FROM {countries_country} c WHERE c.iso2 = :iso2', array(':iso2' => $_SESSION["braingym_reg"]["citizen"]));
+  $citizen = $result->fetchObject(); 
+  
+  if(isset( $_SESSION['braingym_reg']['day1']) &&  $_SESSION['braingym_reg']['day1']==TRUE){
+          $day1='Day 1 ; ';
+          
+      }else{
+           $day1='';
+          
+      }
+      if(isset( $_SESSION['braingym_reg']['day2']) &&  $_SESSION['braingym_reg']['day2']==TRUE){
+          $day2='Day 2 ; ';
+          
+      }else{
+           $day2='';
+          
+      }
+      if(isset( $_SESSION['braingym_reg']['day3']) &&  $_SESSION['braingym_reg']['day3']==TRUE){
+          $day3='Day 3 ; ';
+          
+      }else{
+           $day3='';
+          
+      }
+      if(isset( $_SESSION['braingym_reg']['day4']) &&  $_SESSION['braingym_reg']['day4']==TRUE){
+          $day4='Day 4 ; ';
+          
+      }else{
+           $day4='';
+          
+      }
+    $accommodation =array(1 => t('Hotel'), 2 => t('Villa'),0 => t('No accommodation'));
+    $option_payment = array('I pay one room for myself ','I will share a room at Aston Hotel with another participant of the conference','I will share a room at Aston Hotel with a company who is not participant of the conference');
+    $smoke = array('no smoking', 'smoking');
+    if(isset( $_SESSION['braingym_reg']['id_room'])){
+        $result = db_query('SELECT r.id_room, r.id_hotel, r.room, r.price, h.nama, h.image
+                                        FROM {braingym_conference_room} r
+                                        INNER JOIN {braingym_conference_hotel} h ON r.id_hotel = h.id_hotel 
+                                        WHERE r.id_room = :id_room', array(':id_room' => $_SESSION['braingym_reg']['id_room']));
+        
+        $room = $result->fetchObject(); 
+    }
+    if(isset( $_SESSION['braingym_reg']['room_price'])){
+             $room_price= $_SESSION['braingym_reg']['room_price'];
+      } else {
+           $room_price = 0;
+      }
+      
+     
+       $total = $room_price + $_SESSION["braingym_reg"]["course_price"];
+ 
+         
+   $body_mail = '<html>
+               <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0" bgcolor="#ffffff" ><table width="800" border="0" cellpadding="0" cellspacing="0">
+	
+ 	<tbody>
+    	<tr>
+    	  <td>First name</td>
+    	  <td>'.$_SESSION["braingym_reg"]["first_name"].'</td>
+  	  </tr>
+    	<tr>
+            <td> Last name </td>
+            <td>'.$_SESSION["braingym_reg"]["last_name"].'</td>
+        </tr>
+    	<tr>
+    	  <td> E-mail</td>
+    	  <td>'.$_SESSION["braingym_reg"]["email"].'</td>
+  	  </tr>
+    	<tr>
+    	  <td> Address </td>
+    	  <td>'. $_SESSION["braingym_reg"]["address"].'</td>
+  	  </tr>
+    	 
+    	<tr>
+    	  <td> Zip/Postal Code </td>
+    	  <td>'.$_SESSION["braingym_reg"]["zip"].'</td>
+  	  </tr>
+    	<tr>
+    	  <td> Phone Number </td>
+    	  <td>'.$_SESSION["braingym_reg"]["phone"].'</td>
+  	  </tr>
+    	<tr>
+    	  <td> Citizen </td>
+    	  <td>'. $citizen->name.'</td>
+  	  </tr>
+      <tr>
+    	  <td>Are you a faculty member/board member/presenter/key note speaker of the conference ?</td>
+    	  <td><strong> '.$faculty[$_SESSION["braingym_reg"]["faculty"]].'</strong></td>
+  	  </tr>
+       <tr>
+    	  <td>Conference Package</td>
+    	  <td><strong> '.$day1.$day2.$day3.$day4.'</strong></td>
+  	  </tr>
+      <tr>
+    	  <td>Accommodation </td>
+    	  <td><strong> '.$accommodation[$_SESSION['braingym_reg']['accommodation']].'</strong></td>
+  	  </tr>';
+    
+    if(isset($_SESSION['braingym_reg']['accommodation'])>=1){
+      if(isset($_SESSION['braingym_reg']['checkin'])){
+        $body_mail.=' <tr>
+    	  <td>Checkin (dd-mm-yyyy)</td>
+    	  <td><strong> '.$_SESSION['braingym_reg']['checkin'].'</strong></td>
+  	  </tr>';
+      }
+      if(isset($_SESSION['braingym_reg']['checkout'])){
+        $body_mail.=' <tr>
+    	  <td>Checkout (dd-mm-yyyy)</td>
+    	  <td><strong> '.$_SESSION['braingym_reg']['checkout'].'</strong></td>
+  	  </tr>';
+      }
+      if(isset($room)){
+        $body_mail.=' <tr>
+    	  <td>Room</td>
+    	  <td><strong> '.$room->nama.' ('.$room->room.' : &nbsp; '.convert_to_rupiah($room->price).')</strong></td>
+        </tr>';
+      }
+     if(isset($_SESSION['braingym_reg']['option_payment'])){
+        $body_mail.=' <tr>
+    	  <td>Payment</td>
+    	  <td><strong> '.$option_payment[$_SESSION['braingym_reg']['option_payment']].'</strong></td>
+  	  </tr>';
+      }
+      if(isset($_SESSION['braingym_reg']['smoke'])){
+        $body_mail.=' <tr>
+    	  <td>Smoking</td>
+    	  <td><strong> '.$smoke[$_SESSION['braingym_reg']['smoke']].'</strong></td>
+  	  </tr>';
+      }
+    }
+ 
+    $body_mail.='
+      <tr>
+    	  <td align="right">Total</td>
+    	  <td><strong> '.convert_to_rupiah( $total).'</strong></td>
+  	  </tr>
+    </tbody>
+    
+  </table>
+
+</body></html>
+
+  ';  
+     $my_module = 'testmail';
+	   $my_mail_token = 'eri';
+	   $from = 'admin@braingym-indonesia.org';  
+     $message = array(
+          'to' => $_SESSION["braingym_reg"]["email"],
+          'subject' => t('BrainGym - Conference Registration'),
+          'body' => $body_mail,
+          'headers' => array(
+          'From' => $from,
+          'MIME-Version' => '1.0',
+          'Content-Type' => 'text/html;charset=utf-8',),
+	       );
+      $system = drupal_mail_system($my_module, $my_mail_token);
+	       if ($system->mail($message)) {
+              // Success.
+	       }
+	       else {
+              // Failure.
+          }
+     
+    
+    drupal_goto('conference/registration/thanks');
+   
+}
+function conference_registration_thanks() {
+    
+    $output= '<h3>' . t('Thank you for Registration').'</h3>';
+    $faculty = array('No', 'Yes');
+  $result = db_query('SELECT c.name FROM {countries_country} c WHERE c.iso2 = :iso2', array(':iso2' => $_SESSION["braingym_reg"]["citizen"]));
+  $country = $result->fetchObject(); 
+  
+  $result = db_query('SELECT c.name FROM {countries_country} c WHERE c.iso2 = :iso2', array(':iso2' => $_SESSION["braingym_reg"]["citizen"]));
+  $citizen = $result->fetchObject(); 
+  
+  if(isset( $_SESSION['braingym_reg']['day1']) &&  $_SESSION['braingym_reg']['day1']==TRUE){
+          $day1='Day 1 ; ';
+          
+      }else{
+           $day1='';
+          
+      }
+      if(isset( $_SESSION['braingym_reg']['day2']) &&  $_SESSION['braingym_reg']['day2']==TRUE){
+          $day2='Day 2 ; ';
+          
+      }else{
+           $day2='';
+          
+      }
+      if(isset( $_SESSION['braingym_reg']['day3']) &&  $_SESSION['braingym_reg']['day3']==TRUE){
+          $day3='Day 3 ; ';
+          
+      }else{
+           $day3='';
+          
+      }
+      if(isset( $_SESSION['braingym_reg']['day4']) &&  $_SESSION['braingym_reg']['day4']==TRUE){
+          $day4='Day 4 ; ';
+          
+      }else{
+           $day4='';
+          
+      }
+    $accommodation =array(1 => t('Hotel'), 2 => t('Villa'),0 => t('No accommodation'));
+    $option_payment = array('I pay one room for myself ','I will share a room at Aston Hotel with another participant of the conference','I will share a room at Aston Hotel with a company who is not participant of the conference');
+    $smoke = array('no smoking', 'smoking');
+    if(isset( $_SESSION['braingym_reg']['id_room'])){
+        $result = db_query('SELECT r.id_room, r.id_hotel, r.room, r.price, h.nama, h.image
+                                        FROM {braingym_conference_room} r
+                                        INNER JOIN {braingym_conference_hotel} h ON r.id_hotel = h.id_hotel 
+                                        WHERE r.id_room = :id_room', array(':id_room' => $_SESSION['braingym_reg']['id_room']));
+        
+        $room = $result->fetchObject(); 
+    }
+    if(isset( $_SESSION['braingym_reg']['room_price'])){
+             $room_price= $_SESSION['braingym_reg']['room_price'];
+      } else {
+           $room_price = 0;
+      }
+      
+   
+       $total = $room_price + $_SESSION["braingym_reg"]["course_price"];
+ 
+         
+    $output .= '<table width="800" border="0" cellpadding="0" cellspacing="0">
+	
+ 	<tbody>
+    	<tr>
+ 	<tbody>
+    	<tr>
+    	  <td>First name</td>
+    	  <td>'.$_SESSION["braingym_reg"]["first_name"].'</td>
+  	  </tr>
+    	<tr>
+            <td> Last name </td>
+            <td>'.$_SESSION["braingym_reg"]["last_name"].'</td>
+        </tr>
+    	<tr>
+    	  <td> E-mail</td>
+    	  <td>'.$_SESSION["braingym_reg"]["email"].'</td>
+  	  </tr>
+    	<tr>
+    	  <td> Address </td>
+    	  <td>'. $_SESSION["braingym_reg"]["address"].'</td>
+  	  </tr>
+    	 
+    	<tr>
+    	  <td> Zip/Postal Code </td>
+    	  <td>'.$_SESSION["braingym_reg"]["zip"].'</td>
+  	  </tr>
+    	<tr>
+    	  <td> Phone Number </td>
+    	  <td>'.$_SESSION["braingym_reg"]["phone"].'</td>
+  	  </tr>
+    	<tr>
+    	  <td> Citizen </td>
+    	  <td>'. $citizen->name.'</td>
+  	  </tr>
+      <tr>
+    	  <td>Are you a faculty member/board member/presenter/key note speaker of the conference ?</td>
+    	  <td><strong> '.$faculty[$_SESSION["braingym_reg"]["faculty"]].'</strong></td>
+  	  </tr>
+       <tr>
+    	  <td>Conference Package</td>
+    	  <td><strong> '.$day1.$day2.$day3.$day4.'</strong></td>
+  	  </tr>
+      <tr>
+    	  <td>Accommodation </td>
+    	  <td><strong> '.$accommodation[$_SESSION['braingym_reg']['accommodation']].'</strong></td>
+  	  </tr>';
+    
+    if(isset($_SESSION['braingym_reg']['accommodation'])>=1){
+      if(isset($_SESSION['braingym_reg']['checkin'])){
+        $output.=' <tr>
+    	  <td>Checkin (dd-mm-yyyy)</td>
+    	  <td><strong> '.$_SESSION['braingym_reg']['checkin'].'</strong></td>
+  	  </tr>';
+      }
+      if(isset($_SESSION['braingym_reg']['checkout'])){
+        $output.=' <tr>
+    	  <td>Checkout (dd-mm-yyyy)</td>
+    	  <td><strong> '.$_SESSION['braingym_reg']['checkout'].'</strong></td>
+  	  </tr>';
+      }
+      if(isset($room)){
+        $output.=' <tr>
+    	  <td>Room</td>
+    	  <td><strong> '.$room->nama.' ('.$room->room.' : &nbsp; '.convert_to_rupiah($room->price).')</strong></td>
+        </tr>';
+      }
+     if(isset($_SESSION['braingym_reg']['option_payment'])){
+        $output.=' <tr>
+    	  <td>Payment</td>
+    	  <td><strong> '.$option_payment[$_SESSION['braingym_reg']['option_payment']].'</strong></td>
+  	  </tr>';
+      }
+      if(isset($_SESSION['braingym_reg']['share_room'])){
+        $output.=' <tr>
+    	  <td>Share_room with </td>
+    	  <td><strong> '.$_SESSION['braingym_reg']['share_room'].'</strong></td>
+  	  </tr>';
+      }
+    if(isset($_SESSION['braingym_reg']['smoke'])){
+        $output.=' <tr>
+    	  <td>Smoking</td>
+    	  <td><strong> '.$smoke[$_SESSION['braingym_reg']['smoke']].'</strong></td>
+  	  </tr>';
+      }
+    }
+    
+     $output.='<tr>
+    	  <td>Room Price</td>
+    	  <td><strong> '.convert_to_rupiah($room_price).'</strong></td>
+  	  </tr>';
+     $output.='<tr>
+    	  <td>Course Price</td>
+    	  <td><strong> '.convert_to_rupiah($_SESSION["braingym_reg"]["course_price"]).'</strong></td>
+  	  </tr>';
+     
+    $output.='
+      <tr>
+    	  <td align="right">Total</td>
+    	  <td><strong> '.convert_to_rupiah( $total).'</strong></td>
+  	  </tr>
+    </tbody>
+    
+  </table>
+
+
+  
+  '; 
+     $output.= '<p><strong>' . t('This sheet is not proof of payment.
+Your registration will be valid, if you have transfer to</strong>: <br>Estiningrum/SP Henry Remanlay<br>
+Acc,No: 07.0000.6529.023<br>
+Mandiri Bank, Mampang Prapatan Branch<br>
+SWIFT CODE: BMRIIDJA<br>
+Bank address: Jl. Mampang Prapatan Raya 61,<br>
+Jakarta Selatan – INDONESIA<br>
+<ul>
+    <li> For information: exchange rate: 1USD = approx. Rp. 9,700</li>
+     <li> Cancellation fee: Rp. 1000,000 before 1 May 2013, after the date: no refund.</li>
+      <li> Once payment is made, copy of bank transfer receipt should be sent to contact@braingym-indonesia.org for verification</li>
+      <li> Further inquiries can also be addressed to: info@drtan-remanlay.co.id</li>
+
+</ul>
+
+').'</p>';
+   
+    $output.='<a href="#" class = "button-link" onClick="printpage();"> Print </a><script>
+function printpage()
+  {
+  window.print()
+  }
+</script>';
+ unset($_SESSION['braingym_reg']);
+    return  $output;
+   
+}
+function conference_registration_summary() {
+  if(!isset($_SESSION['braingym_reg']['accommodation'])) drupal_goto('conference/registration/step5');
+  if(isset($_SESSION['braingym_reg']['accommodation'])) 
+  {
+      if($_SESSION['braingym_reg']['accommodation']>0 && isset($_SESSION['braingym_reg']['checkin'])== NULL )
+        drupal_goto('conference/registration/step6');
+  }
+      
+  $faculty = array('No', 'Yes');
+  $result = db_query('SELECT c.name FROM {countries_country} c WHERE c.iso2 = :iso2', array(':iso2' => $_SESSION["braingym_reg"]["citizen"]));
+  $country = $result->fetchObject(); 
+  
+  $result = db_query('SELECT c.name FROM {countries_country} c WHERE c.iso2 = :iso2', array(':iso2' => $_SESSION["braingym_reg"]["citizen"]));
+  $citizen = $result->fetchObject(); 
+  
+  if(isset( $_SESSION['braingym_reg']['day1']) &&  $_SESSION['braingym_reg']['day1']==TRUE){
+          $day1='Day 1 ; ';
+          
+      }else{
+           $day1='';
+          
+      }
+      if(isset( $_SESSION['braingym_reg']['day2']) &&  $_SESSION['braingym_reg']['day2']==TRUE){
+          $day2='Day 2 ; ';
+          
+      }else{
+           $day2='';
+          
+      }
+      if(isset( $_SESSION['braingym_reg']['day3']) &&  $_SESSION['braingym_reg']['day3']==TRUE){
+          $day3='Day 3 ; ';
+          
+      }else{
+           $day3='';
+          
+      }
+      if(isset( $_SESSION['braingym_reg']['day4']) &&  $_SESSION['braingym_reg']['day4']==TRUE){
+          $day4='Day 4 ; ';
+          
+      }else{
+           $day4='';
+          
+      }
+    $accommodation =array(1 => t('Hotel'), 2 => t('Villa'),0 => t('No accommodation'));
+    $option_payment = array('I pay one room for myself ','I will share a room at Aston Hotel with another participant of the conference','I will share a room at Aston Hotel with a company who is not participant of the conference');
+    $smoke = array('no smoking', 'smoking');
+    if(isset( $_SESSION['braingym_reg']['id_room'])){
+        $result = db_query('SELECT r.id_room, r.id_hotel, r.room, r.price, h.nama, h.image
+                                        FROM {braingym_conference_room} r
+                                        INNER JOIN {braingym_conference_hotel} h ON r.id_hotel = h.id_hotel 
+                                        WHERE r.id_room = :id_room', array(':id_room' => $_SESSION['braingym_reg']['id_room']));
+        
+        $room = $result->fetchObject(); 
+    }
+    if(isset( $_SESSION['braingym_reg']['room_price'])){
+             $room_price= $_SESSION['braingym_reg']['room_price'];
+      } else {
+           $room_price = 0;
+      }
+      
+   
+       $total = $room_price + $_SESSION["braingym_reg"]["course_price"];
+    
+    $output = '<table width="800" border="0" cellpadding="0" cellspacing="0">
+	
+ 	<tbody>
+    	<tr>
+    	  <td>First name</td>
+    	  <td>'.$_SESSION["braingym_reg"]["first_name"].'</td>
+  	  </tr>
+    	<tr>
+            <td> Last name </td>
+            <td>'.$_SESSION["braingym_reg"]["last_name"].'</td>
+        </tr>
+    	<tr>
+    	  <td> E-mail</td>
+    	  <td>'.$_SESSION["braingym_reg"]["email"].'</td>
+  	  </tr>
+    	<tr>
+    	  <td> Address </td>
+    	  <td>'. $_SESSION["braingym_reg"]["address"].'</td>
+  	  </tr>
+    	 
+    	<tr>
+    	  <td> Zip/Postal Code </td>
+    	  <td>'.$_SESSION["braingym_reg"]["zip"].'</td>
+  	  </tr>
+    	<tr>
+    	  <td> Phone Number </td>
+    	  <td>'.$_SESSION["braingym_reg"]["phone"].'</td>
+  	  </tr>
+    	<tr>
+    	  <td> Citizen </td>
+    	  <td>'. $citizen->name.'</td>
+  	  </tr>
+      <tr>
+    	  <td>Are you a faculty member/board member/presenter/key note speaker of the conference ?</td>
+    	  <td><strong> '.$faculty[$_SESSION["braingym_reg"]["faculty"]].'</strong></td>
+  	  </tr>
+       <tr>
+    	  <td>Conference Package</td>
+    	  <td><strong> '.$day1.$day2.$day3.$day4.'</strong></td>
+  	  </tr>
+      <tr>
+    	  <td>Accommodation </td>
+    	  <td><strong> '.$accommodation[$_SESSION['braingym_reg']['accommodation']].'</strong></td>
+  	  </tr>';
+    
+    if(isset($_SESSION['braingym_reg']['accommodation'])>=1){
+      if(isset($_SESSION['braingym_reg']['checkin'])){
+        $output.=' <tr>
+    	  <td>Checkin (dd-mm-yyyy)</td>
+    	  <td><strong> '.$_SESSION['braingym_reg']['checkin'].'</strong></td>
+  	  </tr>';
+      }
+      if(isset($_SESSION['braingym_reg']['checkout'])){
+        $output.=' <tr>
+    	  <td>Checkout (dd-mm-yyyy)</td>
+    	  <td><strong> '.$_SESSION['braingym_reg']['checkout'].'</strong></td>
+  	  </tr>';
+      }
+      if(isset($room)){
+        $output.=' <tr>
+    	  <td>Room</td>
+    	  <td><strong> '.$room->nama.' ('.$room->room.' : &nbsp; '.convert_to_rupiah($room->price).')</strong></td>
+        </tr>';
+      }
+     if(isset($_SESSION['braingym_reg']['option_payment'])){
+        $output.=' <tr>
+    	  <td>Payment</td>
+    	  <td><strong> '.$option_payment[$_SESSION['braingym_reg']['option_payment']].'</strong></td>
+  	  </tr>';
+      }
+      if(isset($_SESSION['braingym_reg']['share_room'])){
+        $output.=' <tr>
+    	  <td>Share_room with </td>
+    	  <td><strong> '.$_SESSION['braingym_reg']['share_room'].'</strong></td>
+  	  </tr>';
+      }
+      if(isset($_SESSION['braingym_reg']['smoke'])){
+        $output.=' <tr>
+    	  <td>Smoking</td>
+    	  <td><strong> '.$smoke[$_SESSION['braingym_reg']['smoke']].'</strong></td>
+  	  </tr>';
+      }
+    }
+    
+     $output.='<tr>
+    	  <td>Room Price</td>
+    	  <td><strong> '.convert_to_rupiah($room_price).'</strong></td>
+  	  </tr>';
+     $output.='<tr>
+    	  <td>Course Price</td>
+    	  <td><strong> '.convert_to_rupiah($_SESSION["braingym_reg"]["course_price"]).'</strong></td>
+  	  </tr>';
+    $output.='
+      <tr>
+    	  <td align="right">Total</td>
+    	  <td><strong> '.convert_to_rupiah( $total).'</strong></td>
+  	  </tr>
+    </tbody>
+    
+</table>
+
+  
+
+';
+   $output.=l(t('Finish'), 'conference/registration/finish', array('attributes' => array('class' => 'button-link'))); 
+   
+   return $output;
+}
+function convert_to_rupiah($angka){
+	return 'Rp. '.strrev(implode('.',str_split(strrev(strval($angka)),3)));
+}
+function selesih_hari($in, $out){
+        $pecah1 = explode("-", $in);
+        $date1 = $pecah1[0];
+        $month1 = $pecah1[1];
+        $year1 = $pecah1[2];
+        $pecah2 = explode("-", $out);
+        $date2 = $pecah2[0];
+        $month2 = $pecah2[1];
+        $year2 =  $pecah2[2];
+
+        // menghitung JDN dari masing-masing tanggal
+
+        $jd1 = GregorianToJD($month1, $date1, $year1);
+        $jd2 = GregorianToJD($month2, $date2, $year2);
+
+        // hitung selisih hari kedua tanggal
+
+        $selisih = $jd2 - $jd1;
+
+        return $selisih;
+}
+function conference_registration_step5() {
+        if( isset($_SESSION['braingym_reg']['day1'])  || 
+                isset($_SESSION['braingym_reg']['day2'])  || 
+                isset($_SESSION['braingym_reg']['day3'])  || 
+                isset($_SESSION['braingym_reg']['day4'])) {
+    
+      $output= '<h3>' . t('Your Total Balance : ') .convert_to_rupiah($_SESSION['braingym_reg']['course_price']) . '</h3>';
+      $output.= '<h3>' . t('Add accommodation') . '?  '.l('Yes', 'conference/registration/step6').' &nbsp &nbsp '.l('No', 'conference/registration/finish').'</h3> ';
+                }else{
+                     drupal_goto('conference/registration/step4');
+                }
+           
+      return $output;
+}
+
+ 
+ 
