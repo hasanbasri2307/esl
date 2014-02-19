@@ -34,9 +34,11 @@ $this->renderPartial('../menu',array(
                     array('name'=>'description', 'header'=>'Description'),
                      array(
                         'class'=>'bootstrap.widgets.TbButtonColumn',
-                         
+                         'template' => '{view}',
                         //--------------------- begin new code --------------------------
-                        
+                        'buttons'=>array(
+                                   
+                                        ),
                     ),
                 ),
             )); ?>

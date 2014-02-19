@@ -18,7 +18,11 @@
  * @property string $city
  * @property string $zip_code
  * @property string $telephone
- * @property string $mobile
+ * @property string $phone_kantor
+ * @property string $hp1
+ * @property string $hp2
+ * @property string $email
+ * @property string $pict
  * @property integer $source_info_id
  * @property integer $branch_id
  * @property integer $user_id
@@ -44,17 +48,18 @@ class Client extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('client_name, sex_id, branch_id, user_id, created, changed', 'required'),
+			array('client_name, sex_id, id_card_id, dop, dob, address, city, zip_code, telephone, phone_kantor, hp1, hp2, email, pict, source_info_id, branch_id, user_id, created, changed', 'required'),
 			array('sex_id, marital_status_id, nationality_id, id_card_id, source_info_id, branch_id, user_id, created, changed, active', 'numerical', 'integerOnly'=>true),
-			array('client_name', 'length', 'max'=>50),
-			array('id_card_number,client_number, dop, city', 'length', 'max'=>20),
+			array('client_name', 'length', 'max'=>30),
+			array('id_card_number, client_number, dop, city', 'length', 'max'=>20),
 			array('address', 'length', 'max'=>225),
 			array('zip_code', 'length', 'max'=>10),
-			array('telephone, mobile', 'length', 'max'=>15),
-			array('dob', 'safe'),
+			array('telephone, phone_kantor, hp1, hp2', 'length', 'max'=>15),
+			array('email', 'length', 'max'=>50),
+			array('pict', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('client_id, client_name, sex_id, marital_status_id, nationality_id, id_card_id, id_card_number, client_number, dop, dob, address, city, zip_code, telephone, mobile, source_info_id, branch_id, user_id, created, changed, active', 'safe', 'on'=>'search'),
+			array('client_id, client_name, sex_id, marital_status_id, nationality_id, id_card_id, id_card_number, client_number, dop, dob, address, city, zip_code, telephone, phone_kantor, hp1, hp2, email, pict, source_info_id, branch_id, user_id, created, changed, active', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -82,15 +87,18 @@ class Client extends CActiveRecord
 			'nationality_id' => 'Nationality',
 			'id_card_id' => 'Id Card',
 			'id_card_number' => 'Id Card Number',
-                        'client_number' => 'Client Number',
-                    
+			'client_number' => 'Client Number',
 			'dop' => 'Dop',
 			'dob' => 'Dob',
 			'address' => 'Address',
 			'city' => 'City',
 			'zip_code' => 'Zip Code',
 			'telephone' => 'Telephone',
-			'mobile' => 'Mobile',
+			'phone_kantor' => 'Phone Kantor',
+			'hp1' => 'Hp1',
+			'hp2' => 'Hp2',
+			'email' => 'Email',
+			'pict' => 'Pict',
 			'source_info_id' => 'Source Info',
 			'branch_id' => 'Branch',
 			'user_id' => 'User',
@@ -125,14 +133,18 @@ class Client extends CActiveRecord
 		$criteria->compare('nationality_id',$this->nationality_id);
 		$criteria->compare('id_card_id',$this->id_card_id);
 		$criteria->compare('id_card_number',$this->id_card_number,true);
-                $criteria->compare('client_number',$this->id_card_number,true);
+		$criteria->compare('client_number',$this->client_number,true);
 		$criteria->compare('dop',$this->dop,true);
 		$criteria->compare('dob',$this->dob,true);
 		$criteria->compare('address',$this->address,true);
 		$criteria->compare('city',$this->city,true);
 		$criteria->compare('zip_code',$this->zip_code,true);
 		$criteria->compare('telephone',$this->telephone,true);
-		$criteria->compare('mobile',$this->mobile,true);
+		$criteria->compare('phone_kantor',$this->phone_kantor,true);
+		$criteria->compare('hp1',$this->hp1,true);
+		$criteria->compare('hp2',$this->hp2,true);
+		$criteria->compare('email',$this->email,true);
+		$criteria->compare('pict',$this->pict,true);
 		$criteria->compare('source_info_id',$this->source_info_id);
 		$criteria->compare('branch_id',$this->branch_id);
 		$criteria->compare('user_id',$this->user_id);

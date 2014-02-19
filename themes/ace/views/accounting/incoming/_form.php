@@ -29,7 +29,7 @@
           <table id="autocomplete_table" class="table table-striped table-bordered table-hover<?php echo $hide;?>">
             <thead>
                     <tr>
-                            <th>Product Number </th>
+                            <th>Product Number</th>
                             <th>Product Name</th>
                             <th>Qty</th>
                     </tr>

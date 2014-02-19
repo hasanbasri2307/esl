@@ -93,9 +93,17 @@ class ClientController extends RController
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Client');
+		$criteria=new CDbCriteria();
+		
+		$count=Client::model()->count($criteria);
+    	$pages=new CPagination($count);
+    	$pages->pageSize=18;
+    	$pages->applyLimit($criteria);
+		$client = Client::model()->findAll($criteria);
+
 		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
+			'client'=>$client,
+			'pages' => $pages
 		));
 	}
 

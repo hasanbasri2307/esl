@@ -23,7 +23,7 @@ $this->renderPartial('../menu',array(
  <div class="row-fluid">
 	<div class="span12">
  
-       <?php echo CHtml::link("Print",array("outgoing/print","id"=>$model->io_id)) ?>
+       <?php echo CHtml::link("Print",array("outgoing/print",id=>$model->io_id)) ?>
 <?php $this->widget('bootstrap.widgets.TbDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(

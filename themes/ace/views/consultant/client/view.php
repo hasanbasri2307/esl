@@ -34,19 +34,24 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
 		'id_card',
 		'id_card_number',
 		'address',
+		'telephone',
+		'hp1',
+		'hp2',
+		'phone_kantor',
+		'email',
 		'city',
 		'zip_code',
 		'telephone',
 		'source_info_id',
+		'pict',
 	
 		
-               
-		
-	
 	),
 )); 
 
 ?>
+
+
      
  
     </div>

@@ -23,7 +23,7 @@
     <div class="navbar">
         <div class="navbar-inner">
             <div class="container-fluid">
-                <a href="#" class="brand"> <img src="<?php echo Yii::app()->theme->baseUrl; ?>/" ></a> 
+                <a href="#" class="brand"> </a> 
                 <ul class="nav ace-nav pull-right">
                         <li class="light-blue">
                             <a data-toggle="dropdown" href="#" class="dropdown-toggle">
