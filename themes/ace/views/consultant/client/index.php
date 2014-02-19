@@ -10,7 +10,7 @@ $this->renderPartial('../menu',array(
 ?>
 
 <div class="page-header position-relative">
-    <h1>            Clients 
+    <h1>            Clients hahahahaha
             <small>
                     <i class="icon-double-angle-right"></i>
                    
