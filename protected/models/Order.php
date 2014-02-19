@@ -11,6 +11,7 @@
  * @property string $date
  * @property integer $status
  * @property integer $user_id
+ * @property integer $branch_id
  * @property integer $created
  * @property integer $changed
  */
@@ -32,12 +33,12 @@ class Order extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('order_number, client_id, total, date, user_id, created, changed', 'required'),
-			array('client_id, total, status, user_id, created, changed', 'numerical', 'integerOnly'=>true),
+			array('order_number, client_id, total, date, user_id, branch_id, created, changed', 'required'),
+			array('client_id, total, status, user_id, branch_id, created, changed', 'numerical', 'integerOnly'=>true),
 			array('order_number', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('order_id, order_number, client_id, total, date, status, user_id, created, changed', 'safe', 'on'=>'search'),
+			array('order_id, order_number, client_id, total, date, status, user_id, branch_id, created, changed', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -49,7 +50,6 @@ class Order extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-                    'client' => array(self::BELONGS_TO, 'Client', 'client_id'),
 		);
 	}
 
@@ -66,6 +66,7 @@ class Order extends CActiveRecord
 			'date' => 'Date',
 			'status' => 'Status',
 			'user_id' => 'User',
+			'branch_id' => 'Branch',
 			'created' => 'Created',
 			'changed' => 'Changed',
 		);
@@ -96,6 +97,7 @@ class Order extends CActiveRecord
 		$criteria->compare('date',$this->date,true);
 		$criteria->compare('status',$this->status);
 		$criteria->compare('user_id',$this->user_id);
+		$criteria->compare('branch_id',$this->branch_id);
 		$criteria->compare('created',$this->created);
 		$criteria->compare('changed',$this->changed);
 

@@ -3,19 +3,40 @@
 $this->menu=array(
     array('label'=>'Product','icon' => 'icon-dashboard', 'url'=>array('/accounting/product'), 'active'=>isset($active['1']) ? true : false,
             'items'=> array(
-                array('label'=>'Inventory', 'url'=>array('/inventory/product'), 'active'=>isset($active['1.1']) ? true : false,),
+                array('label'=>'Information', 'url'=>array('/inventory/product'), 'active'=>isset($active['1.1']) ? true : false,),
+                 array('label'=>'Supplier', 'url'=>array('/inventory/product'), 'active'=>isset($active['1.2']) ? true : false,),
+                  array('label'=>'Input Product', 'url'=>array('/inventory/product'), 'active'=>isset($active['1.3']) ? true : false,),
+                 array('label'=>'Master Product', 'url'=>array('/inventory/product'), 'active'=>isset($active['1.4']) ? true : false,),
+                  array('label'=>'Product Set', 'url'=>array('/inventory/product'), 'active'=>isset($active['1.5']) ? true : false,),
+                   array('label'=>'Treatment Set', 'url'=>array('/inventory/product'), 'active'=>isset($active['1.6']) ? true : false,),
+                    array('label'=>'Report', 'url'=>array('/inventory/product'), 'active'=>isset($active['1.7']) ? true : false,),
+
+                //array('label'=>'Cabin', 'url'=>array('/inventory/product_cabin'), 'active'=>isset($active['1.2']) ? true : false,)
+            )
+        ),
+
+    array('label'=>'Accounting','icon' => 'icon-filter', 'url'=>array('/accounting/product'), 'active'=>isset($active['2']) ? true : false,
+            'items'=> array(
+                array('label'=>'Product Price', 'url'=>array('/inventory/product'), 'active'=>isset($active['2.1']) ? true : false,),
+                 array('label'=>'Treatment Price', 'url'=>array('/inventory/product'), 'active'=>isset($active['2.2']) ? true : false,),
+                  array('label'=>'Package Price', 'url'=>array('/inventory/product'), 'active'=>isset($active['2.3']) ? true : false,),
+                 array('label'=>'Voucher', 'url'=>array('/inventory/product'), 'active'=>isset($active['2.4']) ? true : false,),
+                  array('label'=>'Report', 'url'=>array('/inventory/product'), 'active'=>isset($active['2.5']) ? true : false,),
+                   
                 //array('label'=>'Cabin', 'url'=>array('/inventory/product_cabin'), 'active'=>isset($active['1.2']) ? true : false,)
             )
         ),
  
     //array('label'=>'Treatment Package','icon' => 'icon-home', 'url'=>array('/accounting/treatmentpackage'), 'active'=>false),
 
-    array('label'=>'In/Out','icon' => 'icon-dashboard', 'url'=>array('#'), 'active'=>isset($active['3']) ? true : false,
+    array('label'=>'In/Out','icon' => 'icon-film', 'url'=>array('#'), 'active'=>isset($active['3']) ? true : false,
             'items'=> array(
                     array('label'=>'Incoming', 'url'=>array('/inventory/incoming'), 'active'=>isset($active['3.1']) ? true : false,),
                     array('label'=>'Outgoing', 'url'=>array('/inventory/outgoing'), 'active'=>isset($active['3.2']) ? true : false, ),
             )
    ),
+
+
    
 );
 

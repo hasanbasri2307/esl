@@ -38,7 +38,7 @@ class OrderController extends RController
                         $model->branch_id =Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id'); 
                         $model->changed =$time;
                         $model->created =$time;
-                        $model->active =1;
+
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->client_id));
 		}

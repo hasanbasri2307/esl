@@ -19,6 +19,18 @@ $this->menu=array(
                 array('label'=>'Report', 'url'=>array('/consultant/order/create'), 'active'=>isset($active['4.4']) ? true : false,),
             )
         ),
+   
+    array('label'=>'Sales','icon' => 'icon-bar-chart', 'url'=>array('/consultant/order'), 'active'=>isset($active['5']) ? true : false,
+            'items'=> array(
+                array('label'=>'Day/Week/Month', 'url'=>array('/consultant/order'), 'active'=>isset($active['5.1']) ? true : false,),
+                array('label'=>'Consultant', 'url'=>array('/consultant/order/create'), 'active'=>isset($active['5.2']) ? true : false,),
+                array('label'=>'Product', 'url'=>array('/consultant/order/create'), 'active'=>isset($active['5.3']) ? true : false,),
+                array('label'=>'Treatment', 'url'=>array('/consultant/order/create'), 'active'=>isset($active['5.4']) ? true : false,),
+                array('label'=>'Void', 'url'=>array('/consultant/order/create'), 'active'=>isset($active['5.5']) ? true : false,),
+                array('label'=>'Claim', 'url'=>array('/consultant/order/create'), 'active'=>isset($active['5.6']) ? true : false,),
+                array('label'=>'Report', 'url'=>array('/consultant/order/create'), 'active'=>isset($active['5.7']) ? true : false,),
+            )
+        ),
     
    
 );

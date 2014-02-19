@@ -50,8 +50,63 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
 )); 
 
 ?>
+<br />
+<h4>History Treathment</h4>
+  <table id="autocomplete_table" class="table table-striped table-bordered table-hover">
+            <thead>
+                    <tr>
+                            <th>Treathment Name</th>
+                            <th>Date</th>
+                            <th>Qty</th>
+                    </tr>
+            </thead>
+            <tbody> 
+                
+                  <tr>  <td>-</td>
+                        <td>-</td>
+                         <td>-</td>
+                     </tr>
+               
+                  </tbody> 
+        </table>
+<br />
+<h4>History Product</h4>
+  <table id="autocomplete_table" class="table table-striped table-bordered table-hover">
+            <thead>
+                    <tr>
+                            <th>Product Name</th>
+                            <th>Date</th>
+                            <th>Qty</th>
+                    </tr>
+            </thead>
+            <tbody> 
+                
+                  <tr>  <td>-</td>
+                        <td>-</td>
+                         <td>-</td>
+                     </tr>
+               
+                  </tbody> 
+        </table>
 
-
+        <h4>History Transaksi</h4>
+  <table id="autocomplete_table" class="table table-striped table-bordered table-hover">
+            <thead>
+                    <tr>
+                            <th>Transaction ID</th>
+                            <th>Date</th>
+                            <th>Qty</th>
+                    </tr>
+            </thead>
+            <tbody> 
+                
+                  <tr>  <td>-</td>
+                        <td>-</td>
+                         <td>-</td>
+                     </tr>
+               
+                  </tbody> 
+        </table>
      
  
     </div>
