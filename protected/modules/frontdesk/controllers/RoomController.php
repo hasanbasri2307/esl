@@ -1,9 +1,10 @@
 <?php
 
-class ClientController extends RController
+class RoomController extends RController
 {
+	
         
-        public function filters()
+	public function filters()
 	{
 		 return array( 
                     'rights', 
@@ -27,26 +28,34 @@ class ClientController extends RController
 	 */
 	public function actionCreate()
 	{
-		$model=new Client;
-
+		$model=new Room;
+                $room_treatment= new RoomTreatment;
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Client']))
+		if(isset($_POST['Room']))
 		{
-			$model->attributes=$_POST['Client'];
+			$model->attributes=$_POST['Room'];
                         $time = time();
                         $model->user_id =Yii::app()->getModule('user')->user()->id;
-                        $model->branch_id =Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id'); 
                         $model->changed =$time;
                         $model->created =$time;
-                        $model->active =1;
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->client_id));
+			if($model->save()){
+                           if(isset($_POST['RoomTreatment']['treatment_id'])){
+                                foreach ($_POST['RoomTreatment']['treatment_id'] as $key=>$val){
+                                    $room_treatment= new RoomTreatment;
+                                    $room_treatment->room_id = $model->room_id;
+                                    $room_treatment->treatment_id = $val;
+                                     $room_treatment->save();
+                                }
+                            }
+                            $this->redirect(array('view','id'=>$model->room_id));
+                        }
+				
 		}
 
 		$this->render('create',array(
-			'model'=>$model,
+			'model'=>$model,'room_treatment'=>$room_treatment
 		));
 	}
 
@@ -58,19 +67,19 @@ class ClientController extends RController
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
-
+                $room_treatment= new RoomTreatment;
+                //$room_treatment= RoomTreatment::model()->findAll(array("condition"=>"room_id=$id"));
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['Client']))
+		if(isset($_POST['Room']))
 		{
-			$model->attributes=$_POST['Client'];
+			$model->attributes=$_POST['Room'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->client_id));
+				$this->redirect(array('view','id'=>$model->room_id));
 		}
 
 		$this->render('update',array(
-			'model'=>$model,
+			'model'=>$model,'room_treatment'=>$room_treatment
 		));
 	}
 
@@ -93,20 +102,25 @@ class ClientController extends RController
 	 */
 	public function actionIndex($search=NULL)
 	{
-		$criteria=new CDbCriteria();
-		$branch_id =Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
-        $criteria->condition ="branch_id=$branch_id ";
-        if(isset($search)) 
-             $criteria->condition .= " AND  LOWER(`client_number`) LIKE LOWER('%$search%') OR LOWER(`client_number`) LIKE LOWER('%$search%') OR LOWER(`client_name`) LIKE LOWER('%$search%') OR LOWER(`client_name`) LIKE LOWER('%$search%')";
-		$count=Client::model()->count($criteria);
-    	$pages=new CPagination($count);
-    	$pages->pageSize=18;
-    	$pages->applyLimit($criteria);
-		$client = Client::model()->findAll($criteria);
+		
+                 $criteria = new CDbCriteria; 
+                if(isset($search)) 
+                    $criteria->condition = " LOWER(`room_number`) LIKE LOWER('%$search%') OR LOWER(`room_number`) LIKE LOWER('%$search%') OR LOWER(`room_name`) LIKE LOWER('%$search%') OR LOWER(`room_name`) LIKE LOWER('%$search%')";
+                $sort = new CSort;
+                $sort->defaultOrder = array(
+                  'room_number'=>CSort::SORT_DESC,
 
+                );
+		
+		$dataProvider=new CActiveDataProvider('Room', array(
+                    'sort'=>$sort,
+                    'criteria'=>$criteria,
+                    'pagination'=>array(
+                        'pageSize'=>20,
+                    ),
+                ));
 		$this->render('index',array(
-			'client'=>$client,
-			'pages' => $pages
+			'dataProvider'=>$dataProvider,
 		));
 	}
 
@@ -115,10 +129,10 @@ class ClientController extends RController
 	 */
 	public function actionAdmin()
 	{
-		$model=new Client('search');
+		$model=new Room('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Client']))
-			$model->attributes=$_GET['Client'];
+		if(isset($_GET['Room']))
+			$model->attributes=$_GET['Room'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -129,12 +143,12 @@ class ClientController extends RController
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return Client the loaded model
+	 * @return Room the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=Client::model()->findByPk($id);
+		$model=Room::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -142,11 +156,11 @@ class ClientController extends RController
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param Client $model the model to be validated
+	 * @param Room $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='client-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='room-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

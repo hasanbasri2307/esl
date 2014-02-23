@@ -30,17 +30,30 @@ class ScheduleController extends RController
                     $date_array['str'] = date("Y-m-d",$date_array['time']);
                    
                 }
-                if(Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id')==1){
-                    $branch_id = 3;
-                }else{
+                
                      $branch_id = Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');  
                     
-                }
+                
                 $model = ScheduleRoom::model()->findAll(array('condition'=>'branch_id=:branch_id','params'=>array(':branch_id'=>$branch_id)));
+				$room = Room::model()->findAll(array('condition'=>'branch_id=:branch_id','params'=>array(':branch_id'=>$branch_id)));
                 $this->render('index',array(
 			'model'=>$model,
-                        'date'=>$date_array,
+			'room' =>$room,
+            'date'=>$date_array,
+			'branch_id'=>$branch_id,
 		));
+	}
+	
+	public function actionData_client()
+	{
+		
+                   $id = $_POST['id'];
+                    $sc = ScheduleRoom::model()->with('client')->findByPk($id);
+
+                    
+                
+                   
+            echo CJSON::encode($sc);   
 	}
 
 	

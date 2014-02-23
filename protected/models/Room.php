@@ -65,6 +65,7 @@ class Room extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'branch' => array(self::BELONGS_TO, 'Branch', 'branch_id'),
+			
 		);
 	}
 

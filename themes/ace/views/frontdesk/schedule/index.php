@@ -1,17 +1,18 @@
 <?php
 
 $this->breadcrumbs=array(
-	'Client',
+	'Reservation',
 );
 $this->renderPartial('../menu',array(
-			'active'=>array('3'=>true,),
+			'active'=>array('3'=>true,'3.2'=>true),
 		));
 $tomorrow = date('Y-m-d',strtotime($date['str'] . "+1 days"));
 $yesterday = date('Y-m-d',strtotime($date['str'] . "-1 days"));
 if($model){
     foreach($model as $row=>$val){
-        $schedule['name'][$val->date][$val->time][$val->room_id] =$val->client->client_name;
+        $schedule['name'][$val->date][$val->time][$val->room_id] =$val->client['client_name'];
         $schedule['status'][$val->date][$val->time][$val->room_id] =$val->status;
+		$schedule['id_sr'][$val->date][$val->time][$val->room_id] =$val->schedule_room_id;
         $duration_hour = explode(":",$val->duration);
         $duration = $duration_hour[0] * 3600 + $duration_hour[1] * 60 + $duration_hour[2];
         if($duration>1){
@@ -19,11 +20,13 @@ if($model){
                  
                  $unix_time = strtotime($val->date." ".$val->time) + $i;
                  $hour = date("H:i:s", $unix_time);  
-                 $schedule['name'][$val->date][$hour][$val->room_id] = $val->client->client_name;
+                 $schedule['name'][$val->date][$hour][$val->room_id] = $val->client['client_name'];
                  $schedule['status'][$val->date][$hour][$val->room_id] = $val->status;
+				 $schedule['id_sr'][$val->date][$hour][$val->room_id] =$val->schedule_room_id;
                 
             }
         }
+		
     }
     
 }
@@ -56,16 +59,15 @@ if($model){
                         <thead>
                                 <tr>
                                         <th>Time</th>
-                                        <th>ROOM 1<br>TREATMENT NAME</th>
-                                        <th>ROOM 2<br>TREATMENT NAME</th>
-                                        <th>ROOM 3<br>TREATMENT NAME</th>
-                                        <th>ROOM 4<br>TREATMENT NAME</th>
-                                        <th>ROOM 5<br>TREATMENT NAME</th>
+                                        <?php foreach($room as $item) { ?>
+                                        <th><?php echo $item->room_number;?><br><?php $rt= RoomTreatment::model()->with('room')->findAll(array('condition'=>'room.branch_id=:branch_id and room.room_id=:room_id','params'=>array(':branch_id'=>$branch_id,':room_id'=>$item->room_id))); foreach($rt as $vall) { echo $vall->treatment->treatment_name.', ';}}?></th>
+                                        
                                 </tr>
                         </thead>
 
                         <tbody>
                                 <?php
+								
                                     for($i=8;$i<20;$i++){
                                         for ($j = 0; $j <= 1; $j++) {
                                             if($j==1){
@@ -91,38 +93,19 @@ if($model){
                                             echo '<td>'.$jam .'- '.$jam2.'</td>';
                                             //room 1
                                               //$time = strtotime($date['str'].$jam);
-                                              if(isset($schedule['name'][$date['str']][$jam.":00"][1])){
-                                                  echo '<td class="client_name status_color_'.$schedule['status'][$date['str']][$jam.":00"][1].'">'.$schedule['name'][$date['str']][$jam.":00"][1].'</td>';
-                                              }else{
-                                                  echo '<td></td>';
-                                              }
-
-                                             //room 2
-                                            if(isset($schedule['name'][$date['str']][$jam.":00"][2])){
-                                                  echo '<td class="client_name status_color_'.$schedule['status'][$date['str']][$jam.":00"][2].'">'.$schedule['name'][$date['str']][$jam.":00"][2].'</td>';
-                                              }else{
-                                                   echo '<td></td>';
-                                              }
-                                             //room 3
-                                            if(isset($schedule['name'][$date['str']][$jam.":00"][3])){
-                                                  echo '<td class="client_name status_color_'.$schedule['status'][$date['str']][$jam.":00"][3].'">'.$schedule['name'][$date['str']][$jam.":00"][3].'</td>';
-                                              }else{
-                                                  echo '<td></td>';
-                                              }
-                                             //room 4
-                                            if(isset($schedule['name'][$date['str']][$jam.":00"][4])){
-                                                  echo '<td class="client_name status_color_'.$schedule['status'][$date['str']][$jam.":00"][4].'">'.$schedule['name'][$date['str']][$jam.":00"][3].'</td>';
-                                              }else{
-                                                   echo '<td></td>';
-                                              }
+											  
+											  foreach($room as $item) { 
+                                              
                                              //room 5
-                                                if(isset($schedule['name'][$date['str']][$jam.":00"][5])){
-                                                  echo '<td class="client_name status_color_'.$schedule['status'][$date['str']][$jam.":00"][5].'">'.$schedule['name'][$date['str']][$jam.":00"][5].'</td>';
+                                                if(isset($schedule['name'][$date['str']][$jam.":00"][$item->room_id])){
+                                                  echo '<td class="client_name" id ="'.$schedule['id_sr'][$date['str']][$jam.":00"][$item->room_id].'">'.$schedule['name'][$date['str']][$jam.":00"][$item->room_id].'</td>';
                                               }else{
                                                    echo '<td></td>';
-                                              }
-                                              echo '</tr>';         
+                                              }}
+                                              echo '</tr>';  
+											  
                                          }
+										 
                                     }
                                 
                                 ?>
@@ -137,14 +120,23 @@ if($model){
     </div>
 </div>
  <?php
- $script = ' $(".client_name").click(function(){
-        bootbox.prompt(" ", function(result) {
-						if (result === null) {
-							 
-						} else {
-							  
-						}
-					});
+ $quotedUrl =$this->createUrl('/frontdesk/schedule/data_client');
+ $script = ' $("#sample-table-1 tr td").click(function(){
+	 		var id = $(this).attr("id");
+			
+	 		$.ajax({
+			type:"POST",
+			url:"'.$quotedUrl.'",
+			cache:false,
+			data:"id="+ id ,
+			dataType:"json",
+			success:function(data){
+				
+       			 bootbox.alert("<table><tr><td>Client Name</td><td>:</td><td>Test</td></tr><tr><td>Date</td><td>:</td><td>"+data.date+"</td></tr></table>" 
+				 );
+			}
+		});
+		
         
     });
                     ';

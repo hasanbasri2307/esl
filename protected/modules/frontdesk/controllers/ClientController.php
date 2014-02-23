@@ -27,22 +27,23 @@ class ClientController extends RController
 	 */
 	public function actionIndex($search=NULL)
 	{
-		$criteria = new CDbCriteria;
-                $branch_id =Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
-                $criteria->condition ="branch_id=$branch_id ";
-                if(isset($search)) 
-                    $criteria->condition .= " AND  LOWER(`client_number`) LIKE LOWER('%$search%') OR LOWER(`client_number`) LIKE LOWER('%$search%') OR LOWER(`client_name`) LIKE LOWER('%$search%') OR LOWER(`client_name`) LIKE LOWER('%$search%')";
-		$dataProvider=new CActiveDataProvider('Client', array(
-                    'criteria'=>$criteria,
-                    'pagination'=>array(
-                        'pageSize'=>20,
-                    ),
-                ));
-                       
-               // $dataProvider=new CActiveDataProvider('Client');
+		$criteria=new CDbCriteria();
+		$branch_id =Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
+        $criteria->condition ="branch_id=$branch_id ";
+        if(isset($search)) 
+            $criteria->condition .= " AND  LOWER(`client_number`) LIKE LOWER('%$search%') OR LOWER(`client_number`) LIKE LOWER('%$search%') OR LOWER(`client_name`) LIKE LOWER('%$search%') OR LOWER(`client_name`) LIKE LOWER('%$search%')";
+		$count=Client::model()->count($criteria);
+    	$pages=new CPagination($count);
+    	$pages->pageSize=18;
+    	$pages->applyLimit($criteria);
+		$client = Client::model()->findAll($criteria);
+
 		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
+			'client'=>$client,
+			'pages' => $pages
 		));
+                
+		
 	}
 
 	 

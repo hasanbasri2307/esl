@@ -9,8 +9,8 @@ class FrontdeskModule extends CWebModule
 
 		// import the module-level models and components
 		$this->setImport(array(
-			'service.models.*',
-			'service.components.*',
+			'frontdesk.models.*',
+			'frontdesk.components.*',
 		));
 	}
 

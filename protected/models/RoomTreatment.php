@@ -52,6 +52,8 @@ class RoomTreatment extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'treatment' => array(self::BELONGS_TO, 'Treatment', 'treatment_id'),
+			'room' => array(self::BELONGS_TO, 'Room', 'room_id'),
 		);
 	}
 

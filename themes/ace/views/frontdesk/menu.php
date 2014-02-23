@@ -7,8 +7,8 @@ $this->menu=array(
     
     array('label'=>'Room Schedule','icon' => 'icon-home', 'url'=>array('/frontdesk/schedule'), 'active'=>isset($active['3']) ? true : false,
             'items'=> array(
-                array('label'=>'Room Name / Number', 'url'=>array('/inventory/product'), 'active'=>isset($active['3.1']) ? true : false,),
-                 array('label'=>'Reservation', 'url'=>array('/inventory/product'), 'active'=>isset($active['3.2']) ? true : false,),
+                array('label'=>'Room Name / Number', 'url'=>array('/frontdesk/room'), 'active'=>isset($active['3.1']) ? true : false,),
+                 array('label'=>'Reservation', 'url'=>array('/frontdesk/schedule'), 'active'=>isset($active['3.2']) ? true : false,),
                   array('label'=>'Input', 'url'=>array('/inventory/product'), 'active'=>isset($active['3.3']) ? true : false,),
                  array('label'=>'Report', 'url'=>array('/inventory/product'), 'active'=>isset($active['3.4']) ? true : false,),
                  
