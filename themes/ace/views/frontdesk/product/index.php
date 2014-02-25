@@ -21,6 +21,7 @@ $this->renderPartial('../menu',array(
 
 
  <div class="row-fluid">
+ 
 	<div class="span12">
             <?php 
 
