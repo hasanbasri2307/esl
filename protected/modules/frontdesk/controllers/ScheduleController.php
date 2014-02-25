@@ -189,7 +189,7 @@ class ScheduleController extends RController
 													Jadwal Bentrok
 													<br>
 												</div>');
-								$this->redirect(array('Schedule/update/id/'.$model->schedule_room_id));			
+								$this->redirect(array('schedule/create/'));			
 						}
 						else
 						{
