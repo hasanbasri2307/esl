@@ -82,7 +82,7 @@ class Client extends CActiveRecord
 		return array(
 			'client_id' => 'Client',
 			'client_name' => 'Client Name',
-			'sex_id' => 'Sex',
+			'sex_id' => 'Gender',
 			'marital_status_id' => 'Marital Status',
 			'nationality_id' => 'Nationality',
 			'id_card_id' => 'Id Card',
