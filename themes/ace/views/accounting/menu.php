@@ -12,8 +12,8 @@ $this->menu=array(
     
     array('label'=>'Accounting','icon' => 'icon-filter', 'url'=>array('/accounting/product'), 'active'=>isset($active['2']) ? true : false,
             'items'=> array(
-                array('label'=>'Product Price', 'url'=>array('/inventory/product'), 'active'=>isset($active['2.1']) ? true : false,),
-                 array('label'=>'Treatment Price', 'url'=>array('/inventory/product'), 'active'=>isset($active['2.2']) ? true : false,),
+                array('label'=>'Product Price', 'url'=>array('/accounting/product'), 'active'=>isset($active['2.1']) ? true : false,),
+                 array('label'=>'Treatment Price', 'url'=>array('/accounting/treatment'), 'active'=>isset($active['2.2']) ? true : false,),
                   array('label'=>'Package Price', 'url'=>array('/inventory/product'), 'active'=>isset($active['2.3']) ? true : false,),
                  array('label'=>'Voucher', 'url'=>array('/inventory/product'), 'active'=>isset($active['2.4']) ? true : false,),
                   array('label'=>'Report', 'url'=>array('/inventory/product'), 'active'=>isset($active['2.5']) ? true : false,),

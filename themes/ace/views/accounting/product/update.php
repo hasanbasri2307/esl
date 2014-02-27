@@ -10,7 +10,7 @@ $this->breadcrumbs=array(
 
 
 $this->renderPartial('../menu',array(
-			'active'=>array('1'=>true, '1.1'=>true),
+			'active'=>array('2'=>true, '2.1'=>true),
 		));
 ?>
 
@@ -18,7 +18,7 @@ $this->renderPartial('../menu',array(
 
 
 <div class="page-header position-relative">
-    <h1>            Update Product
+    <h1>            Update Product Price
             <small>
                     <i class="icon-double-angle-right"></i>
                    

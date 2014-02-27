@@ -1,5 +1,4 @@
 <?php
-
 $this->breadcrumbs=array(
 	'Products',
 );
@@ -23,33 +22,33 @@ $this->renderPartial('../menu',array(
  <div class="row-fluid">
 	<div class="span12">
             <?php 
-
-            $this->widget('SpecialGridView', array(
+            $this->widget('bootstrap.widgets.TbGridView', array(
                 'type'=>'striped bordered',
                 'dataProvider'=>$dataProvider,
                 'template'=>"{items}{pager}",
-                'branch_id'=> Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id'),         // your special parameter
                 'id'=>'product-grid',
                 'columns'=>array(
-  
                     array('name'=>'product_number', 'header'=>'Product Number'),
                     array('name'=>'product_name', 'header'=>'Product Name'),
-                   
+                     array('name'=>'unit_homecare', 'header'=>'Unit','value'=>'$data->unitHomecare->unit_name'),
                      array('name'=>'price', 'header'=>'Price'),
-                    
-                     array('name'=>'quantity', 'header'=>'Availability','value'=>'ProductStock::model()->find(
-array("condition"=>"product_id =  $data->product_id AND  branch_id =".$this->grid->branch_id))->quantity'),
                      array(
                         'class'=>'bootstrap.widgets.TbButtonColumn',
                         //--------------------- begin new code --------------------------
-                        'buttons'=>array(  ),
-                         'template'=>'{view}',
+                        'buttons'=>array(
+                                        ),
                     ),
                 ),
             )); ?>
 
  
-
+ <?php
+          $this->widget('bootstrap.widgets.TbButton',array(
+                'label' => 'Create',
+                'url'=>array('create'),
+        ));
+ 
+ ?>
     </div>
 </div>
  

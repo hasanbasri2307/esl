@@ -1,7 +1,7 @@
 <?php
 
 
-echo strtotime($_POST['Treatment']['duration']);
+
 
 ?>
 <?php $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(

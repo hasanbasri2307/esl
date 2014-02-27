@@ -10,7 +10,7 @@ $this->renderPartial('../menu',array(
 		));
 ?>
 <div class="page-header position-relative">
-    <h1>            View Client #<?php echo $model->client_id; ?>
+    <h1>            View Client #<?php echo $model->client_id; ?> <?php echo CHtml::link('(edit)',array('/consultant/client/update/id/'.$model->client_id)); ?>
             <small>
                     <i class="icon-double-angle-right"></i>
                    

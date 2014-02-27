@@ -42,15 +42,18 @@ class Product extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('product_number, product_name, price, unit_homecare, netto, user_id, created, changed', 'required'),
+			array('product_number, product_name, price, unit_homecare,  user_id, created, changed', 'required'),
 			array('price, price_net, unit_homecare, unit_cabin, netto, treatment, discount, discount_rp, user_id, created, changed, active', 'numerical', 'integerOnly'=>true),
 			array('product_number', 'length', 'max'=>10),
 			array('product_name', 'length', 'max'=>50),
 			array('image', 'length', 'max'=>225),
 			array('description, date_start, date_end', 'safe'),
+			array('price', 'required', 'on'=>'update'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('product_id, product_number, product_name, description, price, price_net, image, unit_homecare, unit_cabin, netto, treatment, date_start, date_end, discount, discount_rp, user_id, created, changed, active', 'safe', 'on'=>'search'),
+
+
 		);
 	}
 

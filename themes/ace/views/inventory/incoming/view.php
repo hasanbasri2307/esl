@@ -22,14 +22,14 @@ $this->renderPartial('../menu',array(
     
  <div class="row-fluid">
 	<div class="span12">
-          <?php echo CHtml::link("Print",array("print",id=>$model->io_id)) ?>   
+           
 <?php $this->widget('bootstrap.widgets.TbDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
 		'branch.branch_name',
 		'note',
 		'description',
-                array('name'=>'date', 'header'=>'date'),
+                'date',
 	),
 )); ?>
 
@@ -59,4 +59,3 @@ $this->renderPartial('../menu',array(
                
     </div>
 </div>
- 

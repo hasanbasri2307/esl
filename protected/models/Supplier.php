@@ -35,7 +35,7 @@ class Supplier extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('supplier_number, supplier_name, ot_start, user_id, created, changed', 'required'),
+			array('supplier_number, supplier_name, user_id, created, changed', 'required'),
 			array('user_id, created, changed, active', 'numerical', 'integerOnly'=>true),
 			array('supplier_number', 'length', 'max'=>10),
 			array('supplier_name', 'length', 'max'=>40),
@@ -126,4 +126,31 @@ class Supplier extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+	protected function beforeValidate() 
+	{
+	   parent::beforeValidate();
+	   $date = new DateTime();
+	   if($this->isNewRecord)
+	   {
+	     $criteria=new CDbCriteria;      //kita menggunakan criteria untuk mengetahui nomor terakhir dari database
+	     $criteria->select = 'supplier_number';   //yang ingin kita lihat adalah field "nilai1"
+	     $criteria->limit=1;             // kita hanya mengambil 1 buah nilai terakhir
+	     $criteria->order='supplier_number DESC';  //yang dimbil nilai terakhir
+	     $last = $this->find($criteria);
+	     if($last)   // jika ternyata ada nilai dalam data tersebut maka nilai nya saat ini tinggal di tambah 1 dari data sebelumya
+	     {
+	       $newID = (int)substr($last->supplier_number,2) + 1;
+	       $bikin_kode = str_pad($newID, 2, "0", STR_PAD_LEFT);
+ 		   
+	       $newID = 'S'.$bikin_kode;
+	     }
+	     else  //jika ternyata pada tabel terebut masih kosong, maka akan di input otomatis nilai "sabit-1" karena memang belum ada sebelumnya nilai lain
+	     {
+	       $newID = 'S01';
+	     }
+	     $this->supplier_number=$newID; // nilai1 di set nilai yang sudah di dapat tadi
+	  } 
+	  return true;
+	 }
 }

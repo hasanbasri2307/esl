@@ -5,7 +5,7 @@ $this->breadcrumbs=array(
 );
 
 $this->renderPartial('../menu',array(
-			'active'=>array('1'=>true, '1.1'=>true),
+			'active'=>array('2'=>true, '2.1'=>true),
 		));
 ?>
 <div class="page-header position-relative">
@@ -33,9 +33,9 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
 	'attributes'=>array(
 		'product_number',
 		'product_name',
-		'description',
+		
 		'price',
-		'unit.unit_name',
+		
 		
                
 		
@@ -44,31 +44,6 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
 )); 
 
 ?>
-      <?php if(isset($model_detail)){ ?>
-               <table id="autocomplete_table" class="table table-striped table-bordered table-hover">
-            <thead>
-                    <tr>
-                            <th>Product Number</th>
-                            <th>Product Name</th>
-                            <th>Qty</th>
-                    </tr>
-            </thead>
-            <tbody> 
-                <?php
-                foreach($model_detail as $row=>$val){
-                   echo '<tr>  <td>'.$val->product->product_number.'</td>
-                                <td>'.$val->product->product_name.'</td>
-                                <td>'.$val->quantity.'</td>
-                          </tr>';
-                }
-                ?>
-                  </tbody> 
-        </table>
-           <?php } ?> 
-    
-               
-                
-          
-
+  
     </div>
 </div>

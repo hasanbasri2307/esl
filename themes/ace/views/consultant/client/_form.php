@@ -28,6 +28,11 @@
 	  <?php echo $form->textFieldRow($model,'city'); ?>
 	 <?php echo $form->textFieldRow($model,'zip_code'); ?>
         <?php echo $form->textFieldRow($model,'telephone'); ?>
+        <?php echo $form->textFieldRow($model,'phone_kantor'); ?>
+        <?php echo $form->textFieldRow($model,'hp1'); ?>
+        <?php echo $form->textFieldRow($model,'hp2'); ?>
+        <?php echo $form->textFieldRow($model,'email'); ?>
+        
 	 <?php echo $form->select2Row(
                     $model,
                     'source_info_id',

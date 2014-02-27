@@ -48,7 +48,7 @@ class Client extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('client_name, sex_id, id_card_id, dop, dob, address, city, zip_code, telephone, phone_kantor, hp1, hp2, email, pict, source_info_id, branch_id, user_id, created, changed', 'required'),
+			array('client_name, sex_id, id_card_id, dop, dob, address, city, zip_code, telephone, phone_kantor, hp1, hp2, email, source_info_id, branch_id, user_id, created, changed', 'required'),
 			array('sex_id, marital_status_id, nationality_id, id_card_id, source_info_id, branch_id, user_id, created, changed, active', 'numerical', 'integerOnly'=>true),
 			array('client_name', 'length', 'max'=>30),
 			array('id_card_number, client_number, dop, city', 'length', 'max'=>20),
@@ -89,14 +89,14 @@ class Client extends CActiveRecord
 			'id_card_number' => 'Id Card Number',
 			'client_number' => 'Client Number',
 			'dop' => 'Dop',
-			'dob' => 'Dob',
+			'dob' => 'Date of Birtday',
 			'address' => 'Address',
 			'city' => 'City',
 			'zip_code' => 'Zip Code',
 			'telephone' => 'Telephone',
 			'phone_kantor' => 'Phone Kantor',
-			'hp1' => 'Hp1',
-			'hp2' => 'Hp2',
+			'hp1' => 'Handphone 1',
+			'hp2' => 'Handphone 2',
 			'email' => 'Email',
 			'pict' => 'Pict',
 			'source_info_id' => 'Source Info',

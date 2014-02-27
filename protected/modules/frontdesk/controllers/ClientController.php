@@ -74,4 +74,6 @@ class ClientController extends RController
 			Yii::app()->end();
 		}
 	}
+    
+     
 }

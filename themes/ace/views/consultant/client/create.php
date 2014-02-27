@@ -2,16 +2,13 @@
 /* @var $this DefaultController */
 
 $this->breadcrumbs=array(
-	'Client',
+    'Client',
 );
-$this->menu=array(
-    array('label'=>'Order Lists','icon' => 'icon-dashboard', 'url'=>array('/consultant/order'), 'active'=>false),
-    array('label'=>'Client','icon' => 'icon-user', 'url'=>array('/consultant/client'), 'active'=>true),
-    array('label'=>'Treatment Rec','icon' => 'icon-home', 'url'=>array('/consultant/treatmentrec'), 'active'=>false),
-    array('label'=>'Report','icon' => 'icon-flag', 'url'=>array('/consultant/report'), 'active'=>false),
-   
-);
+$this->renderPartial('../menu',array(
+            'active'=>array('2'=>true, '2.2'=>true),
+        ));
 ?>
+
 <div class="page-header position-relative">
     <h1>            Create Client
             <small>

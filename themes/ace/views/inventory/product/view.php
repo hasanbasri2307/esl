@@ -1,7 +1,4 @@
 <?php
-/* @var $this ProductController */
-/* @var $model Product */
-
 $this->breadcrumbs=array(
 	'Products'=>array('index'),
 	$model->product_number,
@@ -38,7 +35,8 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
 		'product_name',
 		'description',
 		'price',
-	 
+		'unit.unit_name',
+		
                
 		
 	
@@ -46,7 +44,7 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
 )); 
 
 ?>
-        <?php if(isset($model_detail) && $model->unit_homecare==9){ ?>
+      <?php if(isset($model_detail)){ ?>
                <table id="autocomplete_table" class="table table-striped table-bordered table-hover">
             <thead>
                     <tr>
@@ -74,4 +72,3 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
 
     </div>
 </div>
- 

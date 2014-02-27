@@ -69,18 +69,22 @@ class ProductController extends RController
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
+    $model->scenario = 'update';
                 $model_detail = ProductDetail::model()->findAll(array("condition"=>"productset_id=$id"));
 		if(isset($_POST['Product']))
 		{
 			$model->attributes=$_POST['Product'];
+
                         $time = time();
                         $model->user_id =Yii::app()->getModule('user')->user()->id;
                         $model->changed =$time;
+     if ($model->validate()) {                   
 			if($model->save()){
                                 //!!!!! script untuk update product detail belum ada
 				$this->redirect(array('view','id'=>$model->product_id));
                         }
 		}
+  }
 
 		$this->render('update',array(
 			'model'=>$model,
@@ -118,6 +122,7 @@ class ProductController extends RController
 	public function loadModel($id)
 	{
 		$model=Product::model()->find(array("condition"=>"product_id=$id"));
+
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;

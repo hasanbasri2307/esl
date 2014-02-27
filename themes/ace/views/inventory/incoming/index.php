@@ -27,12 +27,19 @@ $this->renderPartial('../menu',array(
                 'template'=>"{items}{pager}",
                 'id'=>'product-grid',
                 'columns'=>array(
-                   array('name'=>'note', 'header'=>'DN','type'=>'raw','value'=>'CHtml::link($data->note,array("/inventory/incoming/view/id/".$data->io_id))'),
+                   array('name'=>'note', 'header'=>'DN','type'=>'raw','value'=>'CHtml::link($data->note,array("incoming/view/id/".$data->io_id))'),
                    array('name'=>'date', 'header'=>'date'),
                    array('name'=>'description', 'header'=>'Description'),  
                    array('name'=>'action', 'header'=>'Action','type'=>'raw','value'=>'AccountingModule::action_inventory($data->io_id,$data->status)'), 
                 ),
             )); ?>
+             <?php
+          $this->widget('bootstrap.widgets.TbButton',array(
+                'label' => 'Create',
+                'url'=>array('create'),
+        ));
+ 
+ ?>
     </div>
 </div>
  
