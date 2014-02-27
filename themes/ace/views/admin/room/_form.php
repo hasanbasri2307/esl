@@ -23,6 +23,7 @@
                     array(
                         'data' => CHtml::listData(Treatment::model()->findAll(), 'treatment_id', 'treatment_name'),
                         'asDropDownList' => true,
+                        'value'=> array('tests'=>'tests'),
                          'options' => array(
                             ),
                         'multiple' => 'multiple',

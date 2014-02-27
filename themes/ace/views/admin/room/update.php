@@ -27,10 +27,7 @@ $this->menu=array(
     
  <div class="row-fluid">
 	<div class="span12">
-           <?php 
-           foreach ($room_treatment as $key => $value) {
-               print $value->room_treatment_id;
-           }
+           <?php
 echo $this->renderPartial('_form',  array('model'=>$model,'room_treatment'=>$room_treatment)); ?>
 
     </div>
