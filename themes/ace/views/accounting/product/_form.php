@@ -9,7 +9,7 @@
         <?php echo $form->textFieldRow($model,'product_number',array('readonly'=>true)); ?>
         <?php echo $form->textFieldRow($model,'product_name',array('readonly'=>true)); ?>
 	     
-        <?php echo $form->textFieldRow($model,'price',array('prepend'=>'Rp. ')); ?>
+        <?php echo $form->textFieldRow($model,'price',array('prepend'=>'Rp. ','id'=>'price')); ?>
        
          
        
@@ -19,5 +19,13 @@
             <?php $this->widget('bootstrap.widgets.TbButton', array('buttonType'=>'reset', 'label'=>'Reset')); ?>
         </div>
 <?php $this->endWidget(); ?>
+     <?php
+$path = Yii::app()->assetManager->publish(Yii::getPathOfAlias('application.scripts'));
+Yii::app()->clientScript->registerScriptFile($path.'/jquery-number/jquery.number.min.js');
 
+Yii::app()->clientScript->registerScript('form', "
+$('#price').number(true, 2);
+$('#Product_wholesale_price').number( true, 2 );
+");
+?>
       

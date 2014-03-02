@@ -10,6 +10,10 @@
  * @property string $address
  * @property string $phone
  * @property string $fax
+ * @property string $contact_person
+ * @property string $Jabatan
+ * @property string $Email
+ * @property string $hp
  * @property string $ot_start
  * @property string $description
  * @property integer $user_id
@@ -35,16 +39,18 @@ class Supplier extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('supplier_number, supplier_name, user_id, created, changed', 'required'),
+			array('supplier_number, supplier_name, contact_person, Jabatan, Email, hp, ot_start, user_id, created, changed', 'required'),
 			array('user_id, created, changed, active', 'numerical', 'integerOnly'=>true),
 			array('supplier_number', 'length', 'max'=>10),
 			array('supplier_name', 'length', 'max'=>40),
 			array('address', 'length', 'max'=>255),
 			array('phone, fax', 'length', 'max'=>20),
+			array('contact_person, Jabatan, Email', 'length', 'max'=>50),
+			array('hp', 'length', 'max'=>14),
 			array('description', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('supplier_id, supplier_number, supplier_name, address, phone, fax, ot_start, description, user_id, created, changed, active', 'safe', 'on'=>'search'),
+			array('supplier_id, supplier_number, supplier_name, address, phone, fax, contact_person, Jabatan, Email, hp, ot_start, description, user_id, created, changed, active', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -71,6 +77,10 @@ class Supplier extends CActiveRecord
 			'address' => 'Address',
 			'phone' => 'Phone',
 			'fax' => 'Fax',
+			'contact_person' => 'Contact Person',
+			'Jabatan' => 'Jabatan',
+			'Email' => 'Email',
+			'hp' => 'Hp',
 			'ot_start' => 'Ot Start',
 			'description' => 'Description',
 			'user_id' => 'User',
@@ -104,6 +114,10 @@ class Supplier extends CActiveRecord
 		$criteria->compare('address',$this->address,true);
 		$criteria->compare('phone',$this->phone,true);
 		$criteria->compare('fax',$this->fax,true);
+		$criteria->compare('contact_person',$this->contact_person,true);
+		$criteria->compare('Jabatan',$this->Jabatan,true);
+		$criteria->compare('Email',$this->Email,true);
+		$criteria->compare('hp',$this->hp,true);
 		$criteria->compare('ot_start',$this->ot_start,true);
 		$criteria->compare('description',$this->description,true);
 		$criteria->compare('user_id',$this->user_id);
@@ -126,31 +140,4 @@ class Supplier extends CActiveRecord
 	{
 		return parent::model($className);
 	}
-
-	protected function beforeValidate() 
-	{
-	   parent::beforeValidate();
-	   $date = new DateTime();
-	   if($this->isNewRecord)
-	   {
-	     $criteria=new CDbCriteria;      //kita menggunakan criteria untuk mengetahui nomor terakhir dari database
-	     $criteria->select = 'supplier_number';   //yang ingin kita lihat adalah field "nilai1"
-	     $criteria->limit=1;             // kita hanya mengambil 1 buah nilai terakhir
-	     $criteria->order='supplier_number DESC';  //yang dimbil nilai terakhir
-	     $last = $this->find($criteria);
-	     if($last)   // jika ternyata ada nilai dalam data tersebut maka nilai nya saat ini tinggal di tambah 1 dari data sebelumya
-	     {
-	       $newID = (int)substr($last->supplier_number,2) + 1;
-	       $bikin_kode = str_pad($newID, 2, "0", STR_PAD_LEFT);
- 		   
-	       $newID = 'S'.$bikin_kode;
-	     }
-	     else  //jika ternyata pada tabel terebut masih kosong, maka akan di input otomatis nilai "sabit-1" karena memang belum ada sebelumnya nilai lain
-	     {
-	       $newID = 'S01';
-	     }
-	     $this->supplier_number=$newID; // nilai1 di set nilai yang sudah di dapat tadi
-	  } 
-	  return true;
-	 }
 }

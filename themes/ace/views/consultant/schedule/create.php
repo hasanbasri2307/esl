@@ -53,14 +53,26 @@ $this->renderPartial('../menu',array(
                     'options' => array(
                         'placeholder' => 'type clever, or is, or just type!',
                         'width' => '20%',
-                        'class' => 'cc',
+                       
                         
-                    )
+                    ),
+                    'htmlOptions' => array(
+                    		'class' => 'cc',
+                    		'id' =>'test',
+
+                    	),
                 )
             );
             ?>
 		</div>
 	</div>
+	<div class="control-group">
+		<label class="control-label" for="form-field-1">Client Name</label>
+
+		<div class="controls">
+       		<input type="text"   id="client_name" readonly="true">
+		</div>
+	</div>    
     
 	<?php echo $form->datepickerRow(
 		$model,
@@ -119,6 +131,28 @@ $this->renderPartial('../menu',array(
 <?php $this->endWidget(); ?>
 
      
+<?php
+ $url1 =$this->createUrl('/consultant/schedule/getClient');
+ $script2 = ' $(".cc").change(function(){
+	 		var id = $("#test").val();
+			
+
+			$.ajax({
+			type:"POST",
+			url:"'.$url1.'",
+			cache:false,
+			data:"id="+ id ,
+            dataType:"json",
+			success:function(data){
+				$("#client_name").val(data.client_name);
+				
+                }
+		 });
+        
+    });
+                    ';
+  Yii::app()->clientScript->registerScript('getClientConsultant',$script2, CClientScript::POS_END);
+?>
 
 	
 

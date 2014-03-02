@@ -243,5 +243,16 @@ class ScheduleController extends RController
               
         }
 
+         public function actionGetClient()
+      {
+    
+            $id = $_POST['id'];
+            $output = Client::model()->findByPk($id);
+                   
+            echo CJSON::encode($output);   
+              
+              
+        }
+
 	
 }

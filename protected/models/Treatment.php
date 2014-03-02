@@ -125,4 +125,16 @@ class Treatment extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+	protected function beforeValidate()
+	 {
+		 $this->price= Yii::app()->format->unformatNumber($this->price);
+		
+		 return parent::beforeValidate();
+	}
+	protected function afterFind() {
+		$this->price = Yii::app()->format->formatNumber($this->price);
+		
+		return parent::afterFind();
+	}
 }

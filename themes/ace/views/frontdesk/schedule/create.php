@@ -53,9 +53,14 @@ $this->renderPartial('../menu',array(
                     'options' => array(
                         'placeholder' => 'type clever, or is, or just type!',
                         'width' => '20%',
-                        'class' => 'cc',
                         
-                    )
+                        
+                    ),
+                    'htmlOptions' => array(
+                    		'class' => 'cc',
+                    		'id' =>'test',
+
+                    	),
                 )
             );
             ?>
@@ -66,7 +71,7 @@ $this->renderPartial('../menu',array(
 		<label class="control-label" for="form-field-1">Client Name</label>
 
 		<div class="controls">
-        <input type="text" id="form-field-1"  id="client_name" readonly="true">
+       		<input type="text"   id="client_name" readonly="true">
 		</div>
 	</div>    
 	<?php echo $form->datepickerRow(
@@ -134,8 +139,9 @@ $this->renderPartial('../menu',array(
 <?php
  $url1 =$this->createUrl('/frontdesk/schedule/getClient');
  $script2 = ' $(".cc").change(function(){
-	 		var id = $(".cc").val();
+	 		var id = $("#test").val();
 			
+
 			$.ajax({
 			type:"POST",
 			url:"'.$url1.'",
@@ -143,7 +149,7 @@ $this->renderPartial('../menu',array(
 			data:"id="+ id ,
             dataType:"json",
 			success:function(data){
-			$("#client_name").val(data.client_name);
+				$("#client_name").val(data.client_name);
 				
                 }
 		 });

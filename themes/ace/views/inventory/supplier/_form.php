@@ -8,6 +8,10 @@
         <?php echo $form->textAreaRow($model, 'address', array('class'=>'span8', 'rows'=>5)); ?>
         <?php echo $form->textFieldRow($model,'phone'); ?>
         <?php echo $form->textFieldRow($model,'fax'); ?>
+        <?php echo $form->textFieldRow($model,'hp'); ?>
+        <?php echo $form->textFieldRow($model,'contact_person'); ?>
+        <?php echo $form->textFieldRow($model,'Jabatan'); ?>
+        <?php echo $form->textFieldRow($model,'Email'); ?>
 	
 <div class="form-actions">
             <?php $this->widget('bootstrap.widgets.TbButton', array('buttonType'=>'submit', 'type'=>'primary', 'label'=>'Submit')); ?>

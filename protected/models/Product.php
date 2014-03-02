@@ -42,7 +42,8 @@ class Product extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('product_number, product_name, price, unit_homecare,  user_id, created, changed', 'required'),
+			array('product_number, product_name, price, unit_homecare,  user_id, created, changed', 'required','on'=>'create'),
+			array('product_number, product_name, price, unit_homecare', 'required','on'=>'update_inventory'),
 			array('price, price_net, unit_homecare, unit_cabin, netto, treatment, discount, discount_rp, user_id, created, changed, active', 'numerical', 'integerOnly'=>true),
 			array('product_number', 'length', 'max'=>10),
 			array('product_name', 'length', 'max'=>50),
@@ -151,5 +152,17 @@ class Product extends CActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+
+	protected function beforeValidate()
+	 {
+		 $this->price= Yii::app()->format->unformatNumber($this->price);
+		
+		 return parent::beforeValidate();
+	}
+	protected function afterFind() {
+		$this->price = Yii::app()->format->formatNumber($this->price);
+		
+		return parent::afterFind();
 	}
 }

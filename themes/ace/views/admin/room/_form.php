@@ -23,12 +23,14 @@
                     array(
                         'data' => CHtml::listData(Treatment::model()->findAll(), 'treatment_id', 'treatment_name'),
                         'asDropDownList' => true,
-                        'value'=> array('tests'=>'tests'),
+
                          'options' => array(
+
                             ),
                         'multiple' => 'multiple',
-                        'append'=>'<input name="sellect_all" type="checkbox" id="sellect_all"'.$sellect_all.'>Select All'
-                    )
+                        'append'=>'<input name="sellect_all" type="checkbox" id="sellect_all"'.$sellect_all.'>Select All',
+                        
+                    ) 
                 );
       ?>
            

@@ -29,14 +29,14 @@ class ProductController extends RController
 	
 	public function actionCreate()
 	{
-		$model=new Product;
+		$model=new Product('create');
 
 		
 
 		if(isset($_POST['Product']))
 		{
 			$model->attributes=$_POST['Product'];
-                        $model->division = "esc";
+                       
                        
                         $time = time();
                         $model->user_id =Yii::app()->getModule('user')->user()->id;
@@ -69,7 +69,8 @@ class ProductController extends RController
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
-                $model_detail = ProductDetail::model()->findAll(array("condition"=>"productset_id=$id"));
+    $model->scenario ="update_inventory";
+     $model_detail = ProductDetail::model()->findAll(array("condition"=>"productset_id=$id"));
 		if(isset($_POST['Product']))
 		{
 			$model->attributes=$_POST['Product'];

@@ -31,6 +31,10 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
 		'address',
 		'phone',
 		'fax',
+		'hp',
+		'Email',
+		'Jabatan',
+		'contact_person'
 	),
 )); 
 

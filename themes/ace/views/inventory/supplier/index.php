@@ -40,6 +40,10 @@ $this->renderPartial('../menu',array(
                     array('name'=>'address','header'=>'Address'),
                     array('name'=>'phone','header'=>'Phone'),
                     array('name'=>'fax','header'=>'Fax'),
+                    array('name'=>'contact_person','header'=>'Contact Person'),
+                    array('name'=>'Jabatan','header'=>'Jabatan'),
+                    array('name'=>'Email','header'=>'Email'),
+                    array('name'=>'hp','header'=>'Handphone'),
                     array(
                         'class'=>'bootstrap.widgets.TbButtonColumn',
                         //--------------------- begin new code --------------------------
