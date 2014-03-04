@@ -28,13 +28,17 @@ $this->menu=array(
             <?php 
             $this->widget('bootstrap.widgets.TbGridView', array(
                 'type'=>'striped bordered',
-                'dataProvider'=>$model->search(),
-                'template'=>"{items}",
+                'dataProvider'=>$dataProvider,
+                'template'=>"{items}\n{pager}",
+				
                 'id'=>'product-grid',
                 'columns'=>array(
                     array('name'=>'username', 'header'=>'username'),
                     array('name'=>'email', 'header'=>'email'),
                     array('name'=>'auth_assignment.itemname', 'header'=>'Position'),
+					 array('name'=>'profile.jabatan.nama_jabatan', 'header'=>'Jabatan'),
+					  array('name'=>'profile.level_jabatan.level_jabatan', 'header'=>'Level Jabatan'),
+					   array('name'=>'profile.divisi.nama_divisi', 'header'=>'Divisi'),
                     array('name'=>'lastvisit_at', 'header'=>'lastvisit at'),
                      array('name'=>'status', 'header'=>'Status', 'value'=>'User::itemAlias("UserStatus",$data->status)'),
                      array(
@@ -62,7 +66,7 @@ $this->menu=array(
 
  jQuery('#nav-search-input').keypress(function (e) {
   if (e.which == 13) {
-    window.location  = "<?php echo Yii::app()->createUrl('/user/admin/admin/')?>/"+jQuery(this).val();
+    window.location  = "<?php echo Yii::app()->createUrl('/user/admin/admin/search/')?>/"+jQuery(this).val();
     return false;
   }
 });

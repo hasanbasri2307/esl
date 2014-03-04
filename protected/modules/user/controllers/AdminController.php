@@ -22,17 +22,22 @@ class AdminController extends RController
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin()
+	public function actionAdmin($search=NULL)
 	{
-		$model=new User('search');
-        $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['User']))
-            $model->attributes=$_GET['User'];
+		
+                 $criteria = new CDbCriteria; 
+                if(isset($search)) 
+                    $criteria->condition = " LOWER(`name`) LIKE LOWER('%$search%') OR LOWER(`name`) LIKE LOWER('%$search%') OR LOWER(`username`) LIKE LOWER('%$search%') OR LOWER(`username`) LIKE LOWER('%$search%')";
+                $sort = new CSort;
+                $sort->defaultOrder = array(
+                  'username'=>CSort::SORT_ASC,
 
-        $this->render('index',array(
-            'model'=>$model,
-        ));
-		/*$dataProvider=new CActiveDataProvider('User', array(
+                );
+		
+		$dataProvider=new CActiveDataProvider('User', array(
+		
+			'sort'=>$sort,
+            'criteria'=>$criteria,
 			'pagination'=>array(
 				'pageSize'=>Yii::app()->controller->module->user_page_size,
 			),

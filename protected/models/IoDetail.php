@@ -45,6 +45,7 @@ class IoDetail extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
                         'product' => array(self::BELONGS_TO, 'Product', 'product_id'),
+						'product' => array(self::BELONGS_TO, 'Product', 'product_id'),
 		);
 	}
 

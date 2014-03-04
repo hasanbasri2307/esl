@@ -19,15 +19,16 @@ $this->menu=array(
 	$attributes = array(
 		'id',
 		'username',
-                'profile.name',
-                'profile.branch.branch_name',
+        'profile.name',
+        'profile.branch.branch_name',
+		'profile.divisi.nama_divisi',
+		'profile.level_jabatan.level_jabatan',
+		'profile.jabatan.nama_jabatan',
 	);
 
 	array_push($attributes,
 
 		'email',
-		
-		
 		'lastvisit_at',
 		
 		array(

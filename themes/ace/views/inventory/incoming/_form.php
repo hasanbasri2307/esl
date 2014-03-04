@@ -19,8 +19,23 @@
       
        
         <?php echo $form->datepickerRow($model, 'date', array('prepend'=>'<i class="icon-calendar"></i>')); ?>
-         <?php  $note = Io::model()->find(array('order'=>'io_id DESC')); ?>
-       <?php echo $form->textFieldRow($model, 'note',array('value'=>date('y').'-'.'0000'.($note->io_id+1))); ?>
+        <?php
+        $sql = "select max(io_id) as id from esc_io order by io_id desc";
+		$connection=Yii::app()->db;
+		$command=$connection->createCommand($sql);
+		$data = $command->queryRow();
+		
+		if($data['id'] ==" ")
+		{
+			
+			$id = $data['id'] + 1;
+		}
+		else
+		{
+			$id= $data['id'];
+		}
+		 ?>
+       <?php echo $form->textFieldRow($model, 'note',array('value'=>date('y').'-'.'0000'.($id+1))); ?>
 
         <?php
             $hide = "";

@@ -43,7 +43,7 @@ class IncomingController extends RController
                         $model->from =0;
                         $model->date =  AccountingModule::format_date($model->date);
                        
-			if($model->save() && $model->validarion()){
+				if($model->save() && $model->validate()){
                               if(isset($_POST['ProductId'])){
                                     foreach ($_POST['ProductId'] as $key=>$val){
                                         $model_product = new IoDetail();
@@ -51,6 +51,11 @@ class IncomingController extends RController
                                         $model_product->product_id = $val;
                                         $model_product->quantity = $_POST["ProductQuantity"][$key];
                                         $model_product->save();
+										
+										$criteria=new CDbCriteria;
+										$criteria->condition='branch_id=:branchID and product_id = :productID';
+										$criteria->params=array(':branchID'=>10,':productID'=>$val);
+										$post=Post::model()->find($criteria);
                                     }
                                 }
                             $this->redirect(array('view','id'=>$model->io_id));
