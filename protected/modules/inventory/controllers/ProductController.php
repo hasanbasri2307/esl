@@ -104,7 +104,7 @@ class ProductController extends RController
                 $criteria = new CDbCriteria;
                // $criteria->condition = "type = 'homecare'";
                 if(isset($search)) 
-                    $criteria->condition = "AND  LOWER(`product_number`) LIKE LOWER('%$search%') OR LOWER(`product_number`) LIKE LOWER('%$search%') OR LOWER(`product_name`) LIKE LOWER('%$search%') OR LOWER(`product_name`) LIKE LOWER('%$search%')";
+                    $criteria->condition = "LOWER(`product_number`) LIKE LOWER('%$search%') OR LOWER(`product_number`) LIKE LOWER('%$search%') OR LOWER(`product_name`) LIKE LOWER('%$search%') OR LOWER(`product_name`) LIKE LOWER('%$search%')";
 		$dataProvider=new CActiveDataProvider('Product', array(
                     'criteria'=>$criteria,
                     'pagination'=>array(

@@ -18,7 +18,7 @@
  * The followings are the available model relations:
  * @property Users $user
  */
-class Profile extends CActiveRecord
+class Profiles extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
@@ -36,7 +36,7 @@ class Profile extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_divisi, id_level_jabatan, id_jabatan, foto', 'required'),
+			array('name,dob,branch_id,address,phone,id_divisi, id_level_jabatan, id_jabatan', 'required'),
 			array('branch_id, id_divisi, id_level_jabatan, id_jabatan', 'numerical', 'integerOnly'=>true),
 			array('name, address, phone', 'length', 'max'=>255),
 			array('foto', 'length', 'max'=>50),
@@ -120,7 +120,7 @@ class Profile extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Profile the static model class
+	 * @return Profiles the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

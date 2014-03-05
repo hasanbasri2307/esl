@@ -21,6 +21,7 @@ $this->renderPartial('../menu',array(
 
  <div class="row-fluid">
 	<div class="span12">
+    
             <?php 
             $this->widget('bootstrap.widgets.TbGridView', array(
                 'type'=>'striped bordered',
@@ -42,13 +43,7 @@ $this->renderPartial('../menu',array(
             )); ?>
 
  
- <?php
-          $this->widget('bootstrap.widgets.TbButton',array(
-                'label' => 'Create',
-                'url'=>array('create'),
-        ));
  
- ?>
     </div>
 </div>
  

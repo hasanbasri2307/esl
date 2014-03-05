@@ -5,9 +5,10 @@ $this->breadcrumbs=array(
 );
 $this->menu=array(
 	array('label'=>'Dashboard','icon' => 'icon-dashboard', 'url'=>array('/admin'), 'active'=>false),
+	array('label'=>'Employee','icon' => 'icon-user', 'url'=>array('/user/profiles'), 'active'=>false),
         array('label'=>'Staffs','icon' => 'icon-user', 'url'=>array('/user/admin'), 'active'=>false),
         array('label'=>'Rooms','icon' => 'icon-home', 'url'=>array('/admin/room'), 'active'=>false),
-        array('label'=>'Branch','icon' => 'icon-flag', 'url'=>array('/admin/branch'), 'active'=>true),
+        array('label'=>'Branch Information','icon' => 'icon-flag', 'url'=>array('/admin/branch'), 'active'=>true),
 );
 ?>
 <div class="page-header position-relative">
@@ -23,6 +24,13 @@ $this->menu=array(
 
  <div class="row-fluid">
 	<div class="span12">
+    <?php
+          $this->widget('bootstrap.widgets.TbButton',array(
+                'label' => 'Create',
+                'url'=>array('create'),
+        ));
+ 
+ ?>
             <?php 
             $this->widget('bootstrap.widgets.TbGridView', array(
                 'type'=>'striped bordered',
@@ -46,13 +54,7 @@ $this->menu=array(
             )); ?>
 
  
- <?php
-          $this->widget('bootstrap.widgets.TbButton',array(
-                'label' => 'Create',
-                'url'=>array('create'),
-        ));
  
- ?>
     </div>
 </div>
  

@@ -6,13 +6,13 @@ $this->breadcrumbs=array(
 
 
 $this->menu=array(
-	array('label'=>'Dashboard','icon' => 'icon-dashboard', 'url'=>array('/admin'), 'active'=>false),
+		array('label'=>'Dashboard','icon' => 'icon-dashboard', 'url'=>array('/admin'), 'active'=>false),
+		array('label'=>'Employee','icon' => 'icon-user', 'url'=>array('/user/profiles'), 'active'=>false),
         array('label'=>'Staffs','icon' => 'icon-user', 'url'=>array('/user/admin'), 'active'=>true),
         array('label'=>'Rooms','icon' => 'icon-home', 'url'=>array('/admin/room'), 'active'=>false),
-        array('label'=>'Branch Information','icon' => 'icon-flag', 'url'=>array('/admin/branch'), 'active'=>false),
+        array('label'=>'Branch','icon' => 'icon-flag', 'url'=>array('/admin/branch'), 'active'=>false),
 );
-?>
-<h1><?php echo UserModule::t('View User').' "'.$model->username.'"'; ?></h1>
+?><h1><?php echo UserModule::t('View User').' "'.$model->username.'"'; ?></h1>
 
 <?php
  

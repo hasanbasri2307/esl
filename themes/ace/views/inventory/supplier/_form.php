@@ -12,6 +12,7 @@
         <?php echo $form->textFieldRow($model,'contact_person'); ?>
         <?php echo $form->textFieldRow($model,'Jabatan'); ?>
         <?php echo $form->textFieldRow($model,'Email'); ?>
+        <?php echo $form->textFieldRow($model,'npwp'); ?>
 	
 <div class="form-actions">
             <?php $this->widget('bootstrap.widgets.TbButton', array('buttonType'=>'submit', 'type'=>'primary', 'label'=>'Submit')); ?>

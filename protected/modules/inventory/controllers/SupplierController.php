@@ -112,7 +112,7 @@ class SupplierController extends RController
 		 $criteria = new CDbCriteria;
                // $criteria->condition = "type = 'homecare'";
                 if(isset($search)) 
-                    $criteria->condition = "AND  LOWER(`supplier_number`) LIKE LOWER('%$search%') OR LOWER(`supplier_number`) LIKE LOWER('%$search%') OR LOWER(`supplier_name`) LIKE LOWER('%$search%') OR LOWER(`supplier_name`) LIKE LOWER('%$search%')";
+                    $criteria->condition = "LOWER(`supplier_number`) LIKE LOWER('%$search%') OR LOWER(`supplier_number`) LIKE LOWER('%$search%') OR LOWER(`supplier_name`) LIKE LOWER('%$search%') OR LOWER(`supplier_name`) LIKE LOWER('%$search%')";
 		$dataProvider=new CActiveDataProvider('Supplier', array(
                     'criteria'=>$criteria,
                     'pagination'=>array(

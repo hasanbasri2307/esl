@@ -10,7 +10,7 @@
         <?php echo $form->textFieldRow($model,'product_name'); ?>
 	<?php echo $form->textAreaRow($model, 'description', array('class'=>'span8', 'rows'=>5)); ?>
         <?php //echo $form->textFieldRow($model,'price_net',array('prepend'=>'Rp. ')); ?>
-        <?php echo $form->textFieldRow($model,'price',array('prepend'=>'Rp. ','id'=>'price')); ?>
+        
         <?php echo $form->radioButtonListInlineRow($model, 'unit_homecare', CHtml::listData(Unit::model()->findAll(array("condition"=>"type='homecare'")),'unit_id','unit_code')); ?>
         <?php echo $form->radioButtonListInlineRow($model, 'unit_cabin', CHtml::listData(Unit::model()->findAll(array("condition"=>"type='cabin'")),'unit_id','unit_code')); ?>
         <?php echo $form->textFieldRow($model,'netto'); ?>

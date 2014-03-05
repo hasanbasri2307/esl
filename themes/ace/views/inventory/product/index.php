@@ -21,6 +21,13 @@ $this->renderPartial('../menu',array(
 
  <div class="row-fluid">
 	<div class="span12">
+    <?php
+          $this->widget('bootstrap.widgets.TbButton',array(
+                'label' => 'Create',
+                'url'=>array('create'),
+        ));
+ 
+ ?>
             <?php 
             $this->widget('bootstrap.widgets.TbGridView', array(
                 'type'=>'striped bordered',
@@ -42,13 +49,7 @@ $this->renderPartial('../menu',array(
             )); ?>
 
  
- <?php
-          $this->widget('bootstrap.widgets.TbButton',array(
-                'label' => 'Create',
-                'url'=>array('create'),
-        ));
  
- ?>
     </div>
 </div>
  
@@ -56,7 +57,7 @@ $this->renderPartial('../menu',array(
 
  jQuery('#nav-search-input').keypress(function (e) {
   if (e.which == 13) {
-    window.location  = "<?php echo Yii::app()->createUrl('/accounting/product/index/search/')?>/"+jQuery(this).val();
+    window.location  = "<?php echo Yii::app()->createUrl('/inventory/product/index/search/')?>/"+jQuery(this).val();
     return false;
   }
 });

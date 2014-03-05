@@ -44,7 +44,7 @@ $this->renderPartial('../menu',array(
 
  jQuery('#nav-search-input').keypress(function (e) {
   if (e.which == 13) {
-    window.location  = "<?php echo Yii::app()->createUrl('/frontdesk/room/index/search/')?>/"+jQuery(this).val();
+    window.location  = "<?php echo Yii::app()->createUrl('/consultant/room/index/search/')?>/"+jQuery(this).val();
     return false;
   }
 });

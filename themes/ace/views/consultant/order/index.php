@@ -40,13 +40,6 @@ $this->renderPartial('../menu',array(
             )); ?>
 
  
- <?php
-          $this->widget('bootstrap.widgets.TbButton',array(
-                'label' => 'Create',
-                'url'=>array('create'),
-        ));
- 
- ?>
     </div>
 </div>
  
@@ -54,7 +47,7 @@ $this->renderPartial('../menu',array(
 
  jQuery('#nav-search-input').keypress(function (e) {
   if (e.which == 13) {
-    window.location  = "<?php echo Yii::app()->createUrl('/accounting/order/index/search/')?>/"+jQuery(this).val();
+    window.location  = "<?php echo Yii::app()->createUrl('/consultant/order/index/search/')?>/"+jQuery(this).val();
     return false;
   }
 });

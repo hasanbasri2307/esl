@@ -8,7 +8,7 @@ $this->renderPartial('../menu',array(
             'active'=>array('1'=>true),
         ));
         ?>
-?>
+
 
 <div class="page-header position-relative">
     <h1>            Dashboard

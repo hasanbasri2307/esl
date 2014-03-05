@@ -20,6 +20,13 @@ $this->renderPartial('../menu',array(
 
  <div class="row-fluid">
 	<div class="span12">
+    <?php
+          $this->widget('bootstrap.widgets.TbButton',array(
+                'label' => 'Create',
+                'url'=>array('create'),
+        ));
+ 
+ ?>
             <?php 
             $this->widget('bootstrap.widgets.TbGridView', array(
                 'type'=>'striped bordered',
@@ -34,13 +41,7 @@ $this->renderPartial('../menu',array(
                    array('name'=>'action', 'header'=>'Action','type'=>'raw','value'=>'AccountingModule::action_inventory_view($data->io_id,$data->status)'), 
                 ),
             )); ?>
-            <?php
-          $this->widget('bootstrap.widgets.TbButton',array(
-                'label' => 'Create',
-                'url'=>array('create'),
-        ));
- 
- ?>
+            
             
     </div>
 </div>
