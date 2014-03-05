@@ -1,6 +1,6 @@
 <?php
 
-class IncomingController extends RController
+class IncomingSupplierController extends RController
 {
 	
         
@@ -50,6 +50,7 @@ class IncomingController extends RController
 						{
 							$id= $data['id'];
 						}
+						
 						$model->note = date('y').'-'.'0000'.($id+1);
                         $model->user_id =Yii::app()->getModule('user')->user()->id;
                         $model->changed =$time;
@@ -57,7 +58,7 @@ class IncomingController extends RController
 						$model->suplier = $_POST['Io']['suplier'];
 						$model->branch_id = Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
                         $model->status =0;
-						$model->type = 'income';
+						$model->type = 'income_supplier';
                         $model->from =0;
                         $model->date =  AccountingModule::format_date($model->date);
                        
@@ -143,7 +144,6 @@ class IncomingController extends RController
                                               $product_stock->branch_id = $model->to;
                                               $product_stock->changed = $time;
                                               
-                                             
                                         }
                                         
                                     }
@@ -176,9 +176,12 @@ class IncomingController extends RController
 		
                 $criteria = new CDbCriteria;
                 $branch_id =Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
-                $criteria->condition = " `to` = $branch_id";
+				$criteria->with = array("supplier"=>array("select"=>"supplier.supplier_name")); 
+				$criteria->together = true; // ADDED THIS
+                $criteria->condition = " `branch_id` = $branch_id and suplier <> 0";
+				
                 if(isset($search)) 
-                    $criteria->condition .= " AND LOWER(`io_number`) LIKE LOWER('%$search%') OR LOWER(`io_number`) LIKE LOWER('%$search%') OR LOWER(`io_name`) LIKE LOWER('%$search%') OR LOWER(`io_name`) LIKE LOWER('%$search%')";
+                    $criteria->condition .= " AND LOWER(`supplier_name`) LIKE LOWER('%$search%') OR LOWER(`supplier_name`) LIKE LOWER('%$search%') ";
                 
 		$dataProvider=new CActiveDataProvider('Io', array(
                     

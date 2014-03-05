@@ -6,7 +6,6 @@
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
 	
         <?php echo $form->hiddenField($model,'to'); ?>
-        <?php echo $form->hiddenField($model,'from'); ?>
         <div class="control-group "><label class="control-label" for="Io_from_name">From</label><div class="controls"><input readonly name="Io[Io_from_name]" id="Io_from_name" type="text" value="<?php echo $model->branch->branch_name;?>"></div></div>
         <?php echo $form->textAreaRow($model, 'description', array('readonly'=>'readonly','class'=>'span4', 'rows'=>5)); ?>
         <?php echo $form->textFieldRow($model, 'date', array('readonly'=>'readonly','prepend'=>'<i class="icon-calendar"></i>')); ?>

@@ -53,13 +53,24 @@ class AccountingModule extends CWebModule
                 }
 		return $output;	
 	}
-        public function action_inventory($io_id,$status)
+    public function action_inventory($io_id,$status)
 	{
             
                 //incoming/update/id/2
                 $output ="";
                if($status ==0){
                    $output = CHtml::link("update",array("incoming/update/id/".$io_id));
+               }
+               return $output;
+	}
+	
+	public function action_inventory_view($io_id,$status)
+	{
+            
+                //incoming/update/id/2
+                $output ="";
+               if($status ==0){
+                   $output = CHtml::link("view",array("incomingSupplier/view/id/".$io_id));
                }
                return $output;
 	}

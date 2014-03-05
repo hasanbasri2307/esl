@@ -1,15 +1,23 @@
 <?php
+/* @var $this ProductController */
+/* @var $model Product */
 
 $this->breadcrumbs=array(
-	'Dashboard'=>array('/admin'),
+	'Incoming'=>array('index'),
+	'Create',
 );
+
 $this->renderPartial('../menu',array(
-			'active'=>array('4'=>true),
+			'active'=>array('3'=>true, '3.1'=>true),
 		));
 ?>
 
+
+
+
+
 <div class="page-header position-relative">
-    <h1>            Dashboard
+    <h1>            Create Incoming
             <small>
                     <i class="icon-double-angle-right"></i>
                    
@@ -19,7 +27,7 @@ $this->renderPartial('../menu',array(
     
  <div class="row-fluid">
 	<div class="span12">
-           Welcome 
+           <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
 
     </div>
 </div>

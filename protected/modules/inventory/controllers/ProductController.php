@@ -138,11 +138,14 @@ class ProductController extends RController
          
             
                if (Yii::app()->request->isAjaxRequest && isset($_GET['term'])) {
+				   $branch = Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
                     $search = strtolower($_GET["term"]);
                     $criteria = new CDbCriteria;
+					$criteria->with = array("product"=>array("select"=>"product.product_number,product.product_name")); 
+					$criteria->together = true; // ADDED THIS
                     if(isset($search))   
-                     $criteria->condition = " LOWER(`product_number`) LIKE LOWER('%$search%')";
-                     $product = Product::model()->findAll($criteria);
+                     $criteria->condition = "branch_id = $branch and LOWER(`product.product_number`) LIKE LOWER('%$search%')";
+                     $product = ProductStock::model()->findAll($criteria);
                       foreach ($product as $row=>$val){
                          $output[] =  array("label"=>$val->product_number, "value"=>$val->product_id,  "value2"=>$val->product_name);
                       }
@@ -158,13 +161,16 @@ class ProductController extends RController
          
             
                if (Yii::app()->request->isAjaxRequest && isset($_GET['term'])) {
+				   $branch = Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
                     $search = strtolower($_GET["term"]);
                     $criteria = new CDbCriteria;
+					$criteria->with = array("product"=>array("select"=>"product.product_name")); 
+					$criteria->together = true; // ADDED THIS
                     if(isset($search))   
-                     $criteria->condition = " LOWER(`product_name`) LIKE LOWER('%$search%')";
-                     $product = Product::model()->findAll($criteria);
+                     $criteria->condition = "branch_id = $branch and  LOWER(`product.product_name`) LIKE LOWER('%$search%')";
+                     $product = ProductStock::model()->findAll($criteria);
                       foreach ($product as $row=>$val){
-                         $output[] =  array("label"=>$val->product_name, "value"=>$val->product_id,  "value2"=>$val->product_number);
+                         $output[] =  array("label"=>$val->product_name, "value"=>$val->product_id,  "value2"=>$val->product_number,"stock" => $val->quantity);
                       }
                     
                 }

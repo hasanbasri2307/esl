@@ -38,8 +38,10 @@ class OutgoingController extends RController
                         $model->changed =$time;
                         $model->created =$time;
                         $model->status =0;
-                        $model->to =1;//pusat
+						$model->type ='outcome';
+                        $model->to =$_POST['Io']['to'];
                         $model->from =Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
+						$branch = Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
                         $model->date =  AccountingModule::format_date($model->date);
 			if($model->save()){
                                 if(isset($_POST['ProductId'])){
@@ -56,16 +58,20 @@ class OutgoingController extends RController
                                             $ps->changed=$time;
                                             $ps->save();
                                         }else{
-                                            /*
+                                            
                                             $model_ps = new ProductStock();
                                             $model_ps->product_id=$val;
                                             $model_ps->branch_id=$model->to;
                                             $model_ps->quantity=$model_product->quantity;
                                             $model_ps->changed=$time;
                                             $model_ps->save();
-                                             * */
-                                             
+                                            
                                         }
+										 $ps2 = ProductStock::model()->find(array("condition"=>"product_id =$val AND branch_id=$branch"));
+										  $ps2->quantity=$ps2->quantity - $model_product->quantity;
+										 $ps->changed=$time;
+                                            $ps->save();
+										
                                     }
                                 }
                             $this->redirect(array('view','id'=>$model->io_id));

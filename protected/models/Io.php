@@ -8,7 +8,10 @@
  * @property string $description
  * @property integer $from
  * @property integer $to
+ * @property integer $suplier
+ * @property string $type
  * @property string $note
+ * @property integer $branch_id
  * @property string $date
  * @property string $date_deliver
  * @property integer $user_id
@@ -34,13 +37,14 @@ class Io extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id, created, changed', 'required'),
-			array('from, to, user_id, created, changed, status', 'numerical', 'integerOnly'=>true),
+			array('type, branch_id, user_id, created, changed', 'required'),
+			array('from, to, suplier, branch_id, user_id, created, changed, status', 'numerical', 'integerOnly'=>true),
+			array('type', 'length', 'max'=>7),
 			array('note', 'length', 'max'=>100),
 			array('description, date, date_deliver', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('io_id, description, from, to, note, date, date_deliver, user_id, created, changed, status', 'safe', 'on'=>'search'),
+			array('io_id, description, from, to, suplier, type, note, branch_id, date, date_deliver, user_id, created, changed, status', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -52,7 +56,9 @@ class Io extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-                        'branch' => array(self::BELONGS_TO, 'Branch', 'to'),
+		'branch' => array(self::BELONGS_TO, 'Branch', 'branch_id'),
+		'supplier' => array(self::BELONGS_TO, 'Supplier', 'suplier'),
+
 		);
 	}
 
@@ -66,7 +72,10 @@ class Io extends CActiveRecord
 			'description' => 'Description',
 			'from' => 'From',
 			'to' => 'To',
+			'suplier' => 'Suplier',
+			'type' => 'Type',
 			'note' => 'Note',
+			'branch_id' => 'Branch',
 			'date' => 'Date',
 			'date_deliver' => 'Date Deliver',
 			'user_id' => 'User',
@@ -98,7 +107,10 @@ class Io extends CActiveRecord
 		$criteria->compare('description',$this->description,true);
 		$criteria->compare('from',$this->from);
 		$criteria->compare('to',$this->to);
+		$criteria->compare('suplier',$this->suplier);
+		$criteria->compare('type',$this->type,true);
 		$criteria->compare('note',$this->note,true);
+		$criteria->compare('branch_id',$this->branch_id);
 		$criteria->compare('date',$this->date,true);
 		$criteria->compare('date_deliver',$this->date_deliver,true);
 		$criteria->compare('user_id',$this->user_id);
