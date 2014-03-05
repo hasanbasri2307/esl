@@ -20,7 +20,7 @@ $this->menu=array(
     array('label'=>'Treatment Rec','icon' => 'icon-home', 'url'=>array('/consultant/treatmentrec'), 'active'=>isset($active['3']) ? true : false,),
      array('label'=>'Room Schedule','icon' => 'icon-desktop', 'url'=>array('/consultant/order'), 'active'=>isset($active['4']) ? true : false,
             'items'=> array(
-                array('label'=>'Room Name / Number', 'url'=>array('/consultant/room'), 'active'=>isset($active['4.1']) ? true : false,),
+               
                  array('label'=>'Reservation', 'url'=>array('/consultant/schedule'), 'active'=>isset($active['4.2']) ? true : false,),
                   array('label'=>'Input', 'url'=>array('/consultant/schedule/create'), 'active'=>isset($active['4.3']) ? true : false,),
                  array('label'=>'Report', 'url'=>array('/inventory/product'), 'active'=>isset($active['4.4']) ? true : false,),
