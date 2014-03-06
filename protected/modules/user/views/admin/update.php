@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs=array(
-	(UserModule::t('Users'))=>array('admin'),
+	(UserModule::t('User'))=>array('admin'),
 	$model->username=>array('view','id'=>$model->id),
 	(UserModule::t('Update')),
 );
@@ -8,13 +8,13 @@ $this->breadcrumbs=array(
 $this->menu=array(
 		array('label'=>'Dashboard','icon' => 'icon-dashboard', 'url'=>array('/admin'), 'active'=>false),
 		array('label'=>'Employee','icon' => 'icon-user', 'url'=>array('/profiles'), 'active'=>false),
-        array('label'=>'Staffs','icon' => 'icon-user', 'url'=>array('/user/admin'), 'active'=>true),
+        array('label'=>'User','icon' => 'icon-user', 'url'=>array('/user/admin'), 'active'=>true),
         array('label'=>'Rooms','icon' => 'icon-home', 'url'=>array('/admin/room'), 'active'=>false),
         array('label'=>'Branch','icon' => 'icon-flag', 'url'=>array('/admin/branch'), 'active'=>false),
 );
 ?>
 <div class="page-header position-relative">
-    <h1>            <?php echo  UserModule::t('Update Staff')." ".$model->username; ?>
+    <h1>            <?php echo  UserModule::t('Update User')." ".$model->username; ?>
             <small>
                     <i class="icon-double-angle-right"></i>
                    
