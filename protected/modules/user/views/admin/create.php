@@ -13,7 +13,7 @@ $this->menu=array(
 );
 ?>
 <div class="page-header position-relative">
-    <h1>            Create Staff
+    <h1>            Create User
             <small>
                     <i class="icon-double-angle-right"></i>
                    
