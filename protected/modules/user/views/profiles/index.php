@@ -15,7 +15,7 @@ $this->menu=array(
 ?>
 <div class="page-header position-relative">
     <h1>
-            Profiles  
+            Employee  
             <small>
                     <i class="icon-double-angle-right"></i>
                    
