@@ -29,8 +29,32 @@
 	<?php echo CHtml::encode($data->fax); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('ot_start')); ?>:</b>
-	<?php echo CHtml::encode($data->ot_start); ?>
+	<b><?php echo CHtml::encode($data->getAttributeLabel('hp')); ?>:</b>
+	<?php echo CHtml::encode($data->hp); ?>
+	<br />
+
+	<b><?php echo CHtml::encode($data->getAttributeLabel('contact_person')); ?>:</b>
+	<?php echo CHtml::encode($data->contact_person); ?>
+	<br />
+
+	<b><?php echo CHtml::encode($data->getAttributeLabel('Jabatan')); ?>:</b>
+	<?php echo CHtml::encode($data->Jabatan); ?>
+	<br />
+
+	<b><?php echo CHtml::encode($data->getAttributeLabel('Email')); ?>:</b>
+	<?php echo CHtml::encode($data->Email); ?>
+	<br />
+
+	<b><?php echo CHtml::encode($data->getAttributeLabel('npwp')); ?>:</b>
+	<?php echo CHtml::encode($data->npwp); ?>
+	<br />
+
+	<b><?php echo CHtml::encode($data->getAttributeLabel('nama_bank')); ?>:</b>
+	<?php echo CHtml::encode($data->nama_bank); ?>
+	<br />
+
+	<b><?php echo CHtml::encode($data->getAttributeLabel('no_rekening')); ?>:</b>
+	<?php echo CHtml::encode($data->no_rekening); ?>
 	<br />
 
 	<?php /*

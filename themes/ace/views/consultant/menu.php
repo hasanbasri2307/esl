@@ -14,6 +14,7 @@ $this->menu=array(
             'items'=> array(
                 array('label'=>'List Client', 'url'=>array('/consultant/client'), 'active'=>isset($active['2.1']) ? true : false,),
                 array('label'=>'Input', 'url'=>array('/consultant/client/create'), 'active'=>isset($active['2.2']) ? true : false,),
+                array('label'=>'Historycal', 'url'=>array('/consultant/client/history'), 'active'=>isset($active['2.3']) ? true : false,),
                
             )
         ),

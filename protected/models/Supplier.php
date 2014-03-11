@@ -14,6 +14,9 @@
  * @property string $Jabatan
  * @property string $Email
  * @property string $hp
+ * @property string $npwp
+ * @property string $nama_bank
+ * @property string $no_rekening
  * @property string $ot_start
  * @property string $description
  * @property integer $user_id
@@ -39,18 +42,19 @@ class Supplier extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('supplier_number,npwp, supplier_name, contact_person, Jabatan, Email, hp, ot_start, user_id, created, changed', 'required'),
+			array('supplier_number, supplier_name, contact_person, Jabatan, Email, hp, npwp, nama_bank, no_rekening, ot_start, user_id, created, changed', 'required'),
 			array('user_id, created, changed, active', 'numerical', 'integerOnly'=>true),
 			array('supplier_number', 'length', 'max'=>10),
 			array('supplier_name', 'length', 'max'=>40),
 			array('address', 'length', 'max'=>255),
 			array('phone, fax', 'length', 'max'=>20),
-			array('contact_person, Jabatan, Email', 'length', 'max'=>50),
+			array('contact_person, Jabatan, Email, npwp, nama_bank', 'length', 'max'=>50),
 			array('hp', 'length', 'max'=>14),
+			array('no_rekening', 'length', 'max'=>30),
 			array('description', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('supplier_id, supplier_number, supplier_name, address, phone, fax, contact_person, Jabatan, Email, hp, ot_start, description, user_id, created, changed, active', 'safe', 'on'=>'search'),
+			array('supplier_id, supplier_number, supplier_name, address, phone, fax, contact_person, Jabatan, Email, hp, npwp, nama_bank, no_rekening, ot_start, description, user_id, created, changed, active', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -81,7 +85,9 @@ class Supplier extends CActiveRecord
 			'Jabatan' => 'Jabatan',
 			'Email' => 'Email',
 			'hp' => 'Hp',
-			'npwp' => 'NPWP',
+			'npwp' => 'Npwp',
+			'nama_bank' => 'Nama Bank',
+			'no_rekening' => 'No Rekening',
 			'ot_start' => 'Ot Start',
 			'description' => 'Description',
 			'user_id' => 'User',
@@ -119,6 +125,9 @@ class Supplier extends CActiveRecord
 		$criteria->compare('Jabatan',$this->Jabatan,true);
 		$criteria->compare('Email',$this->Email,true);
 		$criteria->compare('hp',$this->hp,true);
+		$criteria->compare('npwp',$this->npwp,true);
+		$criteria->compare('nama_bank',$this->nama_bank,true);
+		$criteria->compare('no_rekening',$this->no_rekening,true);
 		$criteria->compare('ot_start',$this->ot_start,true);
 		$criteria->compare('description',$this->description,true);
 		$criteria->compare('user_id',$this->user_id);

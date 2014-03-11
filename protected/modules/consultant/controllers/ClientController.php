@@ -27,7 +27,7 @@ class ClientController extends RController
 	 */
 	public function actionCreate()
 	{
-		$model=new Client;
+		$model=new Client('create');
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -58,7 +58,7 @@ class ClientController extends RController
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
-
+		$model->scenario='create';
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
@@ -107,6 +107,28 @@ class ClientController extends RController
 		$this->render('index',array(
 			'client'=>$client,
 			'pages' => $pages
+		));
+	}
+
+	public function actionHistory($client_number=NULL)
+	{
+		$model=new Client('history');
+		$model->unsetAttributes();  // clear any default values
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['Client']))
+		{
+			$model->attributes=$_POST['Client'];
+			if($model->validate())
+				$treatment = Person::model()->findByAttributes(array('client'=>$firstName));
+
+				$this->redirect(array('history'));
+		}
+
+		$this->render('historycal',array(
+			'model'=>$model,
 		));
 	}
 

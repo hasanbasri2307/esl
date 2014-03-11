@@ -39,7 +39,7 @@ class Io extends CActiveRecord
 		return array(
 			array('type, branch_id, user_id, created, changed', 'required'),
 			array('from, to, suplier, branch_id, user_id, created, changed, status', 'numerical', 'integerOnly'=>true),
-			array('type', 'length', 'max'=>7),
+			array('type', 'length', 'max'=>20),
 			array('note', 'length', 'max'=>100),
 			array('description, date, date_deliver', 'safe'),
 			// The following rule is used by search().

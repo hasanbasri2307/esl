@@ -13,6 +13,8 @@
         <?php echo $form->textFieldRow($model,'Jabatan'); ?>
         <?php echo $form->textFieldRow($model,'Email'); ?>
         <?php echo $form->textFieldRow($model,'npwp'); ?>
+        <?php echo $form->textFieldRow($model,'nama_bank'); ?>
+        <?php echo $form->textFieldRow($model,'no_rekening'); ?>
 	
 <div class="form-actions">
             <?php $this->widget('bootstrap.widgets.TbButton', array('buttonType'=>'submit', 'type'=>'primary', 'label'=>'Submit')); ?>

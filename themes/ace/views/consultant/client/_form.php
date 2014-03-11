@@ -8,7 +8,7 @@
         <?php echo $form->radioButtonListInlineRow($model, 'sex_id',
         CHtml::listData(Sex::model()->findAll(), 'sex_id', 'sex'),array('empty'=>'-')); ?>
         <?php echo $form->datepickerRow($model, 'dob', array('prepend'=>'<i class="icon-calendar"></i>')); ?>
-        <?php echo $form->textFieldRow($model,'dop'); ?>
+
 	<?php echo $form->radioButtonListInlineRow($model, 'marital_status_id',
         CHtml::listData(MaritalStatus::model()->findAll(), 'marital_status_id', 'marital_status'),array('empty'=>'-')); ?>
 	<?php echo $form->radioButtonListInlineRow($model, 'nationality_id',

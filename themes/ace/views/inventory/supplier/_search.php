@@ -42,6 +42,36 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->label($model,'contact_person'); ?>
+		<?php echo $form->textField($model,'contact_person',array('size'=>20,'maxlength'=>50)); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'Email'); ?>
+		<?php echo $form->textField($model,'Email',array('size'=>20,'maxlength'=>50)); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'Jabatan'); ?>
+		<?php echo $form->textField($model,'Jabatan',array('size'=>20,'maxlength'=>50)); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'npwp'); ?>
+		<?php echo $form->textField($model,'npwp',array('size'=>20,'maxlength'=>50)); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'nama_bank'); ?>
+		<?php echo $form->textField($model,'nama_bank',array('size'=>20,'maxlength'=>50)); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'no_rekening'); ?>
+		<?php echo $form->textField($model,'no_rekening',array('size'=>20,'maxlength'=>30)); ?>
+	</div>
+
+	<div class="row">
 		<?php echo $form->label($model,'ot_start'); ?>
 		<?php echo $form->textField($model,'ot_start'); ?>
 	</div>

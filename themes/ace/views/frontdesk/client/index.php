@@ -27,7 +27,7 @@ $this->renderPartial('../menu',array(
                                     <div class="infobox infobox-blue2  ">
                                         <div class="infobox-progress">
                                             <div class="easy-pie-chart percentage" data-percent="90" data-size="90">
-                                                <a href="<?php echo Yii::app()->createUrl('consultant/client/view', array('id'=>$item->client_id));?>"><?php if($item->pict == NULL) { echo CHtml::image(Yii::app()->request->baseUrl.'/upload/client/test.jpg',"image",array("class"=>"pict")) ; } else { echo CHtml::image(Yii::app()->request->baseUrl.'/upload/client/'.$item->pict,"image",array("class"=>"pict")) ;} ?></a>
+                                                <a href="<?php echo Yii::app()->createUrl('frontdesk/client/view', array('id'=>$item->client_id));?>"><?php if($item->pict == NULL) { echo CHtml::image(Yii::app()->request->baseUrl.'/upload/client/test.jpg',"image",array("class"=>"pict")) ; } else { echo CHtml::image(Yii::app()->request->baseUrl.'/upload/client/'.$item->pict,"image",array("class"=>"pict")) ;} ?></a>
                                             </div>
                                         </div>
 

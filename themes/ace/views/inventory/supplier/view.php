@@ -34,7 +34,10 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
 		'hp',
 		'Email',
 		'Jabatan',
-		'contact_person'
+		'contact_person',
+		'npwp',
+		'nama_bank',
+		'no_rekening'
 	),
 )); 
 

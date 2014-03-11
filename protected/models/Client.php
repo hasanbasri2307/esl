@@ -48,18 +48,20 @@ class Client extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('client_name, sex_id, id_card_id, dop, dob, address, city, zip_code, telephone, phone_kantor, hp1, hp2, email, source_info_id, branch_id, user_id, created, changed', 'required'),
+			array('client_number','required','on'=>'history'),
+			array('client_name, sex_id, id_card_id, dob, address, city, zip_code, telephone, phone_kantor, hp1, hp2, email, source_info_id, branch_id, user_id, created, changed', 'required','on'=>'create'),
 			array('sex_id, marital_status_id, nationality_id, id_card_id, source_info_id, branch_id, user_id, created, changed, active', 'numerical', 'integerOnly'=>true),
 			array('client_name', 'length', 'max'=>30),
-			array('id_card_number, client_number, dop, city', 'length', 'max'=>20),
+			array('id_card_number, client_number, city', 'length', 'max'=>20),
 			array('address', 'length', 'max'=>225),
 			array('zip_code', 'length', 'max'=>10),
 			array('telephone, phone_kantor, hp1, hp2', 'length', 'max'=>15),
 			array('email', 'length', 'max'=>50),
+
 			array('pict', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('client_id, client_name, sex_id, marital_status_id, nationality_id, id_card_id, id_card_number, client_number, dop, dob, address, city, zip_code, telephone, phone_kantor, hp1, hp2, email, pict, source_info_id, branch_id, user_id, created, changed, active', 'safe', 'on'=>'search'),
+			array('client_id, client_name, sex_id, marital_status_id, nationality_id, id_card_id, id_card_number, client_number, dob, address, city, zip_code, telephone, phone_kantor, hp1, hp2, email, pict, source_info_id, branch_id, user_id, created, changed, active', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -86,9 +88,8 @@ class Client extends CActiveRecord
 			'marital_status_id' => 'Marital Status',
 			'nationality_id' => 'Nationality',
 			'id_card_id' => 'Id Card',
-			'id_card_number' => 'Id Card Number',
+			'id_card_number' => 'Member Card Number',
 			'client_number' => 'Client Number',
-			'dop' => 'Dop',
 			'dob' => 'Date of Birtday',
 			'address' => 'Address',
 			'city' => 'City',
@@ -134,7 +135,7 @@ class Client extends CActiveRecord
 		$criteria->compare('id_card_id',$this->id_card_id);
 		$criteria->compare('id_card_number',$this->id_card_number,true);
 		$criteria->compare('client_number',$this->client_number,true);
-		$criteria->compare('dop',$this->dop,true);
+
 		$criteria->compare('dob',$this->dob,true);
 		$criteria->compare('address',$this->address,true);
 		$criteria->compare('city',$this->city,true);

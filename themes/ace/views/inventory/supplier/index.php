@@ -44,6 +44,7 @@ $this->renderPartial('../menu',array(
                     array('name'=>'Jabatan','header'=>'Jabatan'),
                     array('name'=>'Email','header'=>'Email'),
                     array('name'=>'hp','header'=>'Handphone'),
+                    
                     array(
                         'class'=>'bootstrap.widgets.TbButtonColumn',
                         //--------------------- begin new code --------------------------
