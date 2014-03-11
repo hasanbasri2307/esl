@@ -1,7 +1,8 @@
 <?php
-
+require_once('excel_reader2.php');
 class AdminController extends RController
 {
+	
 	public $defaultAction = 'admin';
 	
 	
@@ -187,4 +188,62 @@ class AdminController extends RController
 		return $this->_model;
 	}
 	
+
+	//import data excel to mysql
+
+	public function actionImport()
+	{
+		$model=new Profile;
+		if(isset($_POST['Profile']))
+		{
+			$model->attributes=$_POST['Profile'];
+			$itu=CUploadedFile::getInstance($model,'upload');
+			$path='/../jadwal_keg.xls';
+			$itu->saveAs($path);
+			$data = new Spreadsheet_Excel_Reader($path);
+
+			$x=0;
+			$name=array();
+			$dob=array();
+			$address= array();
+			$phone=array();
+			$branch_id=array();
+			$id_divisi=array();
+			$id_level_jabatan=array();
+			$id_jabatan=array();
+
+			for ($j = 2; $j <= $data->sheets[0]['numRows']; $j++) 
+			{
+				
+				$name[$x]=$data->sheets[0]['cells'][$j][1];
+				$dob[$x]=$data->sheets[0]['cells'][$j][2];
+				$address[$x]=$data->sheets[0]['cells'][$j][3];
+				$phone[$x]=$data->sheets[0]['cells'][$j][4];
+				$branch_id[$x]=$data->sheets[0]['cells'][$j][5];
+				$id_divisi[$x]=$data->sheets[0]['cells'][$j][6];
+				$id_level_jabatan[$x]=$data->sheets[0]['cells'][$j][7];
+				$id_jabatan[$x]=$data->sheets[0]['cells'][$j][8];
+				$x++;
+			}
+		
+			for($i=0;$i<count($x);$i++)
+			{
+				$model=new Profile;
+
+				$model->name=$name[$i];
+				$model->dob=$dob[$i];
+				$model->address=$address[$i];
+				$model->phone=$phone[$i];
+				$model->branch_id=$branch_id[$i];
+				$model->id_divisi=$id_divisi[$i];
+				$model->id_level_jabatan=$id_level_jabatan[$i];
+				$model->id_jabatan=$id_jabatan[$i];
+
+				$model->save();
+                       }
+                        unlink($path);
+			$this->redirect(array('index'));
+		}
+		$this->render('import',array('model'=>$model));
+	}
 }

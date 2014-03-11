@@ -20,6 +20,8 @@
  */
 class Profile extends CActiveRecord
 {
+
+	public $filee;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -36,9 +38,10 @@ class Profile extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_divisi, id_level_jabatan, id_jabatan, foto', 'required'),
+			array('id_divisi, id_level_jabatan, id_jabatan', 'required'),
 			array('branch_id, id_divisi, id_level_jabatan, id_jabatan', 'numerical', 'integerOnly'=>true),
 			array('name, address, phone', 'length', 'max'=>255),
+			
 			array('foto', 'length', 'max'=>50),
 			array('dob', 'safe'),
 			// The following rule is used by search().

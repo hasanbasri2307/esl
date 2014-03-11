@@ -43,6 +43,7 @@ return array(
 		'application.modules.frontdesk.components*',
         
 		'ext.giix-components.*', 
+		'ext.phpexcel.*',
 
 	),
 
@@ -117,6 +118,9 @@ return array(
 
 	// application components
 	'components'=>array(
+		'format'=>array(
+        'class'=>'application.components.Formater',
+        ),
     'widgetFactory' => array(
         'widgets' => array(
           'CJuiAutoComplete' => array(
@@ -153,7 +157,7 @@ return array(
 		 
 		 
 		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=esl',
+			'connectionString' => 'mysql:host=localhost;dbname=esl2',
 			'emulatePrepare' => true,
 			'username' => 'root',
 			'password' => 'hasan',

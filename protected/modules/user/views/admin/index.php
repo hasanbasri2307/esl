@@ -31,7 +31,12 @@ $this->menu=array(
                 'label' => 'Create',
                 'url'=>array('create'),
         ));
- 
+		echo "&nbsp; &nbsp;";
+		 $this->widget('bootstrap.widgets.TbButton',array(
+                'label' => 'Import',
+                'url'=>array('import'),
+        ));
+
  ?>
             <?php 
             $this->widget('bootstrap.widgets.TbGridView', array(

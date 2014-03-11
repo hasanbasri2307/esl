@@ -98,4 +98,6 @@ class UserController extends RController
 		}
 		return $this->_model;
 	}
+	
+	
 }
