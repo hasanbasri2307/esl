@@ -13,7 +13,7 @@
         CHtml::listData(MaritalStatus::model()->findAll(), 'marital_status_id', 'marital_status'),array('empty'=>'-')); ?>
 	<?php echo $form->radioButtonListInlineRow($model, 'nationality_id',
         CHtml::listData(Nationality::model()->findAll(), 'nationality_id', 'nationality'),array('empty'=>'-')); ?>
-        <?php echo $form->textFieldRow($model,'id_card_id'); ?>
+       
 	  <?php echo $form->select2Row(
                     $model,
                     'id_card_id',
@@ -23,6 +23,7 @@
                 );
                 
                 ?>
+                 <?php echo $form->textFieldRow($model,'id_card_id'); ?>
          <?php echo $form->textFieldRow($model,'id_card_number'); ?>
           <?php echo $form->textFieldRow($model,'address'); ?>
 	  <?php echo $form->textFieldRow($model,'city'); ?>
