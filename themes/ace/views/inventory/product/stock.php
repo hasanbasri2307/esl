@@ -4,7 +4,7 @@ $this->breadcrumbs=array(
 );
 
 $this->renderPartial('../menu',array(
-			'active'=>array('1'=>true, '1.4'=>true),
+			'active'=>array('1'=>true, '1.8'=>true),
 		));
 ?>
 
@@ -31,7 +31,7 @@ $this->renderPartial('../menu',array(
                 'columns'=>array(
                     array('name'=>'product.product_number', 'header'=>'Product Number'),
                     array('name'=>'product.product_name', 'header'=>'Product Name'),
-                     array('name'=>'unit_homecare', 'header'=>'Unit','value'=>'$data->unitHomecare->unit_name'),
+                     array('name'=>'unit_homecare', 'header'=>'Unit','value'=>'$data->product->unitHomecare->unit_name'),
                      array('name'=>'product.price', 'header'=>'Price'),
                       array('name'=>'quantity', 'header'=>'Quantity'),
                      array(
@@ -39,6 +39,7 @@ $this->renderPartial('../menu',array(
                         //--------------------- begin new code --------------------------
                         'buttons'=>array(
                                         ),
+                        'template'=>'{view}',
                     ),
                 ),
             )); ?>

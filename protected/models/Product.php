@@ -69,7 +69,7 @@ class Product extends CActiveRecord
                         'productDetails' => array(self::HAS_MANY, 'ProductDetail', 'product_id'),
 						'productDetails1' => array(self::HAS_MANY, 'ProductDetail', 'productset_id'),
                         'unitHomecare' => array(self::BELONGS_TO, 'Unit', 'unit_homecare'),
-						'productStock' => array(self::HAS_MANY, 'ProductStock', 'product_id'),
+						
 		);
 	}
 
