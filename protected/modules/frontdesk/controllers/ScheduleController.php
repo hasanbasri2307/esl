@@ -31,7 +31,7 @@ class ScheduleController extends RController
                    
                 }
                 
-                     $branch_id = Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');  
+                     $branch_id =  Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
                     
                 
                 $model = ScheduleRoom::model()->findAll(array('condition'=>'branch_id=:branch_id','params'=>array(':branch_id'=>$branch_id)));
