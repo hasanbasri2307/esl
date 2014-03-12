@@ -38,7 +38,7 @@ class Profile extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_divisi, id_level_jabatan, id_jabatan', 'required'),
+			array('id_divisi, id_level_jabatan, id_jabatan, nik', 'required'),
 			array('branch_id, id_divisi, id_level_jabatan, id_jabatan', 'numerical', 'integerOnly'=>true),
 			array('name, address, phone', 'length', 'max'=>255),
 			
@@ -74,7 +74,8 @@ class Profile extends CActiveRecord
 		return array(
 			'user_id' => 'User',
 			'name' => 'Name',
-			'dob' => 'Dob',
+			'nik'=> 'NIK',
+			'dob' => 'Date of Birthday',
 			'address' => 'Address',
 			'phone' => 'Phone',
 			'branch_id' => 'Branch',
@@ -106,6 +107,7 @@ class Profile extends CActiveRecord
 		$criteria->compare('user_id',$this->user_id);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('dob',$this->dob,true);
+		$criteria->compare('nik',$this->nik,true);
 		$criteria->compare('address',$this->address,true);
 		$criteria->compare('phone',$this->phone,true);
 		$criteria->compare('branch_id',$this->branch_id);
