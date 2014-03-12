@@ -19,10 +19,9 @@ class ProductController extends RController
 	public function actionView($id)
 	{
                 $model = $this->loadModel($id);
-                $model_detail = ProductDetail::model()->findAll(array("condition"=>"productset_id=$id"));
+                
 		$this->render('view',array(
 			'model'=>$model,
-                        'model_detail'=>$model_detail,
 		));
 	}
 
@@ -112,6 +111,26 @@ class ProductController extends RController
                     ),
                 ));
                 $this->render('index',array(
+			'dataProvider'=>$dataProvider,
+		));
+	}
+
+	public function actionStock($search=NULL)
+	{
+				$branch =  Yii::app()->getModule('user')->user()->profile->getAttribute('name');
+                $criteria = new CDbCriteria;
+                $criteria->condition = 'branch_id=:id';
+				$criteria->params = array(':id'=>$branch);
+               // $criteria->condition = "type = 'homecare'";
+                if(isset($search)) 
+                    $criteria->condition = "LOWER(`product_number`) LIKE LOWER('%$search%') OR LOWER(`product_number`) LIKE LOWER('%$search%') OR LOWER(`product_name`) LIKE LOWER('%$search%') OR LOWER(`product_name`) LIKE LOWER('%$search%')";
+		$dataProvider=new CActiveDataProvider('ProductStock', array(
+                    'criteria'=>$criteria,
+                    'pagination'=>array(
+                        'pageSize'=>20,
+                    ),
+                ));
+                $this->render('stock',array(
 			'dataProvider'=>$dataProvider,
 		));
 	}

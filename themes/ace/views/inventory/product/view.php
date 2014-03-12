@@ -36,37 +36,12 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
 		'description',
 		'price',
 		'unit.unit_name',
-		
-               
-		
 	
 	),
 )); 
 
 ?>
-      <?php if(isset($model_detail)){ ?>
-               <table id="autocomplete_table" class="table table-striped table-bordered table-hover">
-            <thead>
-                    <tr>
-                            <th>Product Number</th>
-                            <th>Product Name</th>
-                            <th>Qty</th>
-                    </tr>
-            </thead>
-            <tbody> 
-                <?php
-                foreach($model_detail as $row=>$val){
-                   echo '<tr>  <td>'.$val->product->product_number.'</td>
-                                <td>'.$val->product->product_name.'</td>
-                                <td>'.$val->quantity.'</td>
-                          </tr>';
-                }
-                ?>
-                  </tbody> 
-        </table>
-           <?php } ?> 
     
-               
                 
           
 

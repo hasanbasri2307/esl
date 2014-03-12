@@ -8,6 +8,7 @@ $this->menu=array(
                  array('label'=>'Supplier', 'url'=>array('/inventory/supplier'), 'active'=>isset($active['1.2']) ? true : false,),
                   array('label'=>'Input Product', 'url'=>array('/inventory/product/create'), 'active'=>isset($active['1.3']) ? true : false,),
                  array('label'=>'Master Product', 'url'=>array('/inventory/product'), 'active'=>isset($active['1.4']) ? true : false,),
+                 array('label'=>'Stock Product', 'url'=>array('/inventory/stock'), 'active'=>isset($active['1.8']) ? true : false,),
                   array('label'=>'Product Set', 'url'=>array('/inventory/product'), 'active'=>isset($active['1.5']) ? true : false,),
                    array('label'=>'Treatment Set', 'url'=>array('/inventory/product'), 'active'=>isset($active['1.6']) ? true : false,),
                     array('label'=>'Report', 'url'=>array('/inventory/product'), 'active'=>isset($active['1.7']) ? true : false,),
