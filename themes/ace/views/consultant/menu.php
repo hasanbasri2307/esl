@@ -1,7 +1,7 @@
 <?php
 
 $this->menu=array(
-  
+  array('label'=>'Dashboard','icon' => 'icon-adjust', 'url'=>array('/consultant'), 'active'=>isset($active['6']) ? true : false,),
     array('label'=>'Order','icon' => 'icon-dashboard', 'url'=>array('/consultant'), 'active'=>isset($active['1']) ? true : false,
             'items'=> array(
                 array('label'=>'Order List', 'url'=>array('/consultant/order'), 'active'=>isset($active['1.1']) ? true : false,),

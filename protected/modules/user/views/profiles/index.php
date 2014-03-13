@@ -45,9 +45,9 @@ $this->menu=array(
                     array('name'=>'dob', 'header'=>'Birthday'),
                     array('name'=>'address', 'header'=>'Address'),
 					array('name'=>'phone', 'header'=>'Phone'),
-					 array('name'=>'profile.jabatan.nama_jabatan', 'header'=>'Jabatan'),
-					  array('name'=>'profile.level_jabatan.level_jabatan', 'header'=>'Level Jabatan'),
-					   array('name'=>'profile.divisi.nama_divisi', 'header'=>'Divisi'),
+					 array('name'=>'jabatan.nama_jabatan', 'header'=>'Jabatan'),
+					  array('name'=>'level_jabatan.level_jabatan', 'header'=>'Level Jabatan'),
+					   array('name'=>'divisi.nama_divisi', 'header'=>'Divisi'),
                     array('name'=>'lastvisit_at', 'header'=>'lastvisit at'),
                     
                      array(
