@@ -14,9 +14,7 @@
 		<?php echo $form->passwordFieldRow($model,'password',array('size'=>60,'maxlength'=>128)); ?>
                 <?php echo $form->textFieldRow($model,'email',array('size'=>60,'maxlength'=>128)); ?>
                 <?php echo $form->textFieldRow($profile,'name',array('size'=>60,'maxlength'=>128)); ?>
-         <?php echo $form->datepickerRow($profile, 'dob',
-        array(
-        'prepend'=>'<i class="icon-calendar"></i>')); ?>
+         <?php echo $form->datepickerRow($profile, 'dob', array('prepend'=>'<i class="icon-calendar"></i>')); ?>
                  <?php echo $form->select2Row(
                     $profile,
                     'branch_id',

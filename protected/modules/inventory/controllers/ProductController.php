@@ -119,8 +119,7 @@ class ProductController extends RController
 	{
 				$branch =  Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
                 $criteria = new CDbCriteria;
-                $criteria->with = array("product"=>array("select"=>"product.product_number,product.product_name")); 
-                $criteria->together = true;
+                
                 $criteria->condition = 'branch_id=:id';
 				$criteria->params = array(':id'=>$branch);
                // $criteria->condition = "type = 'homecare'";

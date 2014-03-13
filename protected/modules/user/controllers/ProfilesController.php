@@ -66,7 +66,7 @@ class ProfilesController extends RController
 	 */
 	public function actionCreate()
 	{
-		$model=new Profiles;
+		$model=new Profiles('create');
 		
         
 		
@@ -97,6 +97,7 @@ class ProfilesController extends RController
 	public function actionUpdate()
 	{
 		$model=$this->loadModel();
+		$model->scenario = 'create';
 		
 		$this->performAjaxValidation(array($model));
 		if(isset($_POST['Profiles']))

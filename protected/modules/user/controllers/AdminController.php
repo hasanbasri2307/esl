@@ -193,10 +193,10 @@ class AdminController extends RController
 
 	public function actionImport()
 	{
-		$model=new Profile;
-		if(isset($_POST['Profile']))
+		$model=new Profiles('upload');
+		if(isset($_POST['Profiles']))
 		{
-			$model->attributes=$_POST['Profile'];
+			$model->attributes=$_POST['Profiles'];
 			$itu=CUploadedFile::getInstance($model,'upload');
 			$path='/../jadwal_keg.xls';
 			$itu->saveAs($path);
@@ -211,6 +211,8 @@ class AdminController extends RController
 			$id_divisi=array();
 			$id_level_jabatan=array();
 			$id_jabatan=array();
+			$username = array();
+			$password= array();
 
 			for ($j = 2; $j <= $data->sheets[0]['numRows']; $j++) 
 			{
@@ -223,13 +225,23 @@ class AdminController extends RController
 				$id_divisi[$x]=$data->sheets[0]['cells'][$j][6];
 				$id_level_jabatan[$x]=$data->sheets[0]['cells'][$j][7];
 				$id_jabatan[$x]=$data->sheets[0]['cells'][$j][8];
+				$username[$x]=$data->sheets[0]['cells'][$j][9];
+				$password[$x]=$data->sheets[0]['cells'][$j][10];
 				$x++;
 			}
 		
-			for($i=0;$i<count($x);$i++)
+			for($i=0;$i<$x;$i++)
 			{
-				$model=new Profile;
 
+				$model2 = new User;
+				$model2->status=1;
+				$model2->username=$username[$i];
+				$model2->password= md5($password[$i]);
+				$model2->save();
+
+
+				$model=new Profiles('upload');
+				$model->user_id = $model2->id;
 				$model->name=$name[$i];
 				$model->dob=$dob[$i];
 				$model->address=$address[$i];
@@ -240,9 +252,15 @@ class AdminController extends RController
 				$model->id_jabatan=$id_jabatan[$i];
 
 				$model->save();
-                       }
+				$auth_assignment = new AuthAssignment;
+								 $auth_assignment->itemname='Administrator';
+                                        $auth_assignment->userid=$model2->id;
+                                        $auth_assignment->data='N;';
+                                        $auth_assignment->save();
+
+            }
                         unlink($path);
-			$this->redirect(array('index'));
+			
 		}
 		$this->render('import',array('model'=>$model));
 	}

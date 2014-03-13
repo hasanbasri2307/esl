@@ -13,9 +13,14 @@
 		
                 <?php echo $form->textFieldRow($model,'name',array('size'=>60,'maxlength'=>128)); ?>
         <?php echo $form->textFieldRow($model,'nik',array('size'=>60,'maxlength'=>30)); ?>
-         <?php echo $form->datepickerRow($model, 'dob',
+        <?php echo $form->datepickerRow(
+        $model,
+        'dob',
         array(
-        'prepend'=>'<i class="icon-calendar"></i>')); ?>
+        'prepend' => '<i class="icon-calendar"></i>'
+        )
+    ); ?>
+
                  <?php echo $form->select2Row(
                     $model,
                     'branch_id',
