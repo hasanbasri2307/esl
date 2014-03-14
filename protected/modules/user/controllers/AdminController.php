@@ -198,7 +198,7 @@ class AdminController extends RController
 		{
 			$model->attributes=$_POST['Profiles'];
 			$itu=CUploadedFile::getInstance($model,'upload');
-			$path='/../jadwal_keg.xls';
+			$path='/../upload.xls';
 			$itu->saveAs($path);
 			$data = new Spreadsheet_Excel_Reader($path);
 
@@ -213,7 +213,7 @@ class AdminController extends RController
 			$id_jabatan=array();
 			$username = array();
 			$password= array();
-
+			error_reporting(E_ALL ^ E_NOTICE);
 			for ($j = 2; $j <= $data->sheets[0]['numRows']; $j++) 
 			{
 				
@@ -260,6 +260,20 @@ class AdminController extends RController
 
             }
                         unlink($path);
+                        Yii::app()->user->setFlash('alert','<div class="alert alert-success">
+										<button type="button" class="close" data-dismiss="alert">
+											<i class="icon-remove"></i>
+										</button>
+
+										<strong>
+											<i class="icon-remove"></i>
+											Success !!
+										</strong>
+
+										User Berhasil Di import
+										<br>
+									</div>');
+                        $this->redirect(array('import'));
 			
 		}
 		$this->render('import',array('model'=>$model));

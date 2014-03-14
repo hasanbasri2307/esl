@@ -22,6 +22,9 @@ $this->menu=array(
 </div>
     
  <div class="row-fluid">
+ <?php if(Yii::app()->user->hasFlash('alert')): ?>
+    <?php echo Yii::app()->user->getFlash('alert'); ?>
+<?php endif; ?>
 	<div class="span12">
            <?php echo $this->renderPartial('_upload', array('model'=>$model)); ?>
 

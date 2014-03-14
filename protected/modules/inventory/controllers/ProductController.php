@@ -157,22 +157,23 @@ class ProductController extends RController
       {
          
             
+               
                if (Yii::app()->request->isAjaxRequest && isset($_GET['term'])) {
-				   $branch = Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
+				   	$branch = Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
                     $search = strtolower($_GET["term"]);
-                    $criteria = new CDbCriteria;
-					$criteria->with = array("product"=>array("select"=>"product.product_number,product.product_name")); 
-					$criteria->together = true; // ADDED THIS
-                    if(isset($search))   
-                     $criteria->condition = "branch_id = $branch and LOWER(`product.product_number`) LIKE LOWER('%$search%')";
-                     $product = ProductStock::model()->findAll($criteria);
+                    $sql = "select * from esc_product_stock inner join esc_product on esc_product.product_id = esc_product_stock.product_id where esc_product_stock.branch_id ='".$branch."' and  esc_product.product_number LIKE '%$search%' ";
+					$connection=Yii::app()->db;
+					$command=$connection->createCommand($sql);
+					$product = $command->queryAll();
+					
                       foreach ($product as $row=>$val){
-                         $output[] =  array("label"=>$val->product_number, "value"=>$val->product_id,  "value2"=>$val->product_name);
+                         $output[] =  array("label"=>$val['product_number'], "value"=>$val['product_id'],  "value2"=>$val['product_name']);
                       }
                     
                 }
                    
             echo CJSON::encode($output);   
+            
               
               
         }
@@ -181,16 +182,15 @@ class ProductController extends RController
          
             
                if (Yii::app()->request->isAjaxRequest && isset($_GET['term'])) {
-				   $branch = Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
+				  	$branch = Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
                     $search = strtolower($_GET["term"]);
-                    $criteria = new CDbCriteria;
-					$criteria->with = array("product"=>array("select"=>"product.product_name")); 
-					$criteria->together = true; // ADDED THIS
-                    if(isset($search))   
-                     $criteria->condition = "branch_id = $branch and  LOWER(`product.product_name`) LIKE LOWER('%$search%')";
-                     $product = ProductStock::model()->findAll($criteria);
+                    $sql = "select * from esc_product_stock inner join esc_product on esc_product.product_id = esc_product_stock.product_id where esc_product_stock.branch_id ='".$branch."' and  esc_product.product_name LIKE '%$search%' ";
+					$connection=Yii::app()->db;
+					$command=$connection->createCommand($sql);
+					$product = $command->queryAll();
+					
                       foreach ($product as $row=>$val){
-                         $output[] =  array("label"=>$val->product_name, "value"=>$val->product_id,  "value2"=>$val->product_number,"stock" => $val->quantity);
+                         $output[] =  array("label"=>$val['product_number'], "value"=>$val['product_id'],  "value2"=>$val['product_name']);
                       }
                     
                 }
