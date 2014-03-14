@@ -21,8 +21,9 @@
                     <tr>
                             <th>Product Number</th>
                             <th>Product Name</th>
+                            <th>Kadaluarsa</th>
                             <th>Qty</th>
-                             <th>Qty Delivery</th>
+                            <th>Qty Delivery</th>
                     </tr>
             </thead>
             <tbody>
@@ -31,8 +32,10 @@
                     $ProductNumber = isset($_POST["ProductNumber"][$row])? $_POST["ProductNumber"][$row] : " " ;
                     $ProductName = isset($_POST["ProductName"][$row])? $_POST["ProductName"][$row] : " ";
                     $ProductQuantity = isset($_POST["ProductQuantity"][$row])? $_POST["ProductQuantity"][$row] : " ";
+                     $kadaluarsa = isset($_POST["kadaluarsa"][$row])? $_POST["kadaluarsa"][$row] : " ";
                     echo '<tr>  <td><input readonly="readonly" type="hidden" value="'.$val.'" name="ProductId[]"><input readonly="readonly" type="text" value="'.$ProductNumber.'" name="ProductNumber[]"></td>
                                 <td><input readonly="readonly" type="text" value="'.$ProductName.'" name="ProductName[]"></td>
+                                <td><input readonly="readonly" type="text" value="'.$kadaluarsa.'" name="kadaluarsa[]"></td>
                                 <td><input readonly="readonly" type="text" value="'.$ProductQuantity.'" name="ProductQuantity[]"></td>
                                      <td><input readonly="readonly" type="text" value="'.$ProductQuantityDel.'" name="ProductQuantity[]"></td>
                                     
@@ -45,6 +48,7 @@
                    
                    echo '<tr>  <td><input readonly="readonly" type="hidden" value="'.$val->io_detail_id.'" name="IoDetailId[]"><input readonly="readonly" type="hidden" value="'.$val->product_id.'" name="ProductId[]"><input readonly="readonly" type="text" value="'.$val->product->product_number.'" name="ProductNumber[]"></td>
                                 <td><input readonly="readonly" type="text" value="'.$val->product->product_name.'" name="ProductName[]"></td>
+                                <td><input readonly="readonly" type="text" value="'.$val->kadaluarsa.'" name="kadaluarsa[]"></td>
                                 <td><input readonly="readonly" type="text" value="'.$val->quantity.'" name="ProductQuantity[]"></td>
                                  <td><input type="text" value="'.$val->quantity_deliver.'" name="ProductQuantityDeliver[]"></td>   
                           </tr>';

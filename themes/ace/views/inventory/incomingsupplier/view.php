@@ -42,6 +42,7 @@ $this->renderPartial('../menu',array(
                             <th>Product Number</th>
                             <th>Product Name</th>
                             <th>Qty</th>
+                            <th>kadaluarsa</th>
                     </tr>
             </thead>
             <tbody> 
@@ -50,6 +51,7 @@ $this->renderPartial('../menu',array(
                    echo '<tr>  <td>'.$val->product->product_number.'</td>
                                 <td>'.$val->product->product_name.'</td>
                                 <td>'.$val->quantity.'</td>
+                                <td>'.$val->kadaluarsa.'</td>
                           </tr>';
                 }
                 ?>

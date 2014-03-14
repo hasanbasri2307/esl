@@ -85,7 +85,7 @@ class Supplier extends CActiveRecord
 			'Jabatan' => 'Jabatan',
 			'Email' => 'Email',
 			'hp' => 'Hp',
-			'npwp' => 'Npwp',
+			'npwp' => 'NPWP',
 			'nama_bank' => 'Nama Bank',
 			'no_rekening' => 'No Rekening',
 			'ot_start' => 'Ot Start',

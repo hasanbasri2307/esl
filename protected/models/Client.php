@@ -25,6 +25,7 @@
  * @property string $pict
  * @property integer $source_info_id
  * @property integer $branch_id
+ * @property string $date_join
  * @property integer $user_id
  * @property integer $created
  * @property integer $changed
@@ -48,20 +49,18 @@ class Client extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('client_number','required','on'=>'history'),
-			array('client_name, sex_id, id_card_id, dob, address, city, zip_code, telephone, phone_kantor, hp1, hp2, email, source_info_id, branch_id, user_id, created, changed', 'required','on'=>'create'),
+			array('client_name, sex_id, id_card_id, dop, dob, address, city, zip_code, telephone, phone_kantor, hp1, hp2, email, source_info_id, branch_id, date_join, user_id, created, changed', 'required'),
 			array('sex_id, marital_status_id, nationality_id, id_card_id, source_info_id, branch_id, user_id, created, changed, active', 'numerical', 'integerOnly'=>true),
 			array('client_name', 'length', 'max'=>30),
-			array('id_card_number, client_number, city', 'length', 'max'=>20),
+			array('id_card_number, client_number, dop, city', 'length', 'max'=>20),
 			array('address', 'length', 'max'=>225),
 			array('zip_code', 'length', 'max'=>10),
 			array('telephone, phone_kantor, hp1, hp2', 'length', 'max'=>15),
 			array('email', 'length', 'max'=>50),
-
-			array('pict', 'length', 'max'=>100),
+			
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('client_id, client_name, sex_id, marital_status_id, nationality_id, id_card_id, id_card_number, client_number, dob, address, city, zip_code, telephone, phone_kantor, hp1, hp2, email, pict, source_info_id, branch_id, user_id, created, changed, active', 'safe', 'on'=>'search'),
+			array('client_id, client_name, sex_id, marital_status_id, nationality_id, id_card_id, id_card_number, client_number, dop, dob, address, city, zip_code, telephone, phone_kantor, hp1, hp2, email, pict, source_info_id, branch_id, date_join, user_id, created, changed, active', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -73,6 +72,12 @@ class Client extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'sex' => array(self::BELONGS_TO,'Sex', 'sex_id'),
+			'nationality' => array(self::BELONGS_TO,'Nationality', 'nationality_id'),
+			'idcard' => array(self::BELONGS_TO,'IdCard', 'id_card_id'),
+			'branch' => array(self::BELONGS_TO,'Branch', 'branch_id'),
+			'sourceInfo' => array(self::BELONGS_TO,'SourceInfo', 'source_info_id'),
+			'maritalStatus' => array(self::BELONGS_TO,'MaritalStatus', 'marital_status_id'),
 		);
 	}
 
@@ -84,24 +89,26 @@ class Client extends CActiveRecord
 		return array(
 			'client_id' => 'Client',
 			'client_name' => 'Client Name',
-			'sex_id' => 'Gender',
+			'sex_id' => 'Sex',
 			'marital_status_id' => 'Marital Status',
 			'nationality_id' => 'Nationality',
 			'id_card_id' => 'Id Card',
 			'id_card_number' => 'Member Card Number',
 			'client_number' => 'Client Number',
-			'dob' => 'Date of Birtday',
+			'dop' => 'Date Of Place',
+			'dob' => 'Date Of Birthday',
 			'address' => 'Address',
 			'city' => 'City',
 			'zip_code' => 'Zip Code',
-			'telephone' => 'Home Number',
-			'phone_kantor' => 'Office Number',
-			'hp1' => 'Handphone 1',
-			'hp2' => 'Handphone 2',
+			'telephone' => 'Telephone',
+			'phone_kantor' => 'Phone Kantor',
+			'hp1' => 'Hp1',
+			'hp2' => 'Hp2',
 			'email' => 'Email',
 			'pict' => 'Pict',
 			'source_info_id' => 'Source Info',
 			'branch_id' => 'Branch',
+			'date_join' => 'Date Join',
 			'user_id' => 'User',
 			'created' => 'Created',
 			'changed' => 'Changed',
@@ -135,7 +142,7 @@ class Client extends CActiveRecord
 		$criteria->compare('id_card_id',$this->id_card_id);
 		$criteria->compare('id_card_number',$this->id_card_number,true);
 		$criteria->compare('client_number',$this->client_number,true);
-
+		$criteria->compare('dop',$this->dop,true);
 		$criteria->compare('dob',$this->dob,true);
 		$criteria->compare('address',$this->address,true);
 		$criteria->compare('city',$this->city,true);
@@ -148,6 +155,7 @@ class Client extends CActiveRecord
 		$criteria->compare('pict',$this->pict,true);
 		$criteria->compare('source_info_id',$this->source_info_id);
 		$criteria->compare('branch_id',$this->branch_id);
+		$criteria->compare('date_join',$this->date_join,true);
 		$criteria->compare('user_id',$this->user_id);
 		$criteria->compare('created',$this->created);
 		$criteria->compare('changed',$this->changed);

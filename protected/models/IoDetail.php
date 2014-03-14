@@ -9,6 +9,7 @@
  * @property integer $product_id
  * @property integer $quantity
  * @property integer $quantity_deliver
+ * @property string $kadaluarsa
  */
 class IoDetail extends CActiveRecord
 {
@@ -28,11 +29,12 @@ class IoDetail extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('io_id, product_id, quantity', 'required'),
+			array('io_id, product_id, quantity, kadaluarsa', 'required'),
 			array('io_id, product_id, quantity, quantity_deliver', 'numerical', 'integerOnly'=>true),
+			array('kadaluarsa', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('io_detail_id, io_id, product_id, quantity, quantity_deliver', 'safe', 'on'=>'search'),
+			array('io_detail_id, io_id, product_id, quantity, quantity_deliver, kadaluarsa', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -44,8 +46,7 @@ class IoDetail extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-                        'product' => array(self::BELONGS_TO, 'Product', 'product_id'),
-						'product' => array(self::BELONGS_TO, 'Product', 'product_id'),
+			'product' => array(self::BELONGS_TO, 'Product', 'product_id'),
 		);
 	}
 
@@ -60,6 +61,7 @@ class IoDetail extends CActiveRecord
 			'product_id' => 'Product',
 			'quantity' => 'Quantity',
 			'quantity_deliver' => 'Quantity Deliver',
+			'kadaluarsa' => 'Kadaluarsa',
 		);
 	}
 
@@ -86,6 +88,7 @@ class IoDetail extends CActiveRecord
 		$criteria->compare('product_id',$this->product_id);
 		$criteria->compare('quantity',$this->quantity);
 		$criteria->compare('quantity_deliver',$this->quantity_deliver);
+		$criteria->compare('kadaluarsa',$this->kadaluarsa,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

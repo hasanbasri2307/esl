@@ -69,6 +69,7 @@ class IncomingSupplierController extends RController
                                         $model_product->io_id = $model->io_id;
                                         $model_product->product_id = $val;
                                         $model_product->quantity = $_POST["ProductQuantity"][$key];
+                                        $model_product->kadaluarsa = $_POST["kadaluarsa"][$key];
                                         $model_product->save();
 										
 										$branch = Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
@@ -179,6 +180,7 @@ class IncomingSupplierController extends RController
 				$criteria->with = array("supplier"=>array("select"=>"supplier.supplier_name")); 
 				$criteria->together = true; // ADDED THIS
                 $criteria->condition = " `branch_id` = $branch_id and suplier <> 0";
+                $criteria->order = 'io_id ASC';
 				
                 if(isset($search)) 
                     $criteria->condition .= " AND LOWER(`supplier_name`) LIKE LOWER('%$search%') OR LOWER(`supplier_name`) LIKE LOWER('%$search%') ";

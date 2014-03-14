@@ -28,11 +28,12 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
 	'attributes'=>array(
 		'client_id',
 		'client_name',
-		'sex_id',
-		'marital_status_id',
-		'nationality_id',
-		'id_card',
+		'sex.sex',
+		'maritalStatus.marital_status',
+		'nationality.nationality',
+		'idcard.id_card',
 		'id_card_number',
+    'client_number',
 		'address',
 		'telephone',
 		'hp1',
@@ -42,7 +43,9 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
 		'city',
 		'zip_code',
 		'telephone',
-		'source_info_id',
+		'sourceInfo.source_info',
+    'branch.branch_name',
+    'date_join',
 		'pict',
 	
 		

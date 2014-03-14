@@ -32,6 +32,7 @@
                             <th>Product Number</th>
                             <th>Product Name</th>
                             <th>Qty</th>
+                            <th>Masa Kadaluarsa</th>
                     </tr>
             </thead>
             <tbody>
@@ -40,9 +41,11 @@
                     $ProductNumber = isset($_POST["ProductNumber"][$row])? $_POST["ProductNumber"][$row] : " " ;
                     $ProductName = isset($_POST["ProductName"][$row])? $_POST["ProductName"][$row] : " ";
                     $ProductQuantity = isset($_POST["ProductQuantity"][$row])? $_POST["ProductQuantity"][$row] : " ";
+                    $kadaluarsa = isset($_POST["kadaluarsa"][$row])? $_POST["kadaluarsa"][$row] : " ";
                     echo '<tr>  <td><input readonly="readonly" type="hidden" value="'.$val.'" name="ProductId[]"><input readonly="readonly" type="text" value="'.$ProductNumber.'" name="ProductNumber[]"></td>
                                 <td><input readonly="readonly" type="text" value="'.$ProductName.'" name="ProductName[]"></td>
                                 <td><input readonly="readonly" type="text" value="'.$ProductQuantity.'" name="ProductQuantity[]"></td>
+                                <td><input readonly="readonly" type="text" value="'.$kadaluarsa.'" name="kadaluarsa[]"></td>
                                     <td><a class="delete2" title="Delete" rel="tooltip" href="#" onclick="javascript:delete_row(\'product'.$val.'\');" id="product'.$val.'"><i class="icon-trash"></i></a></td>
                           </tr>';
                 }
@@ -54,6 +57,7 @@
                    echo '<tr>  <td><input readonly="readonly" type="hidden" value="'.$val->product_id.'" name="ProductId[]"><input readonly="readonly" type="text" value="'.$val->product->product_number.'" name="ProductNumber[]"></td>
                                 <td><input readonly="readonly" type="text" value="'.$val->product->product_name.'" name="ProductName[]"></td>
                                 <td><input readonly="readonly" type="text" value="'.$val->quantity.'" name="ProductQuantity[]"></td>
+                                <td><input readonly="readonly" type="text" value="'.$val->kadaluarsa.'" name="kadaluarsa[]"></td>
                                     <td><a class="delete2" title="Delete" rel="tooltip" href="#" onclick="javascript:delete_row(\'product'.$val->product_id.'\');" id="product'.$val->product_id.'"><i class="icon-trash"></i></a></td>
                           </tr>';
                 }
@@ -107,6 +111,7 @@
                     
                     </td>
                     <td><?php echo CHtml::textField('Product_quantity', '',array('size'=>25)); ?></td>
+                    <td><?php echo CHtml::textField('kadaluarsa_nya', '',array('size'=>25)); ?></td>
                     <td><a   title="Add" rel="tooltip" href="#" onclick="" id="AddProduct"><i class="icon-plus"></i></a></td>
                 </tr>
             </tbody> 
@@ -140,11 +145,12 @@
         
         var rowCount = $('#autocomplete_table tr').length;
         if(rowCount<=17){
-            jQuery('#autocomplete_table tr:last').before('<tr><td><input readonly="readonly" type="hidden" value="'+jQuery('#Product_id').val()+'" name="ProductId[]"><input readonly="readonly" type="text" value="'+jQuery('#Product_number').val()+'" name="ProductNumber[]"></td><td><input readonly="readonly" type="text" value="'+jQuery('#Product_name').val()+'" name="ProductName[]"></td><td><input readonly="readonly" type="text" value="'+jQuery('#Product_quantity').val()+'" name="ProductQuantity[]"></td><td><a class="delete2" title="Delete" rel="tooltip" href="#" onclick="javascript:delete_row(\'product'+jQuery('#Product_id').val()+'\');" id="product'+jQuery('#Product_id').val()+'"><i class="icon-trash"></i></a></td></tr>');
+            jQuery('#autocomplete_table tr:last').before('<tr><td><input readonly="readonly" type="hidden" value="'+jQuery('#Product_id').val()+'" name="ProductId[]"><input readonly="readonly" type="text" value="'+jQuery('#Product_number').val()+'" name="ProductNumber[]"></td><td><input readonly="readonly" type="text" value="'+jQuery('#Product_name').val()+'" name="ProductName[]"></td><td><input readonly="readonly" type="text" value="'+jQuery('#Product_quantity').val()+'" name="ProductQuantity[]"></td><td><input readonly="readonly" type="text" value="'+jQuery('#kadaluarsa_nya').val()+'" name="kadaluarsa[]"></td><td><a class="delete2" title="Delete" rel="tooltip" href="#" onclick="javascript:delete_row(\'product'+jQuery('#Product_id').val()+'\');" id="product'+jQuery('#Product_id').val()+'"><i class="icon-trash"></i></a></td></tr>');
             jQuery('#Product_name').val('');
             jQuery('#Product_quantity').val('');
             jQuery('#Product_id').val('');
             jQuery('#Product_number').val('');
+            jQuery('#kadaluarsa_nya').val('');
             jQuery('#Product_number').focus();
         }
         
