@@ -42,9 +42,11 @@ class OutgoingController extends RController
                         $model->to =$_POST['Io']['to'];
                         $model->from =Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
 						$branch = Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
+						$model->branch_id = $branch;
                         $model->date =  AccountingModule::format_date($model->date);
-			if($model->save()){
+						if($model->save()){
                                 if(isset($_POST['ProductId'])){
+									
                                     foreach ($_POST['ProductId'] as $key=>$val){
                                         //check product sudah ada atau belum
                                         $model_product = new IoDetail();
@@ -52,25 +54,12 @@ class OutgoingController extends RController
                                         $model_product->product_id = $val;
                                         $model_product->quantity = $_POST["ProductQuantity"][$key];
                                         $model_product->save();
-                                        $ps = ProductStock::model()->find(array("condition"=>"product_id =$val AND branch_id=$model->to".$model->to));
+                                        $ps = ProductStock::model()->find(array("condition"=>"product_id =$val AND branch_id=$branch"));
                                         if(isset($ps)){
-                                            $ps->quantity=$ps->quantity + $model_product->quantity;
+                                            $ps->quantity=$ps->quantity - $model_product->quantity;
                                             $ps->changed=$time;
                                             $ps->save();
-                                        }else{
-                                            
-                                            $model_ps = new ProductStock();
-                                            $model_ps->product_id=$val;
-                                            $model_ps->branch_id=$model->to;
-                                            $model_ps->quantity=$model_product->quantity;
-                                            $model_ps->changed=$time;
-                                            $model_ps->save();
-                                            
                                         }
-										 $ps2 = ProductStock::model()->find(array("condition"=>"product_id =$val AND branch_id=$branch"));
-										  $ps2->quantity=$ps2->quantity - $model_product->quantity;
-										 $ps->changed=$time;
-                                            $ps->save();
 										
                                     }
                                 }

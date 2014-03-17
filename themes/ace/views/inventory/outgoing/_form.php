@@ -6,11 +6,16 @@
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
 	<?php echo $form->errorSummary($model,'<button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>'); ?>
    
-   		<?php echo $form->select2Row(
+   		<?php 
+		$branch = Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id'); 
+		$criteria = new CDbCriteria();
+		$criteria->condition = 'branch_id not in(:branch)';
+		$criteria->params = array(':branch'=>$branch);	
+		echo $form->select2Row(
                     $model,
                     'to',
                     array(
-                        'data' => CHtml::listData(Branch::model()->findAll(), 'branch_id', 'branch_name'),
+                        'data' => CHtml::listData(Branch::model()->findAll($criteria), 'branch_id', 'branch_name'),
                     )
                 );
                 
@@ -32,7 +37,7 @@
                             <th>Product Number</th>
                             <th>Product Name</th>
                             <th>Stock Product</th>
-                            <th>Qty</th>
+                            <th>Qty Out</th>
                     </tr>
             </thead>
             <tbody>
@@ -72,7 +77,8 @@
                             'focus'=> 'js:function( event, ui ) {
                                 jQuery("#Product_number").val( ui.item.label);
                                 jQuery("#Product_name").val( ui.item.value2);
-                                 jQuery("#Product_id").val(ui.item.value); 
+                                jQuery("#Product_id").val(ui.item.value); 
+                                jQuery("#stock_product").val(ui.item.stock); 
                                 return false;
                             }',
                             'select'=>'js:function( event, ui ) {
@@ -92,10 +98,10 @@
                             'minChars'=>1,
                             'autoFill'=>false,
                             'focus'=> 'js:function( event, ui ) {
-                                jQuery("#Product_number").val( ui.item.value2);
-                                jQuery("#Product_name").val( ui.item.label);
+                                jQuery("#Product_number").val( ui.item.label);
+                                jQuery("#Product_name").val( ui.item.value2);
                                  jQuery("#Product_id").val(ui.item.value);
-								 jQuery("#stock").val(ui.item.stock); 
+								 jQuery("#stock_product").val(ui.item.stock); 
                                 return false;
                             }',
                             'select'=>'js:function( event, ui ) {
@@ -112,7 +118,7 @@
 									
 
 									
-										<input type="text" id="stock" readonly="true" />
+										<input type="text" id="stock_product" readonly name="stock" />
 									
 								</td>
                     <td><?php echo CHtml::textField('Product_quantity', '',array('size'=>25)); ?></td>
@@ -153,11 +159,12 @@
             }
         });
         if(error==false) {
-        jQuery('#autocomplete_table tr:last').before('<tr><td><input readonly="readonly" type="hidden" value="'+jQuery('#Product_id').val()+'" name="ProductId[]"><input readonly="readonly" type="text" value="'+jQuery('#Product_number').val()+'" name="ProductNumber[]"></td><td><input readonly="readonly" type="text" value="'+jQuery('#Product_name').val()+'" name="ProductName[]"></td><td><input readonly="readonly" type="text" value="'+jQuery('#Product_quantity').val()+'" name="ProductQuantity[]"></td><td><a class="delete2" title="Delete" rel="tooltip" href="#" onclick="javascript:delete_row(\'product'+jQuery('#Product_id').val()+'\');" id="product'+jQuery('#Product_id').val()+'"><i class="icon-trash"></i></a></td></tr>');
+        jQuery('#autocomplete_table tr:last').before('<tr><td><input readonly="readonly" type="hidden" value="'+jQuery('#Product_id').val()+'" name="ProductId[]"><input readonly="readonly" type="text" value="'+jQuery('#Product_number').val()+'" name="ProductNumber[]"></td><td><input readonly="readonly" type="text" value="'+jQuery('#Product_name').val()+'" name="ProductName[]"></td><td><input readonly="readonly" type="text" value="'+jQuery('#stock_product').val()+'" name="stock[]"></td><td><input readonly="readonly" type="text" value="'+jQuery('#Product_quantity').val()+'" name="ProductQuantity[]"></td><td><a class="delete2" title="Delete" rel="tooltip" href="#" onclick="javascript:delete_row(\'product'+jQuery('#Product_id').val()+'\');" id="product'+jQuery('#Product_id').val()+'"><i class="icon-trash"></i></a></td></tr>');
         jQuery('#Product_name').val('');
         jQuery('#Product_quantity').val('');
          jQuery('#Product_id').val('');
         jQuery('#Product_number').val('');
+        jQuery('#stock_product').val('');
         jQuery('#Product_number').focus();
         }else{
             alert('produk sudah ada');

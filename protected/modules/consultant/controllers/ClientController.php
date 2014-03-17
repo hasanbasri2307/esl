@@ -1,5 +1,5 @@
 <?php
-
+require_once('excel_reader2.php');
 class ClientController extends RController
 {
         
@@ -173,5 +173,103 @@ class ClientController extends RController
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
+	}
+	
+	public function actionImport()
+	{
+		$model=new Client('upload');
+		if(isset($_POST['Client']))
+		{
+			$model->attributes=$_POST['Client'];
+			$itu=CUploadedFile::getInstance($model,'upload');
+			$path='/../upload.xls';
+			$itu->saveAs($path);
+			$data = new Spreadsheet_Excel_Reader($path);
+
+			$x=0;
+			$client_name=array();
+			$id_card_number=array();
+			$client_number= array();
+			$dop=array();
+			$dob=array();
+			$address=array();
+			$city=array();
+			$zip_code=array();
+			$telephone = array();
+			$fax_number= array();
+			$phone_kantor= array();
+			$hp1= array();
+			$hp2= array();
+			
+			$email= array();
+			$branch_id= array();
+			$date_join= array();
+			error_reporting(E_ALL ^ E_NOTICE);
+			for ($j = 2; $j <= $data->sheets[0]['numRows']; $j++) 
+			{
+				
+				$client_name[$x]=$data->sheets[0]['cells'][$j][1];
+				$id_card_number[$x]=$data->sheets[0]['cells'][$j][2];
+				$client_number[$x]=$data->sheets[0]['cells'][$j][3];
+				$dop[$x]=$data->sheets[0]['cells'][$j][4];
+				$dob[$x]=$data->sheets[0]['cells'][$j][5];
+				$address[$x]=$data->sheets[0]['cells'][$j][6];
+				$city[$x]=$data->sheets[0]['cells'][$j][7];
+				$telephone[$x]=$data->sheets[0]['cells'][$j][8];
+				$fax_number[$x]=$data->sheets[0]['cells'][$j][9];
+				$phone_kantor[$x]=$data->sheets[0]['cells'][$j][10];
+				$hp1[$x]=$data->sheets[0]['cells'][$j][11];
+				$hp2[$x]=$data->sheets[0]['cells'][$j][12];
+				$email[$x]=$data->sheets[0]['cells'][$j][13];
+				$branch_id[$x]=$data->sheets[0]['cells'][$j][14];
+				$date_join[$x]=$data->sheets[0]['cells'][$j][15];
+				$x++;
+			}
+		
+			for($i=0;$i<$x;$i++)
+			{
+
+				
+				$model=new Client('upload');
+				$model->client_name = $client_name[$i];
+				$model->id_card_number=$id_card_number[$i];
+				$model->client_number=$client_number[$i];
+				$model->dop=$dop[$i];
+				$model->dob=$dob[$i];
+				$model->address=$address[$i];
+				$model->city=$city[$i];
+				$model->telephone=$telephone[$i];
+				$model->fax_number=$fax_number[$i];
+				$model->phone_kantor=$phone_kantor[$i];
+				$model->hp1=$hp1[$i];
+				$model->hp2=$hp2[$i];
+				$model->email=$email[$i];
+				$model->branch_id=$branch_id[$i];
+				$model->date_join=$date_join[$i];
+
+				$model->save();
+					
+				
+            }
+                        unlink($path);
+						
+                        Yii::app()->user->setFlash('alert','<div class="alert alert-success">
+										<button type="button" class="close" data-dismiss="alert">
+											<i class="icon-remove"></i>
+										</button>
+
+										<strong>
+											<i class="icon-remove"></i>
+											Success !!
+										</strong>
+
+										Client Berhasil Di import
+										<br>
+									</div>');
+                        $this->redirect(array('import'));
+						
+			
+		}
+		$this->render('import',array('model'=>$model));
 	}
 }

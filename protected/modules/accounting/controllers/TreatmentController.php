@@ -51,6 +51,7 @@ class TreatmentController extends RController
                         $model->user_id =Yii::app()->getModule('user')->user()->id;
                         $model->changed =$time;
                         $model->created =$time;
+						
 			if($model->save()){
                             
                             $this->redirect(array('view','id'=>$model->treatment_id));
@@ -71,6 +72,7 @@ class TreatmentController extends RController
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
+		$model->scenario = 'accounting';
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -338,6 +340,8 @@ class TreatmentController extends RController
                         'model_machine'=>$model_machine,
 		));
        }
+	   
+	   
 }
 
 

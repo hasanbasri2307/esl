@@ -8,7 +8,9 @@
  * @property string $treatmentpackage_number
  * @property string $treatmentpackage_name
  * @property integer $price
- * @property integer $division_id
+ * @property double $discount_percent
+ * @property double $discount_rp
+ * @property string $description
  * @property integer $user_id
  * @property integer $created
  * @property integer $changed
@@ -16,16 +18,6 @@
  */
 class Treatmentpackage extends CActiveRecord
 {
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @param string $className active record class name.
-	 * @return Treatmentpackage the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
-
 	/**
 	 * @return string the associated database table name
 	 */
@@ -42,13 +34,16 @@ class Treatmentpackage extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('treatmentpackage_number, treatmentpackage_name, price, division_id, user_id, created, changed', 'required'),
-			array('price, division_id, user_id, created, changed, active', 'numerical', 'integerOnly'=>true),
+			array('treatmentpackage_number, treatmentpackage_name, description, user_id, created, changed', 'required','on'=>'create'),
+			array(' price, discount_percent,discount_rp', 'required','on'=>'accounting'),
+			array('price, user_id, created, changed, active', 'numerical', 'integerOnly'=>true),
+			array('discount_percent, discount_rp', 'numerical'),
 			array('treatmentpackage_number', 'length', 'max'=>10),
 			array('treatmentpackage_name', 'length', 'max'=>30),
+			array('description', 'length', 'max'=>200),
 			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
-			array('treatmentpackage_id, treatmentpackage_number, treatmentpackage_name, price, division_id, user_id, created, changed, active', 'safe', 'on'=>'search'),
+			// @todo Please remove those attributes that should not be searched.
+			array('treatmentpackage_id, treatmentpackage_number, treatmentpackage_name, price, discount_percent, discount_rp, description, user_id, created, changed, active', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -73,7 +68,9 @@ class Treatmentpackage extends CActiveRecord
 			'treatmentpackage_number' => 'Treatmentpackage Number',
 			'treatmentpackage_name' => 'Treatmentpackage Name',
 			'price' => 'Price',
-			'division_id' => 'Division',
+			'discount_percent' => 'Discount Percent',
+			'discount_rp' => 'Discount Rp',
+			'description' => 'Description',
 			'user_id' => 'User',
 			'created' => 'Created',
 			'changed' => 'Changed',
@@ -83,12 +80,19 @@ class Treatmentpackage extends CActiveRecord
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+	 *
+	 * Typical usecase:
+	 * - Initialize the model fields with values from filter form.
+	 * - Execute this method to get CActiveDataProvider instance which will filter
+	 * models according to data in model fields.
+	 * - Pass data provider to CGridView, CListView or any similar widget.
+	 *
+	 * @return CActiveDataProvider the data provider that can return the models
+	 * based on the search/filter conditions.
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
 
@@ -96,7 +100,9 @@ class Treatmentpackage extends CActiveRecord
 		$criteria->compare('treatmentpackage_number',$this->treatmentpackage_number,true);
 		$criteria->compare('treatmentpackage_name',$this->treatmentpackage_name,true);
 		$criteria->compare('price',$this->price);
-		$criteria->compare('division_id',$this->division_id);
+		$criteria->compare('discount_percent',$this->discount_percent);
+		$criteria->compare('discount_rp',$this->discount_rp);
+		$criteria->compare('description',$this->description,true);
 		$criteria->compare('user_id',$this->user_id);
 		$criteria->compare('created',$this->created);
 		$criteria->compare('changed',$this->changed);
@@ -105,5 +111,30 @@ class Treatmentpackage extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+
+	/**
+	 * Returns the static model of the specified AR class.
+	 * Please note that you should have this exact method in all your CActiveRecord descendants!
+	 * @param string $className active record class name.
+	 * @return Treatmentpackage the static model class
+	 */
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
+	
+	protected function beforeValidate()
+	 {
+		 $this->price= Yii::app()->format->unformatNumber($this->price);
+		 $this->discount_rp= Yii::app()->format->unformatNumber($this->discount_rp);
+		 
+		 return parent::beforeValidate();
+	}
+	protected function afterFind() {
+		$this->price = Yii::app()->format->formatNumber($this->price);
+		$this->discount_rp= Yii::app()->format->formatNumber($this->discount_rp);
+		
+		return parent::afterFind();
 	}
 }

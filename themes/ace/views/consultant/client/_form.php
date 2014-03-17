@@ -24,10 +24,12 @@
                 
                 ?>
          <?php echo $form->textFieldRow($model,'id_card_number'); ?>
+          <?php echo $form->textFieldRow($model,'client_number'); ?>
           <?php echo $form->textFieldRow($model,'address'); ?>
 	  <?php echo $form->textFieldRow($model,'city'); ?>
 	 <?php echo $form->textFieldRow($model,'zip_code'); ?>
         <?php echo $form->textFieldRow($model,'telephone'); ?>
+         <?php echo $form->textFieldRow($model,'fax_number'); ?>
         <?php echo $form->textFieldRow($model,'phone_kantor'); ?>
         <?php echo $form->textFieldRow($model,'hp1'); ?>
         <?php echo $form->textFieldRow($model,'hp2'); ?>

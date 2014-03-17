@@ -114,27 +114,8 @@ class ProductController extends RController
 			'dataProvider'=>$dataProvider,
 		));
 	}
-
-	public function actionStock($search=NULL)
-	{
-				$branch =  Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
-                $criteria = new CDbCriteria;
-                
-                $criteria->condition = 'branch_id=:id';
-				$criteria->params = array(':id'=>$branch);
-               // $criteria->condition = "type = 'homecare'";
-                if(isset($search)) 
-                    $criteria->condition = "LOWER(`product.product_number`) LIKE LOWER('%$search%') OR LOWER(`product.product_number`) LIKE LOWER('%$search%') OR LOWER(`product.product_name`) LIKE LOWER('%$search%') OR LOWER(`product.product_name`) LIKE LOWER('%$search%')";
-		$dataProvider=new CActiveDataProvider('ProductStock', array(
-                    'criteria'=>$criteria,
-                    'pagination'=>array(
-                        'pageSize'=>20,
-                    ),
-                ));
-                $this->render('stock',array(
-			'dataProvider'=>$dataProvider,
-		));
-	}
+	
+	
       
 	public function loadModel($id)
 	{
@@ -154,10 +135,8 @@ class ProductController extends RController
 		}
 	}
          public function actionAutocomplete_number()
-      {
+      	{
          
-            
-               
                if (Yii::app()->request->isAjaxRequest && isset($_GET['term'])) {
 				   	$branch = Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
                     $search = strtolower($_GET["term"]);
@@ -167,7 +146,7 @@ class ProductController extends RController
 					$product = $command->queryAll();
 					
                       foreach ($product as $row=>$val){
-                         $output[] =  array("label"=>$val['product_number'], "value"=>$val['product_id'],  "value2"=>$val['product_name']);
+                         $output[] =  array("label"=>$val['product_number'], "value"=>$val['product_id'],  "value2"=>$val['product_name'],"stock"=>$val['quantity']);
                       }
                     
                 }
@@ -178,11 +157,9 @@ class ProductController extends RController
               
         }
          public function actionAutocomplete_name()
-      {
-         
-            
-               if (Yii::app()->request->isAjaxRequest && isset($_GET['term'])) {
-				  	$branch = Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
+      	 {
+         if (Yii::app()->request->isAjaxRequest && isset($_GET['term'])) {
+				   	$branch = Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
                     $search = strtolower($_GET["term"]);
                     $sql = "select * from esc_product_stock inner join esc_product on esc_product.product_id = esc_product_stock.product_id where esc_product_stock.branch_id ='".$branch."' and  esc_product.product_name LIKE '%$search%' ";
 					$connection=Yii::app()->db;
@@ -190,13 +167,12 @@ class ProductController extends RController
 					$product = $command->queryAll();
 					
                       foreach ($product as $row=>$val){
-                         $output[] =  array("label"=>$val['product_number'], "value"=>$val['product_id'],  "value2"=>$val['product_name']);
+                         $output[] =  array("value2"=>$val['product_name'], "value"=>$val['product_id'], "label"=>$val['product_number'] ,"stock"=>$val['quantity']);
                       }
                     
                 }
                    
             echo CJSON::encode($output);   
-              
               
         }
 }

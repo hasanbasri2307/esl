@@ -1,7 +1,7 @@
 <?php
 
 $this->menu=array(
-  
+  array('label'=>'Dashboard','icon' => 'icon-cloud', 'url'=>array('/accounting'), 'active'=>isset($active['6']) ? true : false),
     array('label'=>'Point','icon' => 'icon-dashboard', 'url'=>array('/consultant/order'), 'active'=>isset($active['1']) ? true : false,
             'items'=> array(
                 array('label'=>'Product', 'url'=>array('/consultant/order'), 'active'=>isset($active['1.1']) ? true : false,),
@@ -14,9 +14,10 @@ $this->menu=array(
             'items'=> array(
                 array('label'=>'Product Price', 'url'=>array('/accounting/product'), 'active'=>isset($active['2.1']) ? true : false,),
                  array('label'=>'Treatment Price', 'url'=>array('/accounting/treatment'), 'active'=>isset($active['2.2']) ? true : false,),
-                  array('label'=>'Package Price', 'url'=>array('/inventory/product'), 'active'=>isset($active['2.3']) ? true : false,),
-                 array('label'=>'Voucher', 'url'=>array('/inventory/product'), 'active'=>isset($active['2.4']) ? true : false,),
-                  array('label'=>'Report', 'url'=>array('/inventory/product'), 'active'=>isset($active['2.5']) ? true : false,),
+                  array('label'=>'Product Package Price', 'url'=>array('/accounting/productpackage'), 'active'=>isset($active['2.3']) ? true : false,),
+				  array('label'=>'Treatment Package Price', 'url'=>array('/accounting/treatmentpackage'), 'active'=>isset($active['2.4']) ? true : false,),
+                 array('label'=>'Voucher', 'url'=>array('/inventory/product'), 'active'=>isset($active['2.5']) ? true : false,),
+                  array('label'=>'Report', 'url'=>array('/inventory/product'), 'active'=>isset($active['2.6']) ? true : false,),
                    
                 //array('label'=>'Cabin', 'url'=>array('/inventory/product_cabin'), 'active'=>isset($active['1.2']) ? true : false,)
             )

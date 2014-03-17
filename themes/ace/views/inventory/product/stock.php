@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs=array(
-	'Products',
+	'Products Stock',
 );
 
 $this->renderPartial('../menu',array(
@@ -20,7 +20,17 @@ $this->renderPartial('../menu',array(
 
 
  <div class="row-fluid">
+ <?php if(Yii::app()->user->hasFlash('alert')): ?>
+	<?php echo Yii::app()->user->getFlash('alert'); ?>
+<?php endif; ?>
 	<div class="span12">
+     <?php
+          $this->widget('bootstrap.widgets.TbButton',array(
+                'label' => 'Create',
+                'url'=>array('create'),
+        ));
+ 
+ ?>
    
             <?php 
             $this->widget('bootstrap.widgets.TbGridView', array(
@@ -31,20 +41,21 @@ $this->renderPartial('../menu',array(
                 'columns'=>array(
                     array('name'=>'product.product_number', 'header'=>'Product Number'),
                     array('name'=>'product.product_name', 'header'=>'Product Name'),
+                     array('name'=>'quantity', 'header'=>'Quantity'),
                      array('name'=>'unit_homecare', 'header'=>'Unit','value'=>'$data->product->unitHomecare->unit_name'),
                      array('name'=>'product.price', 'header'=>'Price'),
-                      array('name'=>'quantity', 'header'=>'Quantity'),
+                     
                      array(
                         'class'=>'bootstrap.widgets.TbButtonColumn',
                         //--------------------- begin new code --------------------------
                         'buttons'=>array(
                                         ),
-                        'template'=>'{view}',
                     ),
-                ),
+				),
+					
             )); ?>
 
- 
+
  
     </div>
 </div>

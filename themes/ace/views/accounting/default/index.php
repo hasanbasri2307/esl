@@ -4,7 +4,7 @@ $this->breadcrumbs=array(
 	'Dashboard'=>array('/admin'),
 );
 $this->renderPartial('../menu',array(
-			'active'=>array('3'=>true, '3.1'=>true),
+			'active'=>array('6'=>true),
 		));
 ?>
 

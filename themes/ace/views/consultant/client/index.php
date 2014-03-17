@@ -10,16 +10,26 @@ $this->renderPartial('../menu',array(
 ?>
 
 <div class="page-header position-relative">
-    <h1>            Clients 
+    <h1>            Clients  
             <small>
                     <i class="icon-double-angle-right"></i>
                    
             </small>
+            <?php
+          
+		 $this->widget('bootstrap.widgets.TbButton',array(
+                'label' => 'Import',
+                'url'=>array('import'),
+        ));
+
+ ?>
     </h1>
 </div>
     
  <div class="row-fluid">
+ 
                                 <div class="span12 infobox-container">
+                                
                                 <?php
                                 foreach ($client as $item ) {
                                     ?>

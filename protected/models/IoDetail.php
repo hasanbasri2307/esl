@@ -29,7 +29,7 @@ class IoDetail extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('io_id, product_id, quantity, kadaluarsa', 'required'),
+			array('io_id, product_id, quantity', 'required'),
 			array('io_id, product_id, quantity, quantity_deliver', 'numerical', 'integerOnly'=>true),
 			array('kadaluarsa', 'length', 'max'=>50),
 			// The following rule is used by search().

@@ -42,7 +42,7 @@ $this->renderPartial('../menu',array(
                 ),
             )); ?>
 
- 
+
  <?php
           $this->widget('bootstrap.widgets.TbButton',array(
                 'label' => 'Create',

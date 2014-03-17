@@ -63,7 +63,7 @@ if($model){
                                 <tr>
                                         <th>Time</th>
                                         <?php foreach($room as $item) { ?>
-                                        <th><?php echo $item->room_number;?><br><?php $rt= RoomTreatment::model()->with('room')->findAll(array('condition'=>'room.branch_id=:branch_id and room.room_id=:room_id','params'=>array(':branch_id'=>$branch_id,':room_id'=>$item->room_id))); foreach($rt as $vall) { echo $vall->treatment->treatment_name.', ';}}?></th>
+                                        <th><?php echo $item->room_number;?><br><?php echo $item->room_name;?></th>
                                         
                                 </tr>
                         </thead>

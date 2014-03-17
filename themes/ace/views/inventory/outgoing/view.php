@@ -3,7 +3,7 @@
 /* @var $model Product */
 
 $this->breadcrumbs=array(
-	'Inociming'=>array('index'),
+	'Outgoing'=>array('index'),
 	$model->io_id,
 );
 
@@ -12,7 +12,7 @@ $this->renderPartial('../menu',array(
 		));
 ?>
 <div class="page-header position-relative">
-    <h1>            View Incoming #<?php echo $model->io_id; ?>
+    <h1>            View Outgoing #<?php echo $model->io_id; ?>
             <small>
                     <i class="icon-double-angle-right"></i>
                    

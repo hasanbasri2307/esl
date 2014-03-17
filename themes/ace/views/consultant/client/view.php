@@ -22,7 +22,13 @@ $this->renderPartial('../menu',array(
 	<div class="span12">
            
 <?php 
-
+$this->widget('bootstrap.widgets.TbButton', array(
+                                'label'=>'Image',
+                                'htmlOptions'=>array(
+                                        'style'=>'margin-left:3px',
+                                        'onclick'=>'js:bootbox.modal("<img src=\"'.Yii::app()->baseUrl."/upload/client/".$model->pict.'\"/>", "'.$model->client_name.'");'
+                                ),
+                          ));
 $this->widget('bootstrap.widgets.TbDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
@@ -44,9 +50,9 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
 		'zip_code',
 		'telephone',
 		'sourceInfo.source_info',
-    'branch.branch_name',
+    array('name'=>'branch.branch_name', 'label'=>'Join By Branch'),
     'date_join',
-		'pict',
+		
 	
 		
 	),

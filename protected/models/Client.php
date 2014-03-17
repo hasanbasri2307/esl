@@ -44,18 +44,21 @@ class Client extends CActiveRecord
 	/**
 	 * @return array validation rules for model attributes.
 	 */
+	 public $filee;
+	 
 	public function rules()
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('client_name, sex_id, id_card_id, dop, dob, address, city, zip_code, telephone, phone_kantor, hp1, hp2, email, source_info_id, branch_id, date_join, user_id, created, changed', 'required'),
-			array('sex_id, marital_status_id, nationality_id, id_card_id, source_info_id, branch_id, user_id, created, changed, active', 'numerical', 'integerOnly'=>true),
+			array('client_name, sex_id, id_card_id, dop, dob, address, city, zip_code, phone_kantor, hp1, email, source_info_id, branch_id, date_join, user_id, created, changed', 'required','on'=>'create'),
+			array('sex_id, marital_status_id, nationality_id, id_card_id, source_info_id, user_id, created, changed, active', 'numerical', 'integerOnly'=>true),
 			array('client_name', 'length', 'max'=>30),
+			array('client_name', 'required', 'on'=>'upload'),
 			array('id_card_number, client_number, dop, city', 'length', 'max'=>20),
 			array('address', 'length', 'max'=>225),
 			array('zip_code', 'length', 'max'=>10),
-			array('telephone, phone_kantor, hp1, hp2', 'length', 'max'=>15),
+			array('telephone, phone_kantor, hp1, hp2,fax_number', 'length', 'max'=>15),
 			array('email', 'length', 'max'=>50),
 			
 			// The following rule is used by search().
@@ -93,21 +96,22 @@ class Client extends CActiveRecord
 			'marital_status_id' => 'Marital Status',
 			'nationality_id' => 'Nationality',
 			'id_card_id' => 'Id Card',
-			'id_card_number' => 'Member Card Number',
-			'client_number' => 'Client Number',
+			'id_card_number' => 'ID Card Number',
+			'client_number' => 'Member Card Number',
 			'dop' => 'Date Of Place',
-			'dob' => 'Date Of Birthday',
+			'dob' => 'Place Of Birthday',
 			'address' => 'Address',
 			'city' => 'City',
 			'zip_code' => 'Zip Code',
-			'telephone' => 'Telephone',
-			'phone_kantor' => 'Phone Kantor',
+			'telephone' => 'Home Number',
+			'fax_number' => 'Fax Number',
+			'phone_kantor' => 'Office Number',
 			'hp1' => 'Hp1',
 			'hp2' => 'Hp2',
 			'email' => 'Email',
 			'pict' => 'Pict',
 			'source_info_id' => 'Source Info',
-			'branch_id' => 'Branch',
+			'branch_id' => 'Join By Branch',
 			'date_join' => 'Date Join',
 			'user_id' => 'User',
 			'created' => 'Created',
