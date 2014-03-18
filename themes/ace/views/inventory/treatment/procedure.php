@@ -1,16 +1,16 @@
 <?php
 $this->breadcrumbs=array(
-	'Rooms'=>array('index'),
-	'Create',
+	'Treatment'=>array('index'),
+	'Procedure',
 );
 
 $this->renderPartial('../menu',array(
-			'active'=>array('1'=>true, '1.1'=>true),
+			'active'=>array('1'=>true, '1.11'=>true),
 		));
 ?>
 
 <div class="page-header position-relative">
-    <h1>            Create Procedure for "<?php echo $model->treatment_name; ?>"
+    <h1>            Create Treatment Procedure for "<?php echo $model->treatment_name; ?>"
             <small>
                     <i class="icon-double-angle-right"></i>
                    

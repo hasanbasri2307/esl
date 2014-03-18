@@ -64,9 +64,9 @@ class Productpackage extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'productpackage_id' => 'Productpackage',
-			'productpackage_number' => 'Productpackage Number',
-			'productpackage_name' => 'Productpackage Name',
+			'productpackage_id' => 'Product Package',
+			'productpackage_number' => 'Product Package Code',
+			'productpackage_name' => 'Product Package Name',
 			'price' => 'Price',
 			'discount_percent' => 'Discount Percent',
 			'discount_rp' => 'Discount Rp',

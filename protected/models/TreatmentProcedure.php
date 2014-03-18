@@ -32,7 +32,7 @@ class TreatmentProcedure extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('treatment_id, title, sortOrder, user_id, created, changed', 'required'),
+			array('treatment_id, title, user_id, created, changed', 'required'),
 			array('treatment_id, sortOrder, user_id, created, changed, active', 'numerical', 'integerOnly'=>true),
 			array('title', 'length', 'max'=>40),
 			array('description', 'safe'),

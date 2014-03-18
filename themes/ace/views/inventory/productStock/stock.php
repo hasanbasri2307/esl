@@ -39,7 +39,7 @@ $this->renderPartial('../menu',array(
                 'template'=>"{items}{pager}",
                 'id'=>'product-grid',
                 'columns'=>array(
-                    array('name'=>'product.product_number', 'header'=>'Product Number'),
+                    array('name'=>'product.product_number', 'header'=>'Product Code'),
                     array('name'=>'product.product_name', 'header'=>'Product Name'),
                      array('name'=>'quantity', 'header'=>'Quantity'),
                      array('name'=>'unit_homecare', 'header'=>'Unit','value'=>'$data->product->unitHomecare->unit_name'),
@@ -64,7 +64,7 @@ $this->renderPartial('../menu',array(
 
  jQuery('#nav-search-input').keypress(function (e) {
   if (e.which == 13) {
-    window.location  = "<?php echo Yii::app()->createUrl('/inventory/product/stock/search/')?>/"+jQuery(this).val();
+    window.location  = "<?php echo Yii::app()->createUrl('/inventory/productstock/index/search/')?>/"+jQuery(this).val();
     return false;
   }
 });

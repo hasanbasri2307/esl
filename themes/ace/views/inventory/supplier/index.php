@@ -35,7 +35,7 @@ $this->renderPartial('../menu',array(
                 'template'=>"{items}{pager}",
                 'id'=>'product-grid',
                 'columns'=>array(
-                    array('name'=>'supplier_number', 'header'=>'Supplier Number'),
+                    array('name'=>'supplier_number', 'header'=>'Supplier ID'),
                     array('name'=>'supplier_name', 'header'=>'Supplier Name'),
                     array('name'=>'address','header'=>'Address'),
                     array('name'=>'phone','header'=>'Phone'),

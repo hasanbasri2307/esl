@@ -62,7 +62,7 @@ class Mesin extends CActiveRecord
 	{
 		return array(
 			'mesin_id' => 'Mesin',
-			'mesin_number' => 'Mesin Number',
+			'mesin_number' => 'Mesin Code',
 			'mesin_name' => 'Mesin Name',
 			'description' => 'Description',
 			'image' => 'Image',

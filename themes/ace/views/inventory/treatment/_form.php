@@ -31,6 +31,8 @@
             )
         ); ?>
         
+        
+        
         <!--
         <h4>WHITENING</h4>
         <?php echo $form->checkBoxListInlineRow($model, 'protocol', array('Cleanser', 'Toner', 'Day Cream', 'Night Cream')); ?>
@@ -51,6 +53,8 @@
         <?php echo $form->checkBoxListInlineRow($model, 'exfoliate', array('Regular Facial', 'Microdermabration', 'Euroskinpee')); ?>
         <?php echo $form->checkBoxListInlineRow($model, 'repair', array(' ')); ?>
         <?php echo $form->checkBoxListInlineRow($model, 'maintain', array(' ')); ?>
+        
+        
                -->
         <div class="form-actions">
         <?php $this->widget('bootstrap.widgets.TbButton', array('buttonType'=>'submit', 'type'=>'primary', 'label'=>'Submit')); ?>

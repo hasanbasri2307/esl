@@ -1,16 +1,16 @@
 <?php
 $this->breadcrumbs=array(
-	'Rooms'=>array('index'),
-	'Create',
+	'Treatment'=>array('index'),
+	'Product',
 );
 
 $this->renderPartial('../menu',array(
-			'active'=>array('1'=>true, '1.1'=>true),
+			'active'=>array('1'=>true, '1.11'=>true),
 		));
 ?>
 
 <div class="page-header position-relative">
-    <h1>            Create Tretment
+    <h1>            Create Tretment Product for "<?php echo $model->treatment_name; ?>"
             <small>
                     <i class="icon-double-angle-right"></i>
                    
@@ -29,7 +29,7 @@ $this->renderPartial('../menu',array(
 	          <table id="autocomplete_table" class="table table-striped table-bordered table-hover">
             <thead>
                     <tr>
-                            <th>Product Number</th>
+                            <th>Product Code</th>
                             <th>Product Name</th>
                             <th>Qty</th>
                     </tr>

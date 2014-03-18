@@ -34,6 +34,9 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
 	'attributes'=>array(
 		'client_id',
 		'client_name',
+		'client_middle_name',
+		'client_last_name',
+		'title',
 		'sex.sex',
 		'maritalStatus.marital_status',
 		'nationality.nationality',
@@ -49,6 +52,7 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
 		'city',
 		'zip_code',
 		'telephone',
+		'pin_bbm',
 		'sourceInfo.source_info',
     array('name'=>'branch.branch_name', 'label'=>'Join By Branch'),
     'date_join',

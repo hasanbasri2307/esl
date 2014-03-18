@@ -20,8 +20,17 @@ class TreatmentController extends RController
 		
                 $model = $this->loadModel($id);
                 $procedure = Procedure::model()->findByPk($id);
+				$criteria = new CDbCriteria;
+				$criteria->condition = "treatment_id = :id";
+				$criteria->params = array("id"=>$id);
+				$treatment_procedure = TreatmentProcedure::model()->findAll($criteria);
+				$treatment_machine = TreatmentMachine::model()->findAll($criteria);
+				$treatment_product = TreatmentProduct::model()->findAll($criteria);
                 $this->render('view',array(
 			'model'=>$this->loadModel($id),
+			'model_procedure'=>$treatment_procedure,
+			'model_machine'=>$treatment_machine,
+			'model_product'=>$treatment_product,
 		));
 	}
         public function actionSort()
@@ -286,6 +295,10 @@ class TreatmentController extends RController
                             
                            $this->redirect(array('treatment/procedure','id'=>$model->treatment_id));
                         }
+						else
+						{
+							echo mysql_error();
+						}
 				
 		}
 
@@ -310,9 +323,9 @@ class TreatmentController extends RController
                                     
                              }else{
                                  if(isset($q_delete)){
-                                     $q_delete = " OR  id= $val->machine_id";
+                                     $q_delete = " OR  id= $val->mesin_id";
                                  }else{
-                                     $q_delete = "machine_id = $val->machine_id";
+                                     $q_delete = "machine_id = $val->mesin_id";
                                       
                                  }
                                     

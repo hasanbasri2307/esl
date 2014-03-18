@@ -1,16 +1,16 @@
 <?php
 $this->breadcrumbs=array(
-	'Rooms'=>array('index'),
-	'Create',
+	'Treatment'=>array('index'),
+	'Machine',
 );
 
 $this->renderPartial('../menu',array(
-			'active'=>array('1'=>true, '1.1'=>true),
+			'active'=>array('1'=>true, '1.11'=>true),
 		));
 ?>
 
 <div class="page-header position-relative">
-    <h1>            Create Tretment
+    <h1>            Create Treatment Machine for "<?php echo $model->treatment_name; ?>"
             <small>
                     <i class="icon-double-angle-right"></i>
                    
@@ -26,10 +26,10 @@ $this->renderPartial('../menu',array(
 		'type'=>'horizontal',
 	)); ?>
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
-	          <table id="autocomplete_table" class="table table-striped table-bordered table-hover<?php echo $hide;?>">
+	          <table id="autocomplete_table" class="table table-striped table-bordered table-hover">
             <thead>
                     <tr>
-                            <th>Machine Number</th>
+                            <th>Machine Code</th>
                             <th>Machine Name</th>
                              <th></th>
                     </tr>
@@ -51,8 +51,8 @@ $this->renderPartial('../menu',array(
             <?php if(isset($model_machine)){
                 foreach($model_machine as $row=>$val){
                    
-                   echo '<tr>  <td><input readonly="readonly" type="hidden" value="'.$val->machine_id.'" name="MachineId[]"><input readonly="readonly" type="text" value="'.$val->machine->machine_number.'" name="MachineNumber[]"></td>
-                                <td><input readonly="readonly" type="text" value="'.$val->machine->machine_name.'" name="MachineName[]"></td>
+                   echo '<tr>  <td><input readonly="readonly" type="hidden" value="'.$val->machine_id.'" name="MachineId[]"><input readonly="readonly" type="text" value="'.$val->machine->mesin_number.'" name="MachineNumber[]"></td>
+                                <td><input readonly="readonly" type="text" value="'.$val->machine->mesin_name.'" name="MachineName[]"></td>
                                 
                                     <td><a class="delete2" title="Delete" rel="tooltip" href="#" onclick="javascript:delete_row(\'machine'.$val->machine_id.'\');" id="machine'.$val->machine_id.'"><i class="icon-trash"></i></a></td>
                           </tr>';

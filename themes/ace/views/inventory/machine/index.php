@@ -1,16 +1,16 @@
 <?php
 
 $this->breadcrumbs=array(
-	'Treatment',
+	'Machine',
 );
 
 $this->renderPartial('../menu',array(
-			'active'=>array('1'=>true, '1.11'=>true),
+			'active'=>array('1'=>true,'1.12'=>true),
 		));
 ?>
 <div class="page-header position-relative">
     <h1>
-            Treatment  
+            Machine  
             <small>
                     <i class="icon-double-angle-right"></i>
                    
@@ -21,7 +21,7 @@ $this->renderPartial('../menu',array(
 
  <div class="row-fluid">
 	<div class="span12">
-    <?php
+     <?php
           $this->widget('bootstrap.widgets.TbButton',array(
                 'label' => 'Create',
                 'url'=>array('create'),
@@ -35,9 +35,8 @@ $this->renderPartial('../menu',array(
                 'template'=>"{items}{pager}",
                 'id'=>'product-grid',
                 'columns'=>array(
-                    array('name'=>'treatment_number', 'header'=>'Treatment Code'),
-                    array('name'=>'treatment_name', 'header'=>'Treatment Name'),
-                    array('name' => 'price','header'=>'Treatment Price'),
+                    array('name'=>'mesin_number', 'header'=>'Machine Code'),
+                    array('name'=>'mesin_name', 'header'=>'Machine Name'),
                      array(
                         'class'=>'bootstrap.widgets.TbButtonColumn',
                         //--------------------- begin new code --------------------------
@@ -57,7 +56,7 @@ $this->renderPartial('../menu',array(
 
  jQuery('#nav-search-input').keypress(function (e) {
   if (e.which == 13) {
-    window.location  = "<?php echo Yii::app()->createUrl('/inventory/treatment/index/search/')?>/"+jQuery(this).val();
+    window.location  = "<?php echo Yii::app()->createUrl('/admin/room/index/search/')?>/"+jQuery(this).val();
     return false;
   }
 });

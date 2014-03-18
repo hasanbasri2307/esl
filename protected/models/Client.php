@@ -51,7 +51,7 @@ class Client extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('client_name, sex_id, id_card_id, dop, dob, address, city, zip_code, phone_kantor, hp1, email, source_info_id, branch_id, date_join, user_id, created, changed', 'required','on'=>'create'),
+			array('client_name, sex_id, id_card_id, dop, dob,title, address, city, zip_code, phone_kantor, hp1, email, source_info_id, branch_id, date_join, user_id, created, changed', 'required','on'=>'create'),
 			array('sex_id, marital_status_id, nationality_id, id_card_id, source_info_id, user_id, created, changed, active', 'numerical', 'integerOnly'=>true),
 			array('client_name', 'length', 'max'=>30),
 			array('client_name', 'required', 'on'=>'upload'),
@@ -91,12 +91,15 @@ class Client extends CActiveRecord
 	{
 		return array(
 			'client_id' => 'Client',
-			'client_name' => 'Client Name',
+			'client_name' => 'First Name',
+			'client_middle_name' => 'Middle Name',
+			'client_last_name' => 'Last Name',
+			'title' => 'Title',
 			'sex_id' => 'Sex',
 			'marital_status_id' => 'Marital Status',
 			'nationality_id' => 'Nationality',
-			'id_card_id' => 'Id Card',
-			'id_card_number' => 'ID Card Number',
+			'id_card_id' => 'ID Number Type',
+			'id_card_number' => 'ID Number',
 			'client_number' => 'Member Card Number',
 			'dop' => 'Date Of Place',
 			'dob' => 'Place Of Birthday',
@@ -113,6 +116,7 @@ class Client extends CActiveRecord
 			'source_info_id' => 'Source Info',
 			'branch_id' => 'Join By Branch',
 			'date_join' => 'Date Join',
+			'pin_bbm' => 'Pin BBM',
 			'user_id' => 'User',
 			'created' => 'Created',
 			'changed' => 'Changed',

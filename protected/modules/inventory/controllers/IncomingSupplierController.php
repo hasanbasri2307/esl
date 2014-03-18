@@ -183,7 +183,7 @@ class IncomingSupplierController extends RController
                 $criteria->order = 'io_id ASC';
 				
                 if(isset($search)) 
-                    $criteria->condition .= " AND LOWER(`supplier_name`) LIKE LOWER('%$search%') OR LOWER(`supplier_name`) LIKE LOWER('%$search%') ";
+                    $criteria->condition = " `branch_id` = $branch_id and suplier <> 0 AND LOWER(`note`) LIKE LOWER('%$search%') OR LOWER(`note`) LIKE LOWER('%$search%') OR LOWER(`supplier_name`) LIKE LOWER('%$search%') OR LOWER(`supplier_name`) LIKE LOWER('%$search%')";
                 
 		$dataProvider=new CActiveDataProvider('Io', array(
                     

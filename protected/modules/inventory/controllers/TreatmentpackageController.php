@@ -151,12 +151,20 @@ class TreatmentpackageController extends RController
 	/**
 	 * Lists all models.
 	 */
-	public function actionIndex()
+	public function actionIndex($search=NULL)
 	{
-		$dataProvider=new CActiveDataProvider('Treatmentpackage');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
+		$criteria = new CDbCriteria;
+               // $criteria->condition = "type = 'homecare'";
+                if(isset($search)) 
+                    $criteria->condition = "LOWER(`treatmentpackage_number`) LIKE LOWER('%$search%') OR LOWER(`treatmentpackage_number`) LIKE LOWER('%$search%') OR LOWER(`treatmentpackage_name`) LIKE LOWER('%$search%') OR LOWER(`treatmentpackage_name`) LIKE LOWER('%$search%')";
+		$dataProvider=new CActiveDataProvider('Treatmentpackage', array(
+                    'criteria'=>$criteria,
+                    'pagination'=>array(
+                        'pageSize'=>20,
+                    ),
+                ));
+                $this->render('index',array(
+			'dataProvider'=>$dataProvider,));
 	}
 
 	/**

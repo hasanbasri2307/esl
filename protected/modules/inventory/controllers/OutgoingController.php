@@ -113,7 +113,7 @@ class OutgoingController extends RController
                $branch_id =Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
                $criteria->condition = " `from` = $branch_id";
                 if(isset($search)) 
-                    $criteria->condition .= " LOWER(`io_number`) LIKE LOWER('%$search%') OR LOWER(`io_number`) LIKE LOWER('%$search%') OR LOWER(`io_name`) LIKE LOWER('%$search%') OR LOWER(`io_name`) LIKE LOWER('%$search%')";
+                    $criteria->condition = " `from` = $branch_id AND LOWER(`note`) LIKE LOWER('%$search%') OR LOWER(`note`) LIKE LOWER('%$search%') ";
                 
 		$dataProvider=new CActiveDataProvider('Io', array(
                     

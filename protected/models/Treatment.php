@@ -68,7 +68,7 @@ class Treatment extends CActiveRecord
 	{
 		return array(
 			'treatment_id' => 'Treatment',
-			'treatment_number' => 'Treatment Number',
+			'treatment_number' => 'Treatment Code',
 			'treatment_name' => 'Treatment Name',
 			'description' => 'Description',
 			'duration' => 'Duration',

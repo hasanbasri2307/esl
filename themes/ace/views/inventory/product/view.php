@@ -5,7 +5,7 @@ $this->breadcrumbs=array(
 );
 
 $this->renderPartial('../menu',array(
-			'active'=>array('1'=>true, '1.1'=>true),
+			'active'=>array('1'=>true, '1.4'=>true),
 		));
 ?>
 <div class="page-header position-relative">

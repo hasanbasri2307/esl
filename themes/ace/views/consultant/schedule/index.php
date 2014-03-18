@@ -63,7 +63,7 @@ if($model){
                                 <tr>
                                         <th>Time</th>
                                         <?php foreach($room as $item) { ?>
-                                        <th><?php echo $item->room_number;?><br><?php echo $item->room_name;?></th>
+                                        <th><?php echo $item->room_number;?><br><?php echo $item->room_name; }?></th>
                                         
                                 </tr>
                         </thead>
@@ -81,16 +81,20 @@ if($model){
                                                 $menit2 ="30";
                                             }
                                             $jam = $i;
-                                            $jam2 = ($i+1);
+											$jam2= $i;
+											if($j ==1)
+												$jam2 +=1;
+											else
+                                            	$jam2 = $i;
                                             if($i<10){
                                                 $jam = '0'.$i.':'.$menit;
                                             }else{
                                                  $jam = $i.':'.$menit;
                                             }
                                             if($jam2<10){
-                                                $jam2 = '0'.($i+1).':'.$menit2;
+                                                $jam2 = '0'.$jam2.':'.$menit2;
                                             }else{
-                                                $jam2 = ($i+1).':'.$menit2;
+                                                $jam2 = $jam2.':'.$menit2;
                                             }
                                             echo '<tr>';
                                             echo '<td>'.$jam .'- '.$jam2.'</td>';
@@ -119,6 +123,7 @@ if($model){
                                          }
 										 
                                     }
+									
                                 
                                 ?>
                                 

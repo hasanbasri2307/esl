@@ -1,19 +1,14 @@
 <?php $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 		'id'=>'horizontalForm',
 		'type'=>'horizontal',
+                
 	)); ?>
-
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
 	<?php echo $form->errorSummary($model,'<button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>'); ?>
-        
-        <?php echo $form->textFieldRow($model,'product_number'); ?>
-        <?php echo $form->textFieldRow($model,'product_name'); ?>
-	<?php echo $form->textAreaRow($model, 'description', array('class'=>'span8', 'rows'=>5)); ?>
-        <?php //echo $form->textFieldRow($model,'price_net',array('prepend'=>'Rp. ')); ?>
-        
-        <?php echo $form->radioButtonListInlineRow($model, 'unit_homecare', CHtml::listData(Unit::model()->findAll(array("condition"=>"type='homecare'")),'unit_id','unit_code')); ?>
-        <?php echo $form->radioButtonListInlineRow($model, 'unit_cabin', CHtml::listData(Unit::model()->findAll(array("condition"=>"type='cabin'")),'unit_id','unit_code')); ?>
-        <?php echo $form->textFieldRow($model,'netto'); ?>
+	<?php echo $form->textFieldRow($model,'mesin_number'); ?>
+	<?php echo $form->textFieldRow($model,'mesin_name'); ?>
+
+        <?php echo $form->textAreaRow($model, 'description', array('class'=>'span8', 'rows'=>5)); ?>
         <div class="control-group ">
             <label class="control-label required" for="Product_product_image">Image </label>
             <div class="controls">
@@ -21,26 +16,26 @@
                 <?php
                     
                          if(isset($model->image)!="" )
-                             echo "<img src=\"".Yii::app()->request->baseUrl."/upload/product/".$model->image."\" />";
+                             echo "<img src=\"".Yii::app()->request->baseUrl."/upload/machine/".$model->image."\" />";
                     
                 ?>
                 </div>
                 <span id="uploadedFile"> </span>
                 <?php echo $form->hiddenField($model,'image'); ?>
-                  <?php $this->widget('ext.EAjaxUpload.EAjaxUpload',
+                 <?php $this->widget('ext.EAjaxUpload.EAjaxUpload',
                  array(
                        'id'=>'uploadFile',
                        'config'=>array(
-                                       'action'=>Yii::app()->createUrl('/upload/index'),
+                                       'action'=>Yii::app()->createUrl('/upload/machines'),
                                        'allowedExtensions'=>array("jpg"),//array("jpg","jpeg","gif","exe","mov" and etc...
                                        'sizeLimit'=>1*1024*1024,// maximum file size in bytes
                                        'minSizeLimit'=>10*1024,// minimum file size in bytes
                                         'multiple'=>false,
                                        'onComplete'=>"js:function(id, fileName, responseJSON){
-                                        var filepath = 'upload/'+responseJSON['filename'];  
+                                        var filepath = 'upload/machine/'+responseJSON['filename'];  
                                         jQuery('#frame').html('<img src=\"".Yii::app()->request->baseUrl."/'+filepath+'\" />');
-                                        jQuery('#Product_image').val(filepath);
-										jQuery('#pm').val(responseJSON['filename']);    
+  
+										  jQuery('#ms').val(responseJSON['filename']); 
                                         }",
                                        'messages'=>array(
                                                          'typeError'=>"{file} has invalid extension. Only {extensions} are allowed.",
@@ -54,31 +49,19 @@
                                     ));
                ?>
             </div>
-            <input type="hidden" name="file" id="pm">
+            <input type="hidden" name="file" id="ms">
         </div>
-          <?php
-            $hide = " hide";
-            if(isset($model->unit_id)){
-               if($model->unit_id==7)
-                   $hide = "";
-            }
-          ?>
          
-   
        
+      
+       
+        
+        <div class="form-actions">
+        <?php $this->widget('bootstrap.widgets.TbButton', array('buttonType'=>'submit', 'type'=>'primary', 'label'=>'Submit')); ?>
+        <?php $this->widget('bootstrap.widgets.TbButton', array('buttonType'=>'reset', 'label'=>'Reset')); ?>
+    </div>
 
-	<div class="form-actions">
-            <?php $this->widget('bootstrap.widgets.TbButton', array('buttonType'=>'submit', 'type'=>'primary', 'label'=>'Submit')); ?>
-            <?php $this->widget('bootstrap.widgets.TbButton', array('buttonType'=>'reset', 'label'=>'Cancel')); ?>
-        </div>
 <?php $this->endWidget(); ?>
 
-      <?php
-$path = Yii::app()->assetManager->publish(Yii::getPathOfAlias('application.scripts'));
-Yii::app()->clientScript->registerScriptFile($path.'/jquery-number/jquery.number.min.js');
 
-Yii::app()->clientScript->registerScript('form', "
-$('#price').number(true, 2);
-$('#Product_wholesale_price').number( true, 2 );
-");
-?>
+	

@@ -5,6 +5,17 @@
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
 	<?php echo $form->errorSummary($model,'<button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>'); ?>
 	<?php echo $form->textFieldRow($model,'client_name'); ?>
+    <?php echo $form->textFieldRow($model,'client_middle_name'); ?>
+    <?php echo $form->textFieldRow($model,'client_last_name'); ?>
+    <?php echo $form->radioButtonListInlineRow(
+$model,
+'title',
+array(
+'Mr.',
+'Mrs.',
+'Ms.',
+)
+); ?>
         <?php echo $form->radioButtonListInlineRow($model, 'sex_id',
         CHtml::listData(Sex::model()->findAll(), 'sex_id', 'sex'),array('empty'=>'-')); ?>
         <?php echo $form->datepickerRow($model, 'dob', array('prepend'=>'<i class="icon-calendar"></i>')); ?>
@@ -34,6 +45,7 @@
         <?php echo $form->textFieldRow($model,'hp1'); ?>
         <?php echo $form->textFieldRow($model,'hp2'); ?>
         <?php echo $form->textFieldRow($model,'email'); ?>
+        <?php echo $form->textFieldRow($model,'pin_bbm'); ?>
         
 	 <?php echo $form->select2Row(
                     $model,
@@ -70,7 +82,8 @@
                                        'onComplete'=>"js:function(id, fileName, responseJSON){
                                         var filepath = 'upload/client/'+responseJSON['filename'];  
                                         jQuery('#frame').html('<img src=\"".Yii::app()->request->baseUrl."/'+filepath+'\" />');
-                                        jQuery('#Product_image').val(filepath);    
+  
+										  jQuery('#filename').val(responseJSON['filename']); 
                                         }",
                                        'messages'=>array(
                                                          'typeError'=>"{file} has invalid extension. Only {extensions} are allowed.",
@@ -84,6 +97,7 @@
                                     ));
                ?>
             </div>
+            <input type="hidden" name="filename" id="filename">
         </div>
 <div class="form-actions">
             <?php $this->widget('bootstrap.widgets.TbButton', array('buttonType'=>'submit', 'type'=>'primary', 'label'=>'Submit')); ?>

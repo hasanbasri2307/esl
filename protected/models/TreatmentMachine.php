@@ -42,7 +42,7 @@ class TreatmentMachine extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-                    'machine' => array(self::BELONGS_TO, 'Machine', 'machine_id'),
+                    'machine' => array(self::BELONGS_TO, 'Mesin', 'machine_id'),
 		);
 	}
 

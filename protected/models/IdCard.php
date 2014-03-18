@@ -61,7 +61,7 @@ class IdCard extends CActiveRecord
 	{
 		return array(
 			'id_card_id' => 'Id Card',
-			'id_card' => 'Id Card',
+			'id_card' => 'ID Number Type',
 		);
 	}
 

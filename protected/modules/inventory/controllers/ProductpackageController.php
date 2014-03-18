@@ -168,10 +168,19 @@ class ProductpackageController extends RController
 	/**
 	 * Lists all models.
 	 */
-	public function actionIndex()
+	public function actionIndex($search=NULL)
 	{
-		$dataProvider=new CActiveDataProvider('Productpackage');
-		$this->render('index',array(
+				$criteria = new CDbCriteria;
+               // $criteria->condition = "type = 'homecare'";
+                if(isset($search)) 
+                    $criteria->condition = "LOWER(`productpackage_number`) LIKE LOWER('%$search%') OR LOWER(`productpackage_number`) LIKE LOWER('%$search%') OR LOWER(`productpackage_name`) LIKE LOWER('%$search%') OR LOWER(`productpackage_name`) LIKE LOWER('%$search%')";
+		$dataProvider=new CActiveDataProvider('Productpackage', array(
+                    'criteria'=>$criteria,
+                    'pagination'=>array(
+                        'pageSize'=>20,
+                    ),
+                ));
+                $this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
 	}

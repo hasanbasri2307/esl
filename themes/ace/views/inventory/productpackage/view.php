@@ -40,7 +40,7 @@ $this->renderPartial('../menu',array(
                <table id="autocomplete_table" class="table table-striped table-bordered table-hover">
             <thead>
                     <tr>
-                            <th>Product Number</th>
+                            <th>Product Code</th>
                             <th>Product Name</th>
                             <th>Qty</th>
                     </tr>

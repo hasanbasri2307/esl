@@ -41,6 +41,7 @@ class ClientController extends RController
                         $model->changed =$time;
                         $model->created =$time;
                         $model->active =1;
+						$model->pict = $_POST['Client']['filename'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->client_id));
 		}
@@ -65,6 +66,7 @@ class ClientController extends RController
 		if(isset($_POST['Client']))
 		{
 			$model->attributes=$_POST['Client'];
+			$model->pict = $_POST['filename'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->client_id));
 		}
@@ -97,7 +99,7 @@ class ClientController extends RController
 		$branch_id =Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
         $criteria->condition ="branch_id=$branch_id ";
         if(isset($search)) 
-             $criteria->condition .= " AND  LOWER(`client_number`) LIKE LOWER('%$search%') OR LOWER(`client_number`) LIKE LOWER('%$search%') OR LOWER(`client_name`) LIKE LOWER('%$search%') OR LOWER(`client_name`) LIKE LOWER('%$search%')";
+             $criteria->condition = "branch_id=$branch_id  AND  LOWER(`client_number`) LIKE LOWER('%$search%') OR LOWER(`client_number`) LIKE LOWER('%$search%') OR LOWER(`client_name`) LIKE LOWER('%$search%') OR LOWER(`client_name`) LIKE LOWER('%$search%')";
 		$count=Client::model()->count($criteria);
     	$pages=new CPagination($count);
     	$pages->pageSize=18;

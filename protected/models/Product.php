@@ -80,7 +80,7 @@ class Product extends CActiveRecord
 	{
 		return array(
 			'product_id' => 'Product',
-			'product_number' => 'Product Number',
+			'product_number' => 'Product Code',
 			'product_name' => 'Product Name',
 			'description' => 'Description',
 			'price' => 'Price',

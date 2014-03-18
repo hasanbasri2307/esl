@@ -64,9 +64,9 @@ class Treatmentpackage extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'treatmentpackage_id' => 'Treatmentpackage',
-			'treatmentpackage_number' => 'Treatmentpackage Number',
-			'treatmentpackage_name' => 'Treatmentpackage Name',
+			'treatmentpackage_id' => 'Treatment Package',
+			'treatmentpackage_number' => 'Treatment Oackage Code',
+			'treatmentpackage_name' => 'Treatment Package Name',
 			'price' => 'Price',
 			'discount_percent' => 'Discount Percent',
 			'discount_rp' => 'Discount Rp',

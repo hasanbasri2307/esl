@@ -28,7 +28,7 @@ $this->renderPartial('../menu',array(
                 'template'=>"{items}{pager}",
                 'id'=>'product-grid',
                 'columns'=>array(
-                    array('name'=>'treatment_number', 'header'=>'Treatment Number'),
+                    array('name'=>'treatment_number', 'header'=>'Treatment Code'),
                     array('name'=>'treatment_name', 'header'=>'Treatment Name'),
                     array('name' => 'price','header'=>'Treatment Price'),
                      array(

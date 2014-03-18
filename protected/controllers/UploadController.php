@@ -18,7 +18,7 @@ class UploadController extends RController
         
         Yii::import("ext.EAjaxUpload.qqFileUploader");
 
-                $folder='upload/';// folder for uploaded files
+                $folder='upload/product/';// folder fo uploaded files
                 $allowedExtensions = array("jpg");
                 $sizeLimit = 1 * 1024 * 1024;// maximum file size in bytes
                 $uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
@@ -39,6 +39,23 @@ class UploadController extends RController
                 $uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
                 $result = $uploader->handleUpload($folder);
                 $result=htmlspecialchars(json_encode($result), ENT_NOQUOTES);
+				
+                echo $result;// it's array
+    }
+	
+	public function actionMachines()
+    {
+        
+        
+        Yii::import("ext.EAjaxUpload.qqFileUploader");
+
+                $folder='upload/machine/';// folder for uploaded files
+                $allowedExtensions = array("jpg");
+                $sizeLimit = 1 * 1024 * 1024;// maximum file size in bytes
+                $uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
+                $result = $uploader->handleUpload($folder);
+                $result=htmlspecialchars(json_encode($result), ENT_NOQUOTES);
+				
                 echo $result;// it's array
     }
 

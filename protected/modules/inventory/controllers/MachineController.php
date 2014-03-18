@@ -28,18 +28,19 @@ class MachineController extends RController
 	 */
 	public function actionCreate()
 	{
-		$model=new Machine;
+		$model=new Mesin;
                
-		if(isset($_POST['Machine']))
+		if(isset($_POST['Mesin']))
 		{
-			$model->attributes=$_POST['Machine'];
+			$model->attributes=$_POST['Mesin'];
                         $time = time();
                         $model->user_id =Yii::app()->getModule('user')->user()->id;
                         $model->changed =$time;
                         $model->created =$time;
+						$model->image = $_POST['file'];
 			if($model->save()){
                             
-                            $this->redirect(array('view','id'=>$model->machine_id));
+                            $this->redirect(array('view','id'=>$model->mesin_id));
                         }
 				
 		}
@@ -61,11 +62,12 @@ class MachineController extends RController
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Machine']))
+		if(isset($_POST['Mesin']))
 		{
-			$model->attributes=$_POST['Machine'];
+			$model->attributes=$_POST['Mesin'];
+			$model->image = $_POST['file'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->machine_id));
+				$this->redirect(array('view','id'=>$model->mesin_id));
 		}
 
 		$this->render('update',array(
@@ -95,14 +97,14 @@ class MachineController extends RController
 		
                  $criteria = new CDbCriteria; 
                 if(isset($search)) 
-                    $criteria->condition = " LOWER(`machine_number`) LIKE LOWER('%$search%') OR LOWER(`machine_number`) LIKE LOWER('%$search%') OR LOWER(`machine_name`) LIKE LOWER('%$search%') OR LOWER(`machine_name`) LIKE LOWER('%$search%')";
+                    $criteria->condition = " LOWER(`mesin_number`) LIKE LOWER('%$search%') OR LOWER(`mesin_number`) LIKE LOWER('%$search%') OR LOWER(`mesin_name`) LIKE LOWER('%$search%') OR LOWER(`mesin_name`) LIKE LOWER('%$search%')";
                 $sort = new CSort;
                 $sort->defaultOrder = array(
-                  'machine_number'=>CSort::SORT_DESC,
+                  'mesin_number'=>CSort::SORT_DESC,
 
                 );
 		
-		$dataProvider=new CActiveDataProvider('Machine', array(
+		$dataProvider=new CActiveDataProvider('Mesin', array(
                     'sort'=>$sort,
                     'criteria'=>$criteria,
                     'pagination'=>array(
@@ -121,8 +123,8 @@ class MachineController extends RController
 	{
 		$model=new Machine('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Machine']))
-			$model->attributes=$_GET['Machine'];
+		if(isset($_GET['Mesin']))
+			$model->attributes=$_GET['Mesin'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -138,7 +140,7 @@ class MachineController extends RController
 	 */
 	public function loadModel($id)
 	{
-		$model=Machine::model()->findByPk($id);
+		$model=Mesin::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -150,7 +152,7 @@ class MachineController extends RController
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='machine-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='Mesin-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

@@ -120,7 +120,7 @@ class ProductStockController extends RController
 	 */
 	public function actionIndex($search=NULL)
 	{
-		$branch =  Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
+				$branch =  Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
                 $criteria = new CDbCriteria;
                 $criteria->with = array("product"=>array("select"=>"*")); 
 				$criteria->together = true; // ADDED THIS
@@ -128,7 +128,8 @@ class ProductStockController extends RController
 				$criteria->params = array(':id'=>$branch);
                // $criteria->condition = "type = 'homecare'";
                 if(isset($search)) 
-                    $criteria->condition = "LOWER(`product_number`) LIKE LOWER('%$search%') OR LOWER(`product_number`) LIKE LOWER('%$search%') OR LOWER(`product_name`) LIKE LOWER('%$search%') OR LOWER(`product_name`) LIKE LOWER('%$search%')";
+                    $criteria->condition = "branch_id=:id AND LOWER(`product_number`) LIKE LOWER('%$search%') OR LOWER(`product_number`) LIKE LOWER('%$search%') OR LOWER(`product_name`) LIKE LOWER('%$search%') OR LOWER(`product_name`) LIKE LOWER('%$search%')";
+					$criteria->params = array(':id'=>$branch);
 		$dataProvider=new CActiveDataProvider('ProductStock', array(
                     'criteria'=>$criteria,
                     'pagination'=>array(
