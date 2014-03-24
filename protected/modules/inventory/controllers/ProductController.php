@@ -1,5 +1,5 @@
 <?php
-
+require_once('excel_reader2.php');
 class ProductController extends RController
 {
 	
@@ -175,4 +175,66 @@ class ProductController extends RController
             echo CJSON::encode($output);   
               
         }
+
+        public function actionImport()
+	   {
+		$model=new Product('upload');
+		if(isset($_POST['Product']))
+		{
+			$model->attributes=$_POST['Product'];
+			$itu=CUploadedFile::getInstance($model,'upload');
+			$path='/../upload.xls';
+			$itu->saveAs($path);
+			$data = new Spreadsheet_Excel_Reader($path);
+
+			$x=0;
+			$product_number=array();
+			$product_name=array();
+			$price= array();
+			
+			error_reporting(E_ALL ^ E_NOTICE);
+			for ($j = 2; $j <= $data->sheets[0]['numRows']; $j++) 
+			{
+				
+				$product_number[$x]=$data->sheets[0]['cells'][$j][1];
+				$product_name[$x]=$data->sheets[0]['cells'][$j][2];
+				$price[$x]=$data->sheets[0]['cells'][$j][3];
+				
+				$x++;
+			}
+		
+			for($i=0;$i<$x;$i++)
+			{
+
+				
+				$model=new Product('upload');
+				$model->product_number = $product_number[$i];
+				$model->product_name=$product_name[$i];
+				$model->price=$price[$i];
+				
+				$model->save();
+					
+				
+            }
+                        unlink($path);
+						
+                        Yii::app()->user->setFlash('alert','<div class="alert alert-success">
+										<button type="button" class="close" data-dismiss="alert">
+											<i class="icon-remove"></i>
+										</button>
+
+										<strong>
+											<i class="icon-remove"></i>
+											Success !!
+										</strong>
+
+										Product Berhasil Di import
+										<br>
+									</div>');
+                        $this->redirect(array('import'));
+						
+			
+		}
+		$this->render('import',array('model'=>$model));
+	}
 }

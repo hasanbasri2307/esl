@@ -43,8 +43,9 @@ class Product extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('product_number, product_name, unit_homecare,  user_id, created, changed', 'required','on'=>'create'),
+			array('product_name, price', 'required','on'=>'upload'),
 			array('product_number, product_name, price, unit_homecare', 'required','on'=>'update_inventory'),
-			array('price, price_net, unit_homecare, unit_cabin, netto, treatment, discount, discount_rp, user_id, created, changed, active', 'numerical', 'integerOnly'=>true),
+			array('price, price_net, unit_homecare, unit_cabin, treatment, discount, discount_rp, user_id, created, changed, active', 'numerical', 'integerOnly'=>true),
 			array('product_number', 'length', 'max'=>10),
 			array('product_name', 'length', 'max'=>50),
 			array('image', 'length', 'max'=>225),

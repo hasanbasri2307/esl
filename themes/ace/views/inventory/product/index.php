@@ -21,6 +21,13 @@ $this->renderPartial('../menu',array(
 
  <div class="row-fluid">
 	<div class="span12">
+     <?php
+          $this->widget('bootstrap.widgets.TbButton',array(
+                'label' => 'Import',
+                'url'=>array('import'),
+        ));
+ 
+ ?>
    
             <?php 
             $this->widget('bootstrap.widgets.TbGridView', array(
@@ -31,7 +38,7 @@ $this->renderPartial('../menu',array(
                 'columns'=>array(
                     array('name'=>'product_number', 'header'=>'Product Code'),
                     array('name'=>'product_name', 'header'=>'Product Name'),
-                     array('name'=>'unit_homecare', 'header'=>'Satuan','value'=>'$data->unitHomecare->unit_name'),
+                    
                      array('name'=>'price', 'header'=>'Price'),
                      array(
                         'class'=>'bootstrap.widgets.TbButtonColumn',
