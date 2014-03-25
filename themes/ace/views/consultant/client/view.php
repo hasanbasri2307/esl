@@ -64,6 +64,123 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
 
 ?>
 <br />
+<h4>Patient History</h4>
+<table>
+  <tr>
+                <td>1.</td>
+                <td><mark>Apakah Anda sedang menjalanin pengobatan tertentu?</mark></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><?php echo $model_ch->p_1;?></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><mark>Obat / Vitamin :</mark> </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><?php echo $model_ch->obat_vitamin;?></td>
+                
+            </tr>
+
+
+            <tr>
+                <td>2.</td>
+                <td><mark>Apakah Anda pernah / sedang dalam perawatan Dermatologist / Dokter Kulit ?</mark></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><<?php echo $model_ch->p_2;?></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><mark>Description :</mark></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><?php echo $model_ch->p_2_desc;?></td>
+                
+            </tr>
+
+
+            <tr>
+                <td>3.</td>
+                <td><mark>Apakah Anda pernah / sedang mengalami : </mark></td>
+            </tr>
+           
+            <tr>
+                <td></td>
+                <td><mark>Description :</mark></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><?php echo $model_ch->p_3;?></td>
+                
+            </tr>
+
+
+            <tr>
+                <td>4.</td>
+                <td><mark>Berapa gelas air mineral yang anda konsumsi tiap hari ? </mark></td>
+            </tr>
+           
+          
+            <tr>
+                <td></td>
+                <td><?php echo $model_ch->p_4;?> Gelas</td>
+                
+            </tr>
+
+
+
+            <tr>
+                <td>5.</td>
+                <td><mark>Apakah Anda mengidap penyakit : </mark></td>
+            </tr>
+           
+            <tr>
+                <td></td>
+                <td><mark>Description : </mark></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><?php echo $model_ch->p_5;?></td>
+                
+            </tr>
+
+
+
+             <tr>
+                <td>6.</td>
+                <td><mark>Hanya Untuk Wanita : </mark></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><?php echo $model_ch->p_6;?></td>
+            </tr>
+
+
+             <tr>
+                <td>7.</td>
+                <td><mark>Seberapa parah tingkat kesakitan ambang nyeri anda ? </mark></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><?php echo $model_ch->p_7;?></td>
+            </tr>
+
+
+            <tr>
+                <td></td>
+                <td><mark>No. Rekam Medis </mark></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><?php echo $model_ch->rekam_medik_id;?></td>
+            </tr>
+    </table>
+    <br />
 <h4>History Treathment</h4>
   <table id="autocomplete_table" class="table table-striped table-bordered table-hover">
             <thead>

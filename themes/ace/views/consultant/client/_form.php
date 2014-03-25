@@ -2,7 +2,10 @@
 		'id'=>'horizontalForm',
 		'type'=>'horizontal',
 	)); ?>
+    <h4>Personal Information</h4>
+    <br>
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
+
 	<?php echo $form->errorSummary($model,'<button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>'); ?>
 	<?php echo $form->textFieldRow($model,'client_name'); ?>
     <?php echo $form->textFieldRow($model,'client_middle_name'); ?>
@@ -22,6 +25,16 @@ array(
 <?php echo $form->textFieldRow($model,'dop'); ?>
 	<?php echo $form->radioButtonListInlineRow($model, 'marital_status_id',
         CHtml::listData(MaritalStatus::model()->findAll(), 'marital_status_id', 'marital_status'),array('empty'=>'-')); ?>
+        <?php echo $form->select2Row(
+                    $model,
+                    'agama',
+                    array(
+                        'data' => array('Hindu'=>'Hindu','Budha'=>'Budha','Katolik'=>'Katolik','Protestan'=>'Protestan','Islam'=>'Islam','Lain-lain'=>'Lain-lain'),
+                    )
+                );
+                
+                ?>
+                 <?php echo $form->textFieldRow($model,'pekerjaan'); ?>
 	<?php echo $form->radioButtonListInlineRow($model, 'nationality_id',
         CHtml::listData(Nationality::model()->findAll(), 'nationality_id', 'nationality'),array('empty'=>'-')); ?>
        
@@ -34,9 +47,10 @@ array(
                 );
                 
                 ?>
+
          <?php echo $form->textFieldRow($model,'id_card_number'); ?>
           <?php echo $form->textFieldRow($model,'client_number'); ?>
-          <?php echo $form->textFieldRow($model,'address'); ?>
+          <?php echo $form->textAreaRow($model, 'address', array('class'=>'span8', 'rows'=>5)); ?>
 	  <?php echo $form->textFieldRow($model,'city'); ?>
 	 <?php echo $form->textFieldRow($model,'zip_code'); ?>
         <?php echo $form->textFieldRow($model,'telephone'); ?>
@@ -99,6 +113,133 @@ array(
             </div>
             <input type="hidden" name="filename" id="filename">
         </div>
+        <hr>
+        <h4>Patient History</h4>
+        <br />
+        <table>
+            <tr>
+                <td>1.</td>
+                <td>Apakah Anda sedang menjalanin pengobatan tertentu?</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><?php $data = array('Ya'=>'Ya', 'Tidak'=>'Tidak');
+                echo $form->radioButtonList($model_ch,'p_1',$data,array('empty'=>'-'));?></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Obat / Vitamin</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><?php echo $form->textArea($model_ch,'obat_vitamin',array('rows'=>5, 'cols'=>20), array(
+                )); ?></td>
+                
+            </tr>
+
+
+            <tr>
+                <td>2.</td>
+                <td>Apakah Anda pernah / sedang dalam perawatan Dermatologist / Dokter Kulit ?</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><?php $data = array('Ya'=>'Ya', 'Tidak'=>'Tidak');
+                echo $form->radioButtonList($model_ch,'p_2',$data,array('empty'=>'-'));?></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Description</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><?php echo $form->textArea($model_ch,'p_2_desc',array('rows'=>5, 'cols'=>20), array(
+                )); ?></td>
+                
+            </tr>
+
+
+            <tr>
+                <td>3.</td>
+                <td>Apakah Anda pernah / sedang mengalami : </td>
+            </tr>
+           
+            <tr>
+                <td></td>
+                <td>Description</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><?php echo $form->textArea($model_ch,'p_3',array('rows'=>5, 'cols'=>20), array(
+                )); ?></td>
+                
+            </tr>
+
+
+            <tr>
+                <td>4.</td>
+                <td>Berapa gelas air mineral yang anda konsumsi tiap hari ? </td>
+            </tr>
+           
+          
+            <tr>
+                <td></td>
+                <td><?php echo $form->textField($model_ch,'p_4'); ?> Gelas</td>
+                
+            </tr>
+
+
+
+            <tr>
+                <td>5.</td>
+                <td>Apakah Anda mengidap penyakit : </td>
+            </tr>
+           
+            <tr>
+                <td></td>
+                <td>Description</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><?php echo $form->textArea($model_ch,'p_5',array('rows'=>5, 'cols'=>20), array(
+                )); ?></td>
+                
+            </tr>
+
+
+
+             <tr>
+                <td>6.</td>
+                <td>Hanya Untuk Wanita :</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><?php $data = array('Sedang Menjalani Program Kehamilan'=>'Sedang Menjalani Program Kehamilan', 'Hamil'=>'Hamil','Kontrasepsi Oral'=>'Kontrasepsi Oral');
+                echo $form->radioButtonList($model_ch,'p_6',$data,array('empty'=>'-'));?></td>
+            </tr>
+
+
+             <tr>
+                <td>7.</td>
+                <td>Seberapa parah tingkat kesakitan ambang nyeri anda ? </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><?php $data = array('Rendah'=>'Rendah', 'Sedang'=>'Sedang','Tinggi'=>'Tinggi');
+                echo $form->radioButtonList($model_ch,'p_7',$data,array('empty'=>'-'));?></td>
+            </tr>
+
+
+            <tr>
+                <td></td>
+                <td>No. Rekam Medis </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><?php echo $form->textField($model_ch,'rekam_medik_id'); ?></td>
+            </tr>
+
+        </table>
 <div class="form-actions">
             <?php $this->widget('bootstrap.widgets.TbButton', array('buttonType'=>'submit', 'type'=>'primary', 'label'=>'Submit')); ?>
             <?php $this->widget('bootstrap.widgets.TbButton', array('buttonType'=>'reset', 'label'=>'Cancel')); ?>

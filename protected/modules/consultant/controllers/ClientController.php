@@ -16,8 +16,11 @@ class ClientController extends RController
         } 
 	public function actionView($id)
 	{
+		$model = $this->loadModel($id);
+		$model_ch=ClientHistory::model()->findByAttributes(array('client_id'=>$model->client_id));
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
+			'model_ch' =>$model_ch,
 		));
 	}
 
@@ -28,6 +31,7 @@ class ClientController extends RController
 	public function actionCreate()
 	{
 		$model=new Client('create');
+		$model_ch = new ClientHistory();
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -41,13 +45,24 @@ class ClientController extends RController
                         $model->changed =$time;
                         $model->created =$time;
                         $model->active =1;
-						$model->pict = $_POST['Client']['filename'];
-			if($model->save())
+                        $model->save();
+
+                        $model_ch->attributes=$_POST['ClientHistory'];
+                        $model_ch->client_id =$model->client_id;
+                        $model_ch->user_id =Yii::app()->getModule('user')->user()->id;
+                        $model_ch->changed =$time;
+                        $model_ch->created =$time;
+                        $model_ch->rekam_medik_id =$_POST['ClientHistory']['rekam_medik_id'];
+
+                        if(isset($_POST['Client']['filename']))
+							$model->pict = $_POST['Client']['filename'];
+			if($model_ch->save())
 				$this->redirect(array('view','id'=>$model->client_id));
 		}
 
 		$this->render('create',array(
 			'model'=>$model,
+			'model_ch'=>$model_ch,
 		));
 	}
 
@@ -58,21 +73,31 @@ class ClientController extends RController
 	 */
 	public function actionUpdate($id)
 	{
+		
 		$model=$this->loadModel($id);
+		
 		$model->scenario='create';
+		$model_ch=ClientHistory::model()->findByAttributes(array('client_id'=>$model->client_id));
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Client']))
+		if(isset($_POST['Client']) && isset($_POST['ClientHistory']))
 		{
+			$time = time();
 			$model->attributes=$_POST['Client'];
-			$model->pict = $_POST['filename'];
+			  $model_ch->attributes=$_POST['ClientHistory'];
+              
+                        $model_ch->changed =$time;
+                        $model_ch->rekam_medik_id =$_POST['ClientHistory']['rekam_medik_id'];
+			if(isset($_POST['Client']['filename']))
+				$model->pict = $_POST['Client']['filename'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->client_id));
 		}
 
 		$this->render('update',array(
 			'model'=>$model,
+			'model_ch'=>$model_ch,
 		));
 	}
 
