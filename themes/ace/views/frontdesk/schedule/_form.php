@@ -5,6 +5,7 @@
 	)); ?>
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
 	<?php echo $form->errorSummary($model,'<button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>'); ?>
+	 <?php echo $form->textFieldRow($model,'order_number'); ?>
 	<div class="control-group">
 		<label class="control-label" for="form-field-1">Client Name</label>
 

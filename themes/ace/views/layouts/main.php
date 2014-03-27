@@ -135,6 +135,7 @@
 <script type="text/javascript">
             if("ontouchend" in document) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
     </script>
+    <script src="assets/js/date-time/bootstrap-datepicker.min.js"></script>
 <!--[if lte IE 8]>
 <?php $cs->registerScriptFile($baseUrl.'/assets/js/excanvas.min.js',CClientScript::POS_END);?>
 <![endif]-->
@@ -150,6 +151,7 @@ $cs->registerScriptFile($baseUrl.'/assets/js/flot/jquery.flot.pie.min.js',CClien
 $cs->registerScriptFile($baseUrl.'/assets/js/flot/jquery.flot.resize.min.js',CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl.'/assets/js/ace-elements.min.js',CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl.'/assets/js/ace.min.js',CClientScript::POS_END);
+
 //$cs->registerCssFile($baseUrl.'/css/yourcss.css');
 ?>
    

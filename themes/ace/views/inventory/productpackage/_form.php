@@ -10,7 +10,7 @@
         <?php echo $form->textFieldRow($model,'price',array('prepend'=>'Rp. ','id'=>'price')); ?>
         <?php echo $form->textFieldRow($model,'discount_percent',array('prepend'=>'% ')); ?>
         <?php echo $form->textFieldRow($model,'discount_rp',array('prepend'=>'Rp. ','id'=>'discount_rp')); ?>
-		
+		 <?php echo $form->datepickerRow($model, 'expired_promo', array('prepend'=>'<i class="icon-calendar"></i>')); ?>
         <?php echo $form->textAreaRow($model, 'description', array('class'=>'span4', 'rows'=>5)); ?>
       
        

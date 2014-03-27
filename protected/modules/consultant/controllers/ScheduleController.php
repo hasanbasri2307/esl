@@ -48,7 +48,7 @@ class ScheduleController extends RController
 	{
 		
          $id =$_POST['id'];
-		 $sql = "select *, ADDTIME(s.time_t,s.duration) as selesai from esc_schedule_room s inner join esc_client c on s.client_id = c.client_id where s.schedule_room_id ='".$id."'";
+		 $sql = "select *, ADDTIME(s.time_t,s.duration) as selesai,s.description as des from esc_schedule_room s inner join esc_client c on s.client_id = c.client_id where s.schedule_room_id ='".$id."'";
 		$connection=Yii::app()->db;
 		$command=$connection->createCommand($sql);
 		$dataReader=$command->queryAll();
@@ -146,7 +146,55 @@ class ScheduleController extends RController
 		));
 	}
 	
-	
+	public function actionCancelled($id)
+	{
+		$model=ScheduleRoom::model()->findByPk($id);
+               
+                //$room_treatment= RoomTreatment::model()->findAll(array("condition"=>"room_id=$id"));
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+		if(isset($_POST['ScheduleRoom']))
+		{
+			$model->attributes=$_POST['ScheduleRoom'];
+			$date = $model->date_t;
+			$branch_id = $model->branch_id;
+			$room_id = $model->room_id;
+			$time = $model->time_t;
+			$duration = $model->duration;
+			$secs = strtotime("00:00:01")-strtotime("00:00:00");
+			$result = date("H:i:s",strtotime($time)+$secs);
+			$secs1 = strtotime($duration)-strtotime("00:00:00");
+			$result1 = date("H:i:s",strtotime($time)+$secs);
+			$model->end_time = $result1;
+			$model->status=2;
+			
+			
+			if($model->save())
+			{
+				
+				Yii::app()->user->setFlash('alert','<div class="alert alert-success">
+										<button type="button" class="close" data-dismiss="alert">
+											<i class="icon-remove"></i>
+										</button>
+
+										<strong>
+											<i class="icon-remove"></i>
+											Success !!
+										</strong>
+
+										Jadwal Berhasil Diubah
+										<br>
+									</div>');
+				$this->redirect(array('schedule/index/date/'.$model->date_t));
+			}
+
+		}
+
+		$this->render('update',array(
+			'model'=>$model
+		));
+	}
+
 	public function actionCreate()
 	{
 		$model=new ScheduleRoom;

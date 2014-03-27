@@ -42,7 +42,7 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
 		'nationality.nationality',
 		'idcard.id_card',
 		'id_card_number',
-    'client_number',
+        'client_number',
 		'address',
 		'telephone',
 		'hp1',
@@ -54,6 +54,7 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
 		'telephone',
 		'pin_bbm',
 		'sourceInfo.source_info',
+        'description',
     array('name'=>'branch.branch_name', 'label'=>'Join By Branch'),
     'date_join',
 		

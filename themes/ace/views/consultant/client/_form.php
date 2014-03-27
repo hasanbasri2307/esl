@@ -70,6 +70,7 @@ array(
                 );
                 
                 ?>
+                <?php echo $form->textAreaRow($model, 'description', array('class'=>'span4', 'rows'=>5)); ?>
 	 <?php echo $form->datepickerRow($model, 'date_join', array('prepend'=>'<i class="icon-calendar"></i>')); ?>
      <div class="control-group ">
             <label class="control-label required" for="Product_product_image">Image </label>

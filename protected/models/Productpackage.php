@@ -34,7 +34,7 @@ class Productpackage extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('productpackage_number, productpackage_name, price,  description, user_id, created, changed', 'required','on'=>'create'),
+			array('productpackage_number, productpackage_name, expired_date, price,  description, user_id, created, changed', 'required','on'=>'create'),
 			array(' price,discount_percent,discount_rp  ', 'required','on'=>'accounting'),
 			array('price, user_id, created, changed, active', 'numerical', 'integerOnly'=>true),
 			array('discount_percent, discount_rp', 'numerical'),
@@ -72,6 +72,7 @@ class Productpackage extends CActiveRecord
 			'discount_rp' => 'Discount Rp',
 			'description' => 'Description',
 			'user_id' => 'User',
+			'expired_promo' =>'Expired Promo',
 			'created' => 'Created',
 			'changed' => 'Changed',
 			'active' => 'Active',

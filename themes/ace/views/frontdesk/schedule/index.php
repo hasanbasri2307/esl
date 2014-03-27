@@ -47,6 +47,28 @@ if($model){
 	<?php echo Yii::app()->user->getFlash('alert'); ?>
 <?php endif; ?>
 	<div class="span12">
+   <?php     
+   $this->widget(
+    'bootstrap.widgets.TbDatePicker',
+    array(
+    'name' => 'tanggal',
+    'htmlOptions' => array(
+        'placeholder'=>'Insert Date',
+        'style' => 'margin-bottom:1px',
+        'class'=>'tanggal',
+        ),
+    )
+    ); 
+    ?> 
+    <?php
+   $this->widget(
+'bootstrap.widgets.TbButton',
+array(
+'label' => 'Submit',
+'size' => 'small',
+'htmlOptions'   => array('id'=> 'ok'),
+)
+);?>
           <ul class="pager">
             <li class="previous">
                     
@@ -191,7 +213,7 @@ if($model){
        		 
 				
 			  
-       		 $("#modal-body-1").html("<table><tr><td>Client ID</td><td>:</td><td>"+data[0].client_number+"</td></tr><tr><td>Client Name</td><td>:</td><td>"+data[0].client_name+"</td></tr><tr><td>Date</td><td>:</td><td>"+data[0].date_t+"</td></tr><tr><td>Start</td><td>:</td><td>"+data[0].time_t+"</td></tr><tr><td>Finish</td><td>:</td><td>"+data[0].selesai+"</td></tr><tr><td>Duration</td><td>:</td><td>"+data[0].duration+"</td></tr></table>");
+       		 $("#modal-body-1").html("<table><tr><td>Client ID</td><td>:</td><td>"+data[0].client_number+"</td></tr><tr><td>Client Name</td><td>:</td><td>"+data[0].client_name+"</td></tr><tr><td>Date</td><td>:</td><td>"+data[0].date_t+"</td></tr><tr><td>Start</td><td>:</td><td>"+data[0].time_t+"</td></tr><tr><td>Finish</td><td>:</td><td>"+data[0].selesai+"</td></tr><tr><td>Duration</td><td>:</td><td>"+data[0].duration+"</td></tr><tr><td>Description</td><td>:</td><td>"+data[0].des+"</td></tr></table>");
 			 
 			$("#schedule_room_id").val(data[0].schedule_room_id);
 			}
@@ -228,19 +250,7 @@ if($model){
  $script3 = ' $("#cancel").click(function(){
 	 		var id = $("#schedule_room_id").val();
 			
-			$.ajax({
-			type:"POST",
-			url:"'.$url2.'",
-			cache:false,
-			data:"id="+ id ,
-			success:function(){
-				$("#myModal").modal("hide");
-				location.reload();
-			},
-			error:function (xhr, ajaxOptions, thrownError){
-        alert("Error Status: " + xhr.status + " Thrown Errors: "+thrownError);
-    }
-		 });
+			window.location  = "'.Yii::app()->createUrl('/frontdesk/schedule/cancelled/id/"+id+"').'";
         
     });
                     ';
@@ -256,7 +266,19 @@ if($model){
                     ';
   Yii::app()->clientScript->registerScript('rescheduleModal',$script4, CClientScript::POS_END);
   
+
+  $script5 = ' $("#ok").click(function(){
+            var tanggal = $(".tanggal").val();
+            
+            window.location  = "'.Yii::app()->createUrl('/frontdesk/schedule/index/date/"+tanggal+"').'";
+        
+    });
+                    ';
+  Yii::app()->clientScript->registerScript('rescheduleModal',$script5, CClientScript::POS_END);
+  
  ?>
+ 
+ 
 
 
    

@@ -1,30 +1,27 @@
 <?php
 
 /**
- * This is the model class for table "{{schedule_room}}".
+ * This is the model class for table "{{mesin_detail}}".
  *
- * The followings are the available columns in table '{{schedule_room}}':
- * @property integer $schedule_room_id
+ * The followings are the available columns in table '{{mesin_detail}}':
+ * @property integer $mesin_detail_id
+ * @property integer $mesin_id
  * @property integer $branch_id
- * @property integer $room_id
- * @property integer $client_id
- * @property string $date_t
- * @property string $time_t
- * @property string $duration
- * @property string $end_time
+ * @property string $date_purchase
+ * @property string $date_maintenance
  * @property integer $user_id
- * @property integer $status
- * @property integer $changed
  * @property integer $created
+ * @property integer $changed
+ * @property integer $active
  */
-class ScheduleRoom extends CActiveRecord
+class MesinDetail extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return '{{schedule_room}}';
+		return '{{mesin_detail}}';
 	}
 
 	/**
@@ -35,13 +32,13 @@ class ScheduleRoom extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			
-			array('branch_id, room_id, client_id, date_t, time_t,order_number, duration, end_time, user_id, status', 'required','on'=>'create'),
-			array('branch_id, room_id, client_id, user_id, status, changed, created', 'numerical', 'integerOnly'=>true),
+			array('mesin_id, branch_id, date_maintenance, user_id, created, changed', 'required'),
+			array('mesin_id, branch_id, user_id, created, changed, active', 'numerical', 'integerOnly'=>true),
+			array('date_maintenance', 'length', 'max'=>2),
+			array('date_purchase', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('schedule_room_id, branch_id, room_id, client_id, date_t,description, time_t, duration, end_time', 'safe', 'on'=>'update'),
-			array('schedule_room_id, branch_id, room_id, client_id, date_t, time_t, duration, end_time, user_id, status, changed, created', 'safe', 'on'=>'search'),
+			array('mesin_detail_id, mesin_id, branch_id, date_purchase, date_maintenance, user_id, created, changed, active', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -53,7 +50,8 @@ class ScheduleRoom extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-		'client' => array(self::BELONGS_TO, 'Client', 'client_id'),
+			'machine' => array(self::BELONGS_TO, 'Mesin', 'mesin_id'),
+			'branch' => array(self::BELONGS_TO, 'Branch', 'branch_id'),
 		);
 	}
 
@@ -63,20 +61,15 @@ class ScheduleRoom extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'schedule_room_id' => 'Schedule Room',
+			'mesin_detail_id' => 'Mesin Detail',
+			'mesin_id' => 'Mesin',
 			'branch_id' => 'Branch',
-			'room_id' => 'Room',
-			'client_id' => 'Client',
-			'date_t' => 'Date',
-			'time_t' => 'Time',
-			'duration' => 'Duration',
-			'end_time' => 'End Time',
+			'date_purchase' => 'Date Purchase',
+			'date_maintenance' => 'Date of Maintenance (month)',
 			'user_id' => 'User',
-			'status' => 'Status',
-			'order_number'=>'Order Number',
-			'description'=>'Description',
-			'changed' => 'Changed',
 			'created' => 'Created',
+			'changed' => 'Changed',
+			'active' => 'Active',
 		);
 	}
 
@@ -98,18 +91,15 @@ class ScheduleRoom extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('schedule_room_id',$this->schedule_room_id);
+		$criteria->compare('mesin_detail_id',$this->mesin_detail_id);
+		$criteria->compare('mesin_id',$this->mesin_id);
 		$criteria->compare('branch_id',$this->branch_id);
-		$criteria->compare('room_id',$this->room_id);
-		$criteria->compare('client_id',$this->client_id);
-		$criteria->compare('date_t',$this->date_t,true);
-		$criteria->compare('time_t',$this->time_t,true);
-		$criteria->compare('duration',$this->duration,true);
-		$criteria->compare('end_time',$this->end_time,true);
+		$criteria->compare('date_purchase',$this->date_purchase,true);
+		$criteria->compare('date_maintenance',$this->date_maintenance,true);
 		$criteria->compare('user_id',$this->user_id);
-		$criteria->compare('status',$this->status);
-		$criteria->compare('changed',$this->changed);
 		$criteria->compare('created',$this->created);
+		$criteria->compare('changed',$this->changed);
+		$criteria->compare('active',$this->active);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -120,7 +110,7 @@ class ScheduleRoom extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return ScheduleRoom the static model class
+	 * @return MesinDetail the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

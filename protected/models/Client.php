@@ -120,6 +120,7 @@ class Client extends CActiveRecord
 			'date_join' => 'Date Join',
 			'pin_bbm' => 'Pin BBM',
 			'user_id' => 'User',
+			'description' => 'Description',
 			'created' => 'Created',
 			'changed' => 'Changed',
 			'active' => 'Active',

@@ -61,9 +61,9 @@ class Mesin extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'mesin_id' => 'Mesin',
-			'mesin_number' => 'Mesin Code',
-			'mesin_name' => 'Mesin Name',
+			'mesin_id' => 'Machine',
+			'mesin_number' => 'Machine Code',
+			'mesin_name' => 'Machine Name',
 			'description' => 'Description',
 			'image' => 'Image',
 			'user_id' => 'User',

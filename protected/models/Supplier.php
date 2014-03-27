@@ -42,7 +42,7 @@ class Supplier extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('supplier_number, supplier_name, contact_person, Jabatan, Email, hp, npwp, nama_bank, kategori, no_rekening, ot_start, user_id, created, changed', 'required'),
+			array('supplier_number, supplier_name, description,contact_person, Jabatan, Email, hp, npwp, nama_bank, kategori, no_rekening, ot_start, user_id, created, changed', 'required'),
 			array('user_id, created, changed, active', 'numerical', 'integerOnly'=>true),
 			array('supplier_number', 'length', 'max'=>10),
 			array('supplier_name', 'length', 'max'=>40),
