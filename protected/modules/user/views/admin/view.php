@@ -11,6 +11,7 @@ $this->menu=array(
         array('label'=>'User','icon' => 'icon-user', 'url'=>array('/user/admin'), 'active'=>true),
         array('label'=>'Rooms','icon' => 'icon-home', 'url'=>array('/admin/room'), 'active'=>false),
         array('label'=>'Branch','icon' => 'icon-flag', 'url'=>array('/admin/branch'), 'active'=>false),
+        array('label'=>'Log Access','icon' => 'icon-flag', 'url'=>array('/admin/log'), 'active'=>false),
 );
 ?><h1><?php echo UserModule::t('View User').' "'.$model->username.'"'; ?></h1>
 

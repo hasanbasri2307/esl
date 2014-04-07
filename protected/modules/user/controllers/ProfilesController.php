@@ -11,6 +11,7 @@ class ProfilesController extends RController
 	{
 		 return array( 
                       'rights', 
+                       array('ext.activityLog.QLogFilter','logCategory'=>'Backend','logLevel'=>'action'),
                    ); 
 	}
 

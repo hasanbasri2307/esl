@@ -22,7 +22,7 @@ $this->renderPartial('../menu',array(
     <?php echo Yii::app()->user->getFlash('alert'); ?>
 <?php endif; ?>
 	<div class="span12">
-           <?php echo $this->renderPartial('_upload', array('model'=>$model)); ?>
+           <?php echo $this->renderPartial('_upload', array('model'=>$model,'model2'=>$model2)); ?>
 
     </div>
 </div>

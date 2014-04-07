@@ -173,21 +173,30 @@ return array(
 			// use 'site/error' action to display errors
 			'errorAction'=>'site/error',
 		),
-		'log'=>array(
-			'class'=>'CLogRouter',
-			'routes'=>array(
-				array(
-					'class'=>'CFileLogRoute',
-					'levels'=>'error, warning',
-				),
-				// uncomment the following to show log messages on web pages
-				/*
-				array(
-					'class'=>'CWebLogRoute',
-				),
-				*/
-			),
-		),
+		'log' => array(
+         'class' => 'CLogRouter',
+             'routes' => array(         
+               
+               array(
+                        'class'=>'ext.activityLog.QDbLogRoute',
+                        // table name
+                         'logTableName'=>'trn_activity_log',
+
+                       // level a
+                      
+                       'levels'=>'action',
+                       'categories'=>array('Backend'),
+
+                       'connectionID'=>'db',
+
+                       // set true for first installation, 
+                       'autoCreateLogTable'=>true,
+
+                       // set true if log message will inserted to table
+                       'collectMessage'=>false,
+                    ),
+            ),
+  		 ),
 	),
 
 	// application-level parameters that can be accessed

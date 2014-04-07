@@ -33,9 +33,11 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
 	'attributes'=>array(
 		'product_number',
 		'product_name',
+		'type',
 		'description',
 		'price',
-		'unit.unit_name',
+		'unitHomecare.unit_name',
+		'unitHomecare.type',
 	
 	),
 )); 

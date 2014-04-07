@@ -26,6 +26,12 @@ $this->renderPartial('../menu',array(
                 'label' => 'Create',
                 'url'=>array('create'),
         ));
+        ?> 
+        <?php
+           $this->widget('bootstrap.widgets.TbButton',array(
+                'label' => 'Import',
+                'url'=>array('import'),
+        ));
  
  ?>
             <?php 

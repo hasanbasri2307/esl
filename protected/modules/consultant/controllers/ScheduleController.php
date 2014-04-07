@@ -7,6 +7,7 @@ class ScheduleController extends RController
 	{
 		 return array( 
                     'rights', 
+                    array('ext.activityLog.QLogFilter','logCategory'=>'Backend','logLevel'=>'action'),
              ); 
 	}
 
@@ -209,6 +210,9 @@ class ScheduleController extends RController
                         $model->branch_id =Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
 						$model->user_id =Yii::app()->getModule('user')->user()->profile->getAttribute('user_id');
 						$model->client_id =$_POST['client_id'];
+						$model->time_t =$_POST['ScheduleRoom']['time_t'];
+						$model->date_t =$_POST['ScheduleRoom']['date_t'];
+						$model->duration =$_POST['ScheduleRoom']['duration'];
                         $model->changed =$time;
                         $model->created =$time;
 						$model->status = 1;
@@ -259,7 +263,8 @@ class ScheduleController extends RController
 														Jadwal Berhasil Dibuat
 														<br>
 													</div>');
-								$this->redirect(array('schedule/index/date/'.$model->date_t));
+								$this->redirect(array('schedule/index/date/'.$_POST['ScheduleRoom']['date_t']));
+								
 							}
 						}
 					

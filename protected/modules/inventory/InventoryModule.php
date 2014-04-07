@@ -40,14 +40,14 @@ class InventoryModule extends CWebModule
 		
 	function autoNumber($prefix,$id, $table)
 	{ 
-		$sql = 'SELECT MAX(RIGHT('.$id.', 4)) as max_id FROM '.$table.' ORDER BY '.$id;
+		$sql = 'SELECT MAX(RIGHT('.$id.', 6)) as max_id FROM '.$table.' ORDER BY '.$id;
 		$connection=Yii::app()->db;
 		$command=$connection->createCommand($sql);
 		$result = $command->queryRow();
 		$id_max = $result['max_id'];
-		$sort_num = (int) substr($id_max, 1, 4);
+		$sort_num = (int) substr($id_max, 1, 6);
 	    $sort_num++;
-	    $new_code = sprintf("%04s", $sort_num);
+	    $new_code = sprintf("%06s", $sort_num);
 		return $prefix.$new_code; 
 	}
 

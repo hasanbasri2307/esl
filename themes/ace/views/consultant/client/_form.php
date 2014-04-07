@@ -231,14 +231,7 @@ array(
             </tr>
 
 
-            <tr>
-                <td></td>
-                <td>No. Rekam Medis </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td><?php echo $form->textField($model_ch,'rekam_medik_id'); ?></td>
-            </tr>
+           
 
         </table>
 <div class="form-actions">

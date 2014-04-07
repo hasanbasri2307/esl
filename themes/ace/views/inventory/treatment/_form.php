@@ -12,7 +12,16 @@
 	<?php echo $form->errorSummary($model,'<button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>'); ?>
 	<?php echo $form->textFieldRow($model,'treatment_number'); ?>
 	<?php echo $form->textFieldRow($model,'treatment_name'); ?>
-
+    <?php 
+         $data = array(""=>"--Pilih--","ACT"=>"ACT","Dermaroller"=>"Dermaroller","Derma White"=>"Derma White","Dermalift"=>"Dermalift","Euroskinpeel"=>"Euroskinpeel","Facial Treatment"=>"Facial Treatment","Injection"=>"Injection","IPL (Intense Pulse Light) NannoLight USA"=>"IPL (Intense Pulse Light) NannoLight USA","Laser CO2"=>"Laser CO2","RF Tripolar"=>"RF Tripolar","Ultrasound"=>"Ultrasound");
+         echo $form->select2Row(
+                    $model,
+                    'treatment_type',
+                    array(
+                        'data' => $data,
+                    )
+                );
+        ?>
      <?php echo $form->textAreaRow($model, 'description', array('class'=>'span8', 'rows'=>5,)); ?>
         
         <?php echo $form->timepickerRow(

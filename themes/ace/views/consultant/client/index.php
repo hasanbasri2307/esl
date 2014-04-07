@@ -50,7 +50,7 @@ $this->renderPartial('../menu',array(
                                             </div>
                                             <div class="infobox-content">
                                                 <span class="bigger-110">~</span>
-                                                Nama&nbsp &nbsp : <?php echo $item->client_name;?>
+                                                Nama&nbsp &nbsp : <?php echo $item->client_name.' '.$item->client_middle_name.' '.$item->client_last_name;?>
                                             </div>
                                              <div class="infobox-content">
                                                 <span class="bigger-110">~</span>

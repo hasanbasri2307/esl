@@ -18,6 +18,7 @@ $this->renderPartial('../menu',array(
 	
 		'treatment_number',
 		'treatment_name',
+    'treatment_type',
     'price',
 		'description',
 	),

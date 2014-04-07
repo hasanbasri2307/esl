@@ -7,6 +7,7 @@ class ClientController extends RController
 	{
 		 return array( 
                     'rights', 
+                    array('ext.activityLog.QLogFilter','logCategory'=>'Backend','logLevel'=>'action'),
              ); 
 	}
 
@@ -31,7 +32,7 @@ class ClientController extends RController
 	public function actionCreate()
 	{
 		$model=new Client('create');
-		$model_ch = new ClientHistory();
+		$model_ch = new ClientHistory('create');
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -39,11 +40,18 @@ class ClientController extends RController
 		if(isset($_POST['Client']))
 		{
 			$model->attributes=$_POST['Client'];
+						$prefix = Yii::app()->getModule('user')->user()->profile->branch->getAttribute('branch_number');
                         $time = time();
                         $model->user_id =Yii::app()->getModule('user')->user()->id;
                         $model->branch_id =Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id'); 
                         $model->changed =$time;
                         $model->created =$time;
+                        $model->client_middle_name = $_POST['Client']['client_middle_name'];
+                        $model->client_last_name = $_POST['Client']['client_last_name'];
+                        $model->title = $_POST['Client']['title'];
+                        $model->pin_bbm = $_POST['Client']['pin_bbm'];
+                        $model->description = $_POST['Client']['description'];
+                        $model->client_number = Yii::app()->getModule('consultant')->autoNumber("ESL-".$prefix.'-',"client_number","esc_client"); 
                         $model->active =1;
                         $model->save();
 
@@ -52,7 +60,7 @@ class ClientController extends RController
                         $model_ch->user_id =Yii::app()->getModule('user')->user()->id;
                         $model_ch->changed =$time;
                         $model_ch->created =$time;
-                        $model_ch->rekam_medik_id =$_POST['ClientHistory']['rekam_medik_id'];
+                        $model_ch->rekam_medik_id =Yii::app()->getModule('consultant')->autoNumber("RM","rekam_medik_id","esc_client_history"); 
 
                         if(isset($_POST['Client']['filename']))
 							$model->pict = $_POST['Client']['filename'];
@@ -77,6 +85,7 @@ class ClientController extends RController
 		$model=$this->loadModel($id);
 		
 		$model->scenario='create';
+		$model_ch->scenario='create';
 		$model_ch=ClientHistory::model()->findByAttributes(array('client_id'=>$model->client_id));
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -88,7 +97,7 @@ class ClientController extends RController
 			  $model_ch->attributes=$_POST['ClientHistory'];
               
                         $model_ch->changed =$time;
-                        $model_ch->rekam_medik_id =$_POST['ClientHistory']['rekam_medik_id'];
+                        
 			if(isset($_POST['Client']['filename']))
 				$model->pict = $_POST['Client']['filename'];
 			if($model->save())
@@ -204,10 +213,13 @@ class ClientController extends RController
 	
 	public function actionImport()
 	{
+		$prefix = Yii::app()->getModule('user')->user()->profile->branch->getAttribute('branch_number');
 		$model=new Client('upload');
+		$model2 = new ClientHistory('upload');
 		if(isset($_POST['Client']))
 		{
 			$model->attributes=$_POST['Client'];
+			
 			$itu=CUploadedFile::getInstance($model,'upload');
 			$path='/../upload.xls';
 			$itu->saveAs($path);
@@ -215,8 +227,10 @@ class ClientController extends RController
 
 			$x=0;
 			$client_name=array();
+			$client_middle_name=array();
+			$client_last_name=array();
+			$title=array();
 			$id_card_number=array();
-			$client_number= array();
 			$dop=array();
 			$dob=array();
 			$address=array();
@@ -224,10 +238,10 @@ class ClientController extends RController
 			$zip_code=array();
 			$telephone = array();
 			$fax_number= array();
+			$pin_bbm=array();
 			$phone_kantor= array();
 			$hp1= array();
 			$hp2= array();
-			
 			$email= array();
 			$branch_id= array();
 			$date_join= array();
@@ -236,20 +250,24 @@ class ClientController extends RController
 			{
 				
 				$client_name[$x]=$data->sheets[0]['cells'][$j][1];
-				$id_card_number[$x]=$data->sheets[0]['cells'][$j][2];
-				$client_number[$x]=$data->sheets[0]['cells'][$j][3];
-				$dop[$x]=$data->sheets[0]['cells'][$j][4];
-				$dob[$x]=$data->sheets[0]['cells'][$j][5];
-				$address[$x]=$data->sheets[0]['cells'][$j][6];
-				$city[$x]=$data->sheets[0]['cells'][$j][7];
-				$telephone[$x]=$data->sheets[0]['cells'][$j][8];
-				$fax_number[$x]=$data->sheets[0]['cells'][$j][9];
-				$phone_kantor[$x]=$data->sheets[0]['cells'][$j][10];
-				$hp1[$x]=$data->sheets[0]['cells'][$j][11];
-				$hp2[$x]=$data->sheets[0]['cells'][$j][12];
-				$email[$x]=$data->sheets[0]['cells'][$j][13];
-				$branch_id[$x]=$data->sheets[0]['cells'][$j][14];
-				$date_join[$x]=$data->sheets[0]['cells'][$j][15];
+				$client_middle_name[$x]=$data->sheets[0]['cells'][$j][2];
+				$client_last_name[$x]=$data->sheets[0]['cells'][$j][3];
+				$title[$x] = $data->sheets[0]['cells'][$j][4];
+				$id_card_number[$x]=$data->sheets[0]['cells'][$j][5];
+				$dop[$x]=$data->sheets[0]['cells'][$j][6];
+				$dob[$x]=$data->sheets[0]['cells'][$j][7];
+				$address[$x]=$data->sheets[0]['cells'][$j][8];
+				$city[$x]=$data->sheets[0]['cells'][$j][9];
+				$zip_code[$x]=$data->sheets[0]['cells'][$j][10];
+				$telephone[$x]=$data->sheets[0]['cells'][$j][11];
+				$fax_number[$x]=$data->sheets[0]['cells'][$j][12];
+				$phone_kantor[$x]=$data->sheets[0]['cells'][$j][13];
+				$hp1[$x]=$data->sheets[0]['cells'][$j][14];
+				$hp2[$x]=$data->sheets[0]['cells'][$j][15];
+				$pin_bbm[$x]=$data->sheets[0]['cells'][$j][16];
+				$email[$x]=$data->sheets[0]['cells'][$j][17];
+				$branch_id[$x]=$data->sheets[0]['cells'][$j][18];
+				$date_join[$x]=$data->sheets[0]['cells'][$j][19];
 				$x++;
 			}
 		
@@ -259,26 +277,37 @@ class ClientController extends RController
 				
 				$model=new Client('upload');
 				$model->client_name = $client_name[$i];
+				$model->client_middle_name = $client_middle_name[$i];
+				$model->client_last_name = $client_last_name[$i];
+				$model->title = $title[$i];
 				$model->id_card_number=$id_card_number[$i];
-				$model->client_number=$client_number[$i];
+				$model->client_number=Yii::app()->getModule('consultant')->autoNumber("ESL-".$prefix.'-',"client_number","esc_client"); 
 				$model->dop=$dop[$i];
 				$model->dob=$dob[$i];
 				$model->address=$address[$i];
 				$model->city=$city[$i];
+				$model->zip_code=$zip_code[$i];
 				$model->telephone=$telephone[$i];
 				$model->fax_number=$fax_number[$i];
 				$model->phone_kantor=$phone_kantor[$i];
 				$model->hp1=$hp1[$i];
 				$model->hp2=$hp2[$i];
+				$model->pin_bbm=$pin_bbm[$i];
 				$model->email=$email[$i];
 				$model->branch_id=$branch_id[$i];
 				$model->date_join=$date_join[$i];
 
 				$model->save();
-					
+				
+				$model2 = new ClientHistory('upload');
+				$model2->client_id = $model->client_id;
+				$model2->rekam_medik_id = Yii::app()->getModule('consultant')->autoNumber("RM","rekam_medik_id","esc_client_history"); 
+				$model2->save();
+				
 				
             }
                         unlink($path);
+						
 						
                         Yii::app()->user->setFlash('alert','<div class="alert alert-success">
 										<button type="button" class="close" data-dismiss="alert">
@@ -294,9 +323,10 @@ class ClientController extends RController
 										<br>
 									</div>');
                         $this->redirect(array('import'));
+                        
 						
 			
 		}
-		$this->render('import',array('model'=>$model));
+		$this->render('import',array('model'=>$model,'model2'=>$model2));
 	}
 }

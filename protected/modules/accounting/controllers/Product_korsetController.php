@@ -7,7 +7,8 @@ class Product_korsetController extends RController
 	public function filters()
 	{
 		 return array( 
-                    'rights', 
+                    'rights',
+                     array('ext.activityLog.QLogFilter','logCategory'=>'Backend','logLevel'=>'action'), 
              ); 
 	}
 

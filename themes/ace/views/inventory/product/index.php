@@ -21,7 +21,8 @@ $this->renderPartial('../menu',array(
 
  <div class="row-fluid">
 	<div class="span12">
-     <?php
+    <?php 
+     
           $this->widget('bootstrap.widgets.TbButton',array(
                 'label' => 'Import',
                 'url'=>array('import'),

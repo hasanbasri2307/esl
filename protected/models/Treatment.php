@@ -40,6 +40,7 @@ class Treatment extends CActiveRecord
 		return array(
 			array('treatment_number, treatment_name, duration, user_id, created, changed', 'required','on'=>'create'),
 			array('point,price', 'required','on'=>'accounting'),
+			array('treatment_name', 'required','on'=>'upload'),
 			array('price, point, user_id, created, changed, active', 'numerical', 'integerOnly'=>true),
 			array('treatment_number', 'length', 'max'=>10),
 			array('treatment_name', 'length', 'max'=>40),
@@ -70,6 +71,7 @@ class Treatment extends CActiveRecord
 			'treatment_id' => 'Treatment',
 			'treatment_number' => 'Treatment Code',
 			'treatment_name' => 'Treatment Name',
+			'treatment_type'=>'Treatment Type',
 			'description' => 'Description',
 			'duration' => 'Duration',
 			'price' => 'Price',

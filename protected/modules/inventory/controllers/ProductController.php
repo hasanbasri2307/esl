@@ -8,6 +8,7 @@ class ProductController extends RController
 	{
 		 return array( 
                     'rights', 
+                     array('ext.activityLog.QLogFilter','logCategory'=>'Backend','logLevel'=>'action'),
              ); 
 	}
 
@@ -41,6 +42,7 @@ class ProductController extends RController
                         $model->user_id =Yii::app()->getModule('user')->user()->id;
                         $model->changed =$time;
                         $model->created =$time;
+                        $model->product_number = Yii::app()->getModule('inventory')->autoNumber("P","product_number","esc_product");
 			if($model->save()){
                             if($model->unitHomecare->unit_code=="set"){
                                 if(isset($_POST['ProductId'])){
@@ -188,17 +190,15 @@ class ProductController extends RController
 			$data = new Spreadsheet_Excel_Reader($path);
 
 			$x=0;
-			$product_number=array();
 			$product_name=array();
-			$price= array();
+	
 			
 			error_reporting(E_ALL ^ E_NOTICE);
 			for ($j = 2; $j <= $data->sheets[0]['numRows']; $j++) 
 			{
 				
-				$product_number[$x]=$data->sheets[0]['cells'][$j][1];
-				$product_name[$x]=$data->sheets[0]['cells'][$j][2];
-				$price[$x]=$data->sheets[0]['cells'][$j][3];
+				$product_name[$x]=$data->sheets[0]['cells'][$j][1];
+		
 				
 				$x++;
 			}
@@ -208,9 +208,8 @@ class ProductController extends RController
 
 				
 				$model=new Product('upload');
-				$model->product_number = $product_number[$i];
 				$model->product_name=$product_name[$i];
-				$model->price=$price[$i];
+				$model->product_number = Yii::app()->getModule('inventory')->autoNumber("P","product_number","esc_product");
 				
 				$model->save();
 					

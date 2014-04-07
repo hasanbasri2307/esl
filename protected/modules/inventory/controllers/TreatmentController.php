@@ -1,5 +1,5 @@
 <?php
-
+require_once('excel_reader2.php');
 class TreatmentController extends RController
 {
 	
@@ -8,6 +8,7 @@ class TreatmentController extends RController
 	{
 		 return array( 
                     'rights', 
+                     array('ext.activityLog.QLogFilter','logCategory'=>'Backend','logLevel'=>'action'),
              ); 
 	}
 
@@ -123,7 +124,7 @@ class TreatmentController extends RController
                     $criteria->condition = " LOWER(`treatment_number`) LIKE LOWER('%$search%') OR LOWER(`treatment_number`) LIKE LOWER('%$search%') OR LOWER(`treatment_name`) LIKE LOWER('%$search%') OR LOWER(`treatment_name`) LIKE LOWER('%$search%')";
                 $sort = new CSort;
                 $sort->defaultOrder = array(
-                  'treatment_number'=>CSort::SORT_DESC,
+                  'treatment_number'=>CSort::SORT_ASC,
 
                 );
 		
@@ -353,6 +354,65 @@ class TreatmentController extends RController
                         'model_machine'=>$model_machine,
 		));
        }
+
+        public function actionImport()
+       {
+        $model=new Treatment('upload');
+        if(isset($_POST['Treatment']))
+        {
+            $model->attributes=$_POST['Treatment'];
+            $itu=CUploadedFile::getInstance($model,'upload');
+            $path='/../upload.xls';
+            $itu->saveAs($path);
+            $data = new Spreadsheet_Excel_Reader($path);
+
+            $x=0;
+            $treatment_name=array();
+            $treatment_type=array();
+            
+            error_reporting(E_ALL ^ E_NOTICE);
+            for ($j = 2; $j <= $data->sheets[0]['numRows']; $j++) 
+            {
+                
+                $treatment_name[$x]=$data->sheets[0]['cells'][$j][1];
+                 $treatment_type[$x]=$data->sheets[0]['cells'][$j][2];
+                
+                $x++;
+            }
+        
+            for($i=0;$i<$x;$i++)
+            {
+
+                
+                $model=new Treatment('upload');
+                $model->treatment_name=$treatment_name[$i];
+                $model->treatment_number = Yii::app()->getModule('inventory')->autoNumber("TR","treatment_number","esc_treatment");
+                $model->treatment_type=$treatment_type[$i];
+                $model->save();
+                    
+                
+            }
+                        unlink($path);
+                        
+                        Yii::app()->user->setFlash('alert','<div class="alert alert-success">
+                                        <button type="button" class="close" data-dismiss="alert">
+                                            <i class="icon-remove"></i>
+                                        </button>
+
+                                        <strong>
+                                            <i class="icon-remove"></i>
+                                            Success !!
+                                        </strong>
+
+                                        Treatment Berhasil Di import
+                                        <br>
+                                    </div>');
+                        $this->redirect(array('import'));
+                        
+            
+        }
+        $this->render('import',array('model'=>$model));
+    }
 	   
 	   
 }

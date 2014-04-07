@@ -6,6 +6,7 @@ class TreatmentpackageController extends RController
 	{
 		 return array( 
                     'rights', 
+                     array('ext.activityLog.QLogFilter','logCategory'=>'Backend','logLevel'=>'action'),
              ); 
 	}
 
@@ -22,6 +23,8 @@ class TreatmentpackageController extends RController
             'model_treatment'=>$model_treatment,
 		));
 	}
+
+	
 
 	/**
 	 * Creates a new model.

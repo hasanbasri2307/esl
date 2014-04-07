@@ -6,6 +6,9 @@
  * The followings are the available columns in table '{{client}}':
  * @property integer $client_id
  * @property string $client_name
+ * @property string $client_middle_name
+ * @property string $client_last_name
+ * @property string $title
  * @property integer $sex_id
  * @property integer $marital_status_id
  * @property integer $nationality_id
@@ -18,12 +21,17 @@
  * @property string $city
  * @property string $zip_code
  * @property string $telephone
+ * @property string $fax_number
  * @property string $phone_kantor
  * @property string $hp1
  * @property string $hp2
  * @property string $email
+ * @property string $pin_bbm
+ * @property string $agama
+ * @property string $pekerjaan
  * @property string $pict
  * @property integer $source_info_id
+ * @property string $description
  * @property integer $branch_id
  * @property string $date_join
  * @property integer $user_id
@@ -44,8 +52,6 @@ class Client extends CActiveRecord
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	 public $filee;
-	 
 	public function rules()
 	{
 		// NOTE: you should only define rules for those attributes that
@@ -100,8 +106,8 @@ class Client extends CActiveRecord
 			'nationality_id' => 'Nationality',
 			'id_card_id' => 'ID Number Type',
 			'id_card_number' => 'ID Number',
-			'client_number' => 'Member Card Number',
-			'dop' => 'Date Of Place',
+			'client_number' => 'ID Card Number',
+			'dop' => 'Place of Birthday',
 			'dob' => 'Date of Birthday',
 			'address' => 'Address',
 			'city' => 'City',
@@ -147,6 +153,9 @@ class Client extends CActiveRecord
 
 		$criteria->compare('client_id',$this->client_id);
 		$criteria->compare('client_name',$this->client_name,true);
+		$criteria->compare('client_middle_name',$this->client_middle_name,true);
+		$criteria->compare('client_last_name',$this->client_last_name,true);
+		$criteria->compare('title',$this->title,true);
 		$criteria->compare('sex_id',$this->sex_id);
 		$criteria->compare('marital_status_id',$this->marital_status_id);
 		$criteria->compare('nationality_id',$this->nationality_id);
@@ -159,12 +168,17 @@ class Client extends CActiveRecord
 		$criteria->compare('city',$this->city,true);
 		$criteria->compare('zip_code',$this->zip_code,true);
 		$criteria->compare('telephone',$this->telephone,true);
+		$criteria->compare('fax_number',$this->fax_number,true);
 		$criteria->compare('phone_kantor',$this->phone_kantor,true);
 		$criteria->compare('hp1',$this->hp1,true);
 		$criteria->compare('hp2',$this->hp2,true);
 		$criteria->compare('email',$this->email,true);
+		$criteria->compare('pin_bbm',$this->pin_bbm,true);
+		$criteria->compare('agama',$this->agama,true);
+		$criteria->compare('pekerjaan',$this->pekerjaan,true);
 		$criteria->compare('pict',$this->pict,true);
 		$criteria->compare('source_info_id',$this->source_info_id);
+		$criteria->compare('description',$this->description,true);
 		$criteria->compare('branch_id',$this->branch_id);
 		$criteria->compare('date_join',$this->date_join,true);
 		$criteria->compare('user_id',$this->user_id);
