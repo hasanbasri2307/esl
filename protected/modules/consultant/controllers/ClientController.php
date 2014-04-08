@@ -85,8 +85,9 @@ class ClientController extends RController
 		$model=$this->loadModel($id);
 		
 		$model->scenario='create';
-		$model_ch->scenario='create';
+		
 		$model_ch=ClientHistory::model()->findByAttributes(array('client_id'=>$model->client_id));
+		$model_ch->scenario='create';
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
