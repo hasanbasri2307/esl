@@ -16,13 +16,13 @@ if($model){
         $duration_hour = explode(":",$val->duration);
         $duration = $duration_hour[0] * 3600 + $duration_hour[1] * 60 + $duration_hour[2];
         if($duration>1){
-            for($i=0;$i<$duration; $i =$i+1800){
+            for($i=0;$i<$duration; $i =$i+2700){
                  
                  $unix_time = strtotime($val->date_t." ".$val->time_t) + $i;
                  $hour = date("H:i:s", $unix_time);  
                  $schedule['name'][$val->date_t][$hour][$val->room_id] = $val->client['client_name'];
                  $schedule['status'][$val->date_t][$hour][$val->room_id] = $val->status;
-				 $schedule['id_sr'][$val->date_t][$hour][$val->room_id] =$val->schedule_room_id;
+				           $schedule['id_sr'][$val->date_t][$hour][$val->room_id] =$val->schedule_room_id;
                 
             }
         }
@@ -92,31 +92,35 @@ array(
 
                         <tbody>
                                 <?php
-								
-                                    for($i=8;$i<20;$i++){
-                                        for ($j = 0; $j <= 1; $j++) {
-                                            if($j==1){
-                                                $menit = "30";
-                                                 $menit2="00";
-                                            }else{
-                                                $menit="00";
-                                                $menit2 ="30";
-                                            }
-                                            $jam = $i;
-											$jam2= $i;
-											if($j ==1)
-												$jam2 +=1;
-											else
-                                            	$jam2 = $i;
+								                    $jam = "07:15";
+                                    if($i==15)
+                                        $l=0;
+                                      else
+                                        $l=1;
+                                    for($i=8;$i<=15;$i++){
+                                      
+
+
+                                        for ($j = 0; $j <=$l ; $j++) {
+
+                                            
+                                            
+                      											$jam2= $i;
+                      											
                                             if($i<10){
-                                                $jam = '0'.$i.':'.$menit;
+                                                $jj= strtotime($jam);
+                                                $jam = date("H:i", strtotime('+45 minutes', $jj));
                                             }else{
-                                                 $jam = $i.':'.$menit;
+                                                  $jj= strtotime($jam);
+                                                $jam = date("H:i", strtotime('+45 minutes', $jj));
                                             }
                                             if($jam2<10){
-                                                $jam2 = '0'.$jam2.':'.$menit2;
+                                                $jj= strtotime($jam);
+                                                $jam2 = date("H:i", strtotime('+45 minutes', $jj));
+                                               
                                             }else{
-                                                $jam2 = $jam2.':'.$menit2;
+                                                 $jj= strtotime($jam);
+                                                 $jam2 = date("H:i", strtotime('+45 minutes', $jj));
                                             }
                                             echo '<tr>';
                                             echo '<td>'.$jam .'- '.$jam2.'</td>';

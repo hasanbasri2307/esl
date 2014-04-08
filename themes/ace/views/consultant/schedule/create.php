@@ -44,12 +44,16 @@ $this->renderPartial('../menu',array(
 
 		<div class="controls">
 			<?php
+			$branch=Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
+			$Criteria = new CDbCriteria();
+			$Criteria->condition = "branch_id = $branch";
+			
 				$this->widget(
                 'bootstrap.widgets.TbSelect2',
                 array(
                     'name' => 'client_id',
                     'model'=> $model->client_id,
-                    'data' => CHtml::listData(Client::model()->findAll(), 'client_id', 'client_number'),
+                    'data' => CHtml::listData(Client::model()->findAll($Criteria) , 'client_id', 'client_number'),
                     'options' => array(
                         'placeholder' => 'type clever, or is, or just type!',
                         'width' => '20%',
