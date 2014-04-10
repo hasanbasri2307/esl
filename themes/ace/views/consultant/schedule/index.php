@@ -93,13 +93,12 @@ array(
                         <tbody>
                                 <?php
 								                    $jam = "07:15";
-                                    if($i==15)
+                                   
+                                    for($i=8;$i<16;$i++){
+                                      if($i==16)
                                         $l=0;
                                       else
                                         $l=1;
-                                    for($i=8;$i<=15;$i++){
-                                      
-
 
                                         for ($j = 0; $j <=$l ; $j++) {
 
