@@ -5,15 +5,11 @@ $this->breadcrumbs=array(
 );
 
 
-$this->menu=array(
-		array('label'=>'Dashboard','icon' => 'icon-dashboard', 'url'=>array('/admin'), 'active'=>false),
-		array('label'=>'Employee','icon' => 'icon-user', 'url'=>array('/user/profiles'), 'active'=>true),
-        array('label'=>'User','icon' => 'icon-user', 'url'=>array('/user/admin'), 'active'=>false),
-        array('label'=>'Rooms','icon' => 'icon-home', 'url'=>array('/admin/room'), 'active'=>false),
-        array('label'=>'Branch','icon' => 'icon-flag', 'url'=>array('/admin/branch'), 'active'=>false),
-        array('label'=>'Log Access','icon' => 'icon-flag', 'url'=>array('/admin/log'), 'active'=>false),
-);
-?><h1><?php echo UserModule::t('View Employee').' "'.$model->name.'"'; ?></h1>
+$this->renderPartial('webroot.themes.'.Yii::app()->theme->name.'.views.admin.menu',array(
+            'active'=>array('2'=>true),
+        ));
+?>
+<h1><?php echo UserModule::t('View Employee').' "'.$model->name.'"'; ?></h1>
 
 <?php
  
