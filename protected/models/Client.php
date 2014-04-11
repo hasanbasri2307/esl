@@ -101,7 +101,7 @@ class Client extends CActiveRecord
 			'client_middle_name' => 'Middle Name',
 			'client_last_name' => 'Last Name',
 			'title' => 'Title',
-			'sex_id' => 'Sex',
+			'sex_id' => 'Gender',
 			'marital_status_id' => 'Marital Status',
 			'nationality_id' => 'Nationality',
 			'id_card_id' => 'ID Number Type',
