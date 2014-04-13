@@ -38,7 +38,7 @@ class ClientHistory extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('client_id, p_1, obat_vitamin, p_2, p_2_desc, p_3, p_4, p_5, p_7, rekam_medik_id, user_id, created, changed', 'required','on'=>'create'),
+			array('client_id', 'required','on'=>'create'),
 			array('client_id, p_4, user_id, created, changed', 'numerical', 'integerOnly'=>true),
 			array('client_id', 'required', 'on'=>'upload'),
 			array('p_1, p_2', 'length', 'max'=>5),

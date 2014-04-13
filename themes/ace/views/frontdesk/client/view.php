@@ -34,7 +34,7 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
 	'attributes'=>array(
 		'client_id',
 		'client_name',
-		'sex.sex',
+		'sex.sex'=>'Gender',
 		'maritalStatus.marital_status',
 		'nationality.nationality',
 		'idcard.id_card',

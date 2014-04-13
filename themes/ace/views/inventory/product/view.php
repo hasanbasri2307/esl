@@ -5,7 +5,7 @@ $this->breadcrumbs=array(
 );
 
 $this->renderPartial('../menu',array(
-			'active'=>array('1'=>true, '1.4'=>true),
+			'active'=>array('1'=>true),
 		));
 ?>
 <div class="page-header position-relative">
@@ -38,6 +38,7 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
 		'price',
 		'unitHomecare.unit_name',
 		'unitHomecare.type',
+		'productCategory.category_name'
 	
 	),
 )); 

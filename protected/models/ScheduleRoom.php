@@ -36,7 +36,7 @@ class ScheduleRoom extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			
-			array('branch_id, room_id, client_id, date_t, time_t,order_number, duration, end_time, user_id, status', 'required','on'=>'create'),
+			array('branch_id', 'required','on'=>'create'),
 			array('branch_id, room_id, client_id, user_id, status, changed, created', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.

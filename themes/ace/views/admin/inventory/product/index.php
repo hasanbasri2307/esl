@@ -3,8 +3,8 @@ $this->breadcrumbs=array(
 	'Products',
 );
 
-$this->renderPartial('../../menu',array(
-			'active'=>array('13'=>true, '13.3'=>true),
+$this->renderPartial('../menu',array(
+			'active'=>array('1'=>true, '1.4'=>true),
 		));
 ?>
 
@@ -39,7 +39,7 @@ $this->renderPartial('../../menu',array(
                 'columns'=>array(
                     array('name'=>'product_number', 'header'=>'Product Code'),
                     array('name'=>'product_name', 'header'=>'Product Name'),
-                    
+                     array('name'=>'productCategory.category_name', 'header'=>'Product Category'),
                      array('name'=>'price', 'header'=>'Price'),
                      array(
                         'class'=>'bootstrap.widgets.TbButtonColumn',

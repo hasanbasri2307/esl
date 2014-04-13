@@ -5,8 +5,8 @@ $this->breadcrumbs=array(
 	$model->mesin_detail_id,
 );
 
-$this->renderPartial('../../menu',array(
-			'active'=>array('13'=>true,'13.7'=>true),
+$this->renderPartial('../menu',array(
+			'active'=>array('1'=>true,'1.13'=>true),
 		));
 ?>
 

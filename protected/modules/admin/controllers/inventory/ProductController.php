@@ -103,8 +103,10 @@ class ProductController extends RController
 	public function actionIndex($search=NULL)
 	{
                 $criteria = new CDbCriteria;
+                $criteria->condition ="product_category=1";
                // $criteria->condition = "type = 'homecare'";
-                if(isset($search)) 
+                if(isset($search))
+
                     $criteria->condition = "LOWER(`product_number`) LIKE LOWER('%$search%') OR LOWER(`product_number`) LIKE LOWER('%$search%') OR LOWER(`product_name`) LIKE LOWER('%$search%') OR LOWER(`product_name`) LIKE LOWER('%$search%')";
 		$dataProvider=new CActiveDataProvider('Product', array(
                     'criteria'=>$criteria,
@@ -113,6 +115,25 @@ class ProductController extends RController
                     ),
                 ));
                 $this->render('index',array(
+			'dataProvider'=>$dataProvider,
+		));
+	}
+
+	public function actionConsumeProduct($search=NULL)
+	{
+                $criteria = new CDbCriteria;
+                $criteria->condition ="product_category=2";
+               // $criteria->condition = "type = 'homecare'";
+                if(isset($search))
+
+                    $criteria->condition = "LOWER(`product_number`) LIKE LOWER('%$search%') OR LOWER(`product_number`) LIKE LOWER('%$search%') OR LOWER(`product_name`) LIKE LOWER('%$search%') OR LOWER(`product_name`) LIKE LOWER('%$search%')";
+		$dataProvider=new CActiveDataProvider('Product', array(
+                    'criteria'=>$criteria,
+                    'pagination'=>array(
+                        'pageSize'=>20,
+                    ),
+                ));
+                $this->render('consumeProduct',array(
 			'dataProvider'=>$dataProvider,
 		));
 	}
@@ -191,14 +212,14 @@ class ProductController extends RController
 
 			$x=0;
 			$product_name=array();
-	
+			$category=array();
 			
 			error_reporting(E_ALL ^ E_NOTICE);
 			for ($j = 2; $j <= $data->sheets[0]['numRows']; $j++) 
 			{
 				
 				$product_name[$x]=$data->sheets[0]['cells'][$j][1];
-		
+				$category[$x]=$data->sheets[0]['cells'][$j][2];
 				
 				$x++;
 			}
@@ -209,6 +230,7 @@ class ProductController extends RController
 				
 				$model=new Product('upload');
 				$model->product_name=$product_name[$i];
+				$model->product_category=$category[$i];
 				$model->product_number = Yii::app()->getModule('inventory')->autoNumber("P","product_number","esc_product");
 				
 				$model->save();
@@ -235,5 +257,65 @@ class ProductController extends RController
 			
 		}
 		$this->render('import',array('model'=>$model));
+	}
+
+	public function actionImportConsume()
+	   {
+		$model=new Product('upload');
+		if(isset($_POST['Product']))
+		{
+			$model->attributes=$_POST['Product'];
+			$itu=CUploadedFile::getInstance($model,'upload');
+			$path='/../upload.xls';
+			$itu->saveAs($path);
+			$data = new Spreadsheet_Excel_Reader($path);
+
+			$x=0;
+			$product_name=array();
+			$category=array();
+			
+			error_reporting(E_ALL ^ E_NOTICE);
+			for ($j = 2; $j <= $data->sheets[0]['numRows']; $j++) 
+			{
+				
+				$product_name[$x]=$data->sheets[0]['cells'][$j][1];
+				$category[$x]=$data->sheets[0]['cells'][$j][2];
+				
+				$x++;
+			}
+		
+			for($i=0;$i<$x;$i++)
+			{
+
+				
+				$model=new Product('upload');
+				$model->product_name=$product_name[$i];
+				$model->product_category=$category[$i];
+				$model->product_number = Yii::app()->getModule('inventory')->autoNumber("P","product_number","esc_product");
+				
+				$model->save();
+					
+				
+            }
+                        unlink($path);
+						
+                        Yii::app()->user->setFlash('alert','<div class="alert alert-success">
+										<button type="button" class="close" data-dismiss="alert">
+											<i class="icon-remove"></i>
+										</button>
+
+										<strong>
+											<i class="icon-remove"></i>
+											Success !!
+										</strong>
+
+										Product Berhasil Di import
+										<br>
+									</div>');
+                        $this->redirect(array('import'));
+						
+			
+		}
+		$this->render('importConsume',array('model'=>$model));
 	}
 }

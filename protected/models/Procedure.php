@@ -26,7 +26,7 @@ class Procedure extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('procedure_number, procedure_name', 'required'),
+			
 			array('procedure_number', 'length', 'max'=>20),
 			array('procedure_name', 'length', 'max'=>100),
 			// The following rule is used by search().

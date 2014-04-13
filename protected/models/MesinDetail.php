@@ -32,7 +32,7 @@ class MesinDetail extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('mesin_id, branch_id, date_maintenance, user_id, created, changed', 'required'),
+			
 			array('mesin_id, branch_id, user_id, created, changed, active', 'numerical', 'integerOnly'=>true),
 			array('date_maintenance', 'length', 'max'=>2),
 			array('date_purchase', 'safe'),

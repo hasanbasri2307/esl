@@ -9,8 +9,8 @@ $this->breadcrumbs=array(
 );
 
 
-$this->renderPartial('../../menu',array(
-			'active'=>array('14'=>true, '14.1'=>true),
+$this->renderPartial('../menu',array(
+			'active'=>array('3'=>true, '3.1'=>true),
 		));
 ?>
 

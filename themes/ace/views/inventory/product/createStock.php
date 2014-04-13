@@ -16,7 +16,7 @@ $this->renderPartial('../menu',array(
 
 
 <div class="page-header position-relative">
-    <h1>            Create Product Stock
+    <h1>            Create Master Product Stock
             <small> 
                     <i class="icon-double-angle-right">Home Care</i>
                    

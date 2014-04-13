@@ -34,7 +34,7 @@ class Productpackage extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('productpackage_number, productpackage_name, expired_date, price,  description, user_id, created, changed', 'required','on'=>'create'),
+			array('productpackage_number', 'required','on'=>'create'),
 			array(' price,discount_percent,discount_rp  ', 'required','on'=>'accounting'),
 			array('price, user_id, created, changed, active', 'numerical', 'integerOnly'=>true),
 			array('discount_percent, discount_rp', 'numerical'),

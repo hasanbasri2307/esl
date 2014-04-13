@@ -28,7 +28,7 @@ class ProductStock extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('product_id, branch_id, quantity', 'required'),
+			
 			array('branch_id, quantity, changed', 'numerical', 'integerOnly'=>true),
 			array('product_id', 'length', 'max'=>10),
 			// The following rule is used by search().

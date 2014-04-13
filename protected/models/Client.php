@@ -57,7 +57,7 @@ class Client extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('client_name, sex_id, id_card_id, dop, dob,title,agama,pekerjaan, address, city, zip_code, phone_kantor, hp1, email, source_info_id, branch_id, date_join, user_id, created, changed', 'required','on'=>'create'),
+			array('client_name', 'required','on'=>'create'),
 			array('sex_id, marital_status_id, nationality_id, id_card_id, source_info_id, user_id, created, changed, active', 'numerical', 'integerOnly'=>true),
 			array('client_name', 'length', 'max'=>30),
 			array('client_name', 'required', 'on'=>'upload'),

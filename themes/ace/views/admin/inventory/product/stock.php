@@ -1,16 +1,16 @@
 <?php
 $this->breadcrumbs=array(
-	'Products Stock',
+	'Master Products Stock',
 );
 
-$this->renderPartial('../../menu',array(
-			'active'=>array('13'=>true, '13.4'=>true),
+$this->renderPartial('../menu',array(
+			'active'=>array('1'=>true, '1.8'=>true),
 		));
 ?>
 
 <div class="page-header position-relative">
     <h1>
-            Products Stock  
+            Master Products Stock  
             <small>
                     <i class="icon-double-angle-right"> Home Care</i>
                    

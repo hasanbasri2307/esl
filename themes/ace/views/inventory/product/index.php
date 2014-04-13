@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs=array(
-	'Products',
+	'Master Products',
 );
 
 $this->renderPartial('../menu',array(
@@ -10,7 +10,7 @@ $this->renderPartial('../menu',array(
 
 <div class="page-header position-relative">
     <h1>
-            Products  
+           Master Products  
             <small>
                     <i class="icon-double-angle-right"> Home Care</i>
                    
@@ -39,7 +39,7 @@ $this->renderPartial('../menu',array(
                 'columns'=>array(
                     array('name'=>'product_number', 'header'=>'Product Code'),
                     array('name'=>'product_name', 'header'=>'Product Name'),
-                    
+                     array('name'=>'productCategory.category_name', 'header'=>'Product Category'),
                      array('name'=>'price', 'header'=>'Price'),
                      array(
                         'class'=>'bootstrap.widgets.TbButtonColumn',

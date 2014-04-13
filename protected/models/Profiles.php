@@ -39,7 +39,7 @@ class Profiles extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name,dob,branch_id,address,phone,id_divisi, id_level_jabatan, id_jabatan', 'required','on'=>'create'),
+			array('name', 'required','on'=>'create'),
 			array('name','required','on'=>'upload'),
 			array('branch_id, id_divisi, id_level_jabatan, id_jabatan', 'numerical', 'integerOnly'=>true),
 			array('name, address, phone', 'length', 'max'=>255),

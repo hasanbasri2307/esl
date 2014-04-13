@@ -49,6 +49,114 @@ class ProfilesController extends RController
 		));//*/
 	}
 
+	public function actionDoctor($search=NULL)
+	{
+		
+                 $criteria = new CDbCriteria;
+                 $criteria->condition='id_jabatan = 33 OR id_jabatan =38'; 
+                if(isset($search)) 
+                    $criteria->condition = " LOWER(`name`) LIKE LOWER('%$search%') OR LOWER(`name`) LIKE LOWER('%$search%')";
+                $sort = new CSort;
+                $sort->defaultOrder = array(
+                  'name'=>CSort::SORT_ASC,
+
+                );
+		
+		$dataProvider=new CActiveDataProvider('Profiles', array(
+		
+			'sort'=>$sort,
+            'criteria'=>$criteria,
+			'pagination'=>array(
+				'pageSize'=>Yii::app()->controller->module->user_page_size,
+			),
+		));
+
+		$this->render('doctor',array(
+			'dataProvider'=>$dataProvider,
+		));//*/
+	}
+
+	public function actionNurse($search=NULL)
+	{
+		
+                 $criteria = new CDbCriteria;
+                 $criteria->condition='id_jabatan = 35 OR id_jabatan =36'; 
+                if(isset($search)) 
+                    $criteria->condition = " LOWER(`name`) LIKE LOWER('%$search%') OR LOWER(`name`) LIKE LOWER('%$search%')";
+                $sort = new CSort;
+                $sort->defaultOrder = array(
+                  'name'=>CSort::SORT_ASC,
+
+                );
+		
+		$dataProvider=new CActiveDataProvider('Profiles', array(
+		
+			'sort'=>$sort,
+            'criteria'=>$criteria,
+			'pagination'=>array(
+				'pageSize'=>Yii::app()->controller->module->user_page_size,
+			),
+		));
+
+		$this->render('nurse',array(
+			'dataProvider'=>$dataProvider,
+		));//*/
+	}
+
+	public function actionBeautician($search=NULL)
+	{
+		
+                 $criteria = new CDbCriteria;
+                 $criteria->condition='id_jabatan = 39'; 
+                if(isset($search)) 
+                    $criteria->condition = " LOWER(`name`) LIKE LOWER('%$search%') OR LOWER(`name`) LIKE LOWER('%$search%')";
+                $sort = new CSort;
+                $sort->defaultOrder = array(
+                  'name'=>CSort::SORT_ASC,
+
+                );
+		
+		$dataProvider=new CActiveDataProvider('Profiles', array(
+		
+			'sort'=>$sort,
+            'criteria'=>$criteria,
+			'pagination'=>array(
+				'pageSize'=>Yii::app()->controller->module->user_page_size,
+			),
+		));
+
+		$this->render('beautician',array(
+			'dataProvider'=>$dataProvider,
+		));//*/
+	}
+
+	public function actionTherapist($search=NULL)
+	{
+		
+                 $criteria = new CDbCriteria;
+                 $criteria->condition='id_jabatan = 34'; 
+                if(isset($search)) 
+                    $criteria->condition = " LOWER(`name`) LIKE LOWER('%$search%') OR LOWER(`name`) LIKE LOWER('%$search%')";
+                $sort = new CSort;
+                $sort->defaultOrder = array(
+                  'name'=>CSort::SORT_ASC,
+
+                );
+		
+		$dataProvider=new CActiveDataProvider('Profiles', array(
+		
+			'sort'=>$sort,
+            'criteria'=>$criteria,
+			'pagination'=>array(
+				'pageSize'=>Yii::app()->controller->module->user_page_size,
+			),
+		));
+
+		$this->render('therapist',array(
+			'dataProvider'=>$dataProvider,
+		));//*/
+	}
+
 
 	/**
 	 * Displays a particular model.

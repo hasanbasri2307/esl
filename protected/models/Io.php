@@ -37,7 +37,7 @@ class Io extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('type, branch_id, user_id, created, changed', 'required'),
+			
 			array('from, to, suplier, branch_id, user_id, created, changed, status', 'numerical', 'integerOnly'=>true),
 			array('type', 'length', 'max'=>20),
 			array('note', 'length', 'max'=>100),

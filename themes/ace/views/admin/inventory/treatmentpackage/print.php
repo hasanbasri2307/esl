@@ -7,8 +7,8 @@ $this->breadcrumbs=array(
 	$model->io_id,
 );
 
-$this->renderPartial('../../menu',array(
-			'active'=>array('13'=>true, '13.9'=>true),
+$this->renderPartial('../menu',array(
+			'active'=>array('3'=>true, '3.2'=>true),
 		));
 ?>
 

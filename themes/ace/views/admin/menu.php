@@ -5,7 +5,15 @@ $this->menu=array(
    
     
     
-    array('label'=>'Employee','icon' => 'icon-user', 'url'=>array('/user/profiles'), 'active'=>isset($active['2']) ? true : false,),
+    array('label'=>'People','icon' => 'icon-user', 'url'=>array('/user/profiles'), 'active'=>isset($active['2']) ? true : false,
+        'items'=> array(
+                array('label'=>'Employee', 'url'=>array('/user/profiles'), 'active'=>isset($active['2.1']) ? true : false,),
+                array('label'=>'Doctor', 'url'=>array('/user/profiles/doctor'), 'active'=>isset($active['2.2']) ? true : false,),
+                array('label'=>'Nurse', 'url'=>array('/user/profiles/nurse'), 'active'=>isset($active['2.3']) ? true : false,),
+                array('label'=>'Beautician', 'url'=>array('/user/profiles/beautician'), 'active'=>isset($active['2.4']) ? true : false,),
+                array('label'=>'Therapist', 'url'=>array('/user/profiles/therapist'), 'active'=>isset($active['2.5']) ? true : false,),
+            )
+        ),
           
     array('label'=>'User','icon' => 'icon-user', 'url'=>array('/user/admin'), 'active'=>isset($active['3']) ? true : false,),
      array('label'=>'Room','icon' => 'icon-home', 'url'=>array('/admin/room'), 'active'=>isset($active['4']) ? true : false,
@@ -27,7 +35,7 @@ $this->menu=array(
             )
         ),
     
-    array('label'=>'Accounting','icon' => 'icon-filter', 'url'=>array('/admin/accounting/product'), 'active'=>isset($active['8']) ? true : false,
+    array('label'=>'Pricing','icon' => 'icon-filter', 'url'=>array('/admin/accounting/product'), 'active'=>isset($active['8']) ? true : false,
             'items'=> array(
                 array('label'=>'Product Price', 'url'=>array('/admin/accounting/product'), 'active'=>isset($active['8.1']) ? true : false,),
                  array('label'=>'Treatment Price', 'url'=>array('/admin/accounting/treatment'), 'active'=>isset($active['8.2']) ? true : false,),
@@ -55,7 +63,7 @@ $this->menu=array(
                
             )
         ),
-    array('label'=>'Treatment Rec','icon' => 'icon-home', 'url'=>array('#'), 'active'=>isset($active['11']) ? true : false,),
+    
      array('label'=>'Room Schedule','icon' => 'icon-desktop', 'url'=>array('/admin/consultant/order'), 'active'=>isset($active['12']) ? true : false,
             'items'=> array(
                

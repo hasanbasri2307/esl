@@ -13,12 +13,14 @@
  * @property string $image
  * @property integer $unit_homecare
  * @property integer $unit_cabin
- * @property integer $netto
+ * @property integer $product_category
+ * @property string $netto
+ * @property string $type
  * @property integer $treatment
  * @property string $date_start
  * @property string $date_end
- * @property integer $discount
- * @property integer $discount_rp
+ * @property double $discount
+ * @property double $discount_rp
  * @property integer $user_id
  * @property integer $created
  * @property integer $changed
@@ -42,10 +44,10 @@ class Product extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('product_number, product_name, unit_homecare,  user_id, created, changed', 'required','on'=>'create'),
+			array('product_number', 'required','on'=>'create'),
 			array('product_name', 'required','on'=>'upload'),
 			array('product_number, product_name, price, unit_homecare', 'required','on'=>'update_inventory'),
-			array('price, price_net, unit_homecare, unit_cabin, treatment, discount, discount_rp, user_id, created, changed, active', 'numerical', 'integerOnly'=>true),
+			array('price, price_net, unit_homecare, unit_cabin, product_category,treatment, discount, discount_rp, user_id, created, changed, active', 'numerical', 'integerOnly'=>true),
 			array('product_number', 'length', 'max'=>10),
 			array('product_name', 'length', 'max'=>50),
 			array('image', 'length', 'max'=>225),
@@ -53,9 +55,7 @@ class Product extends CActiveRecord
 			array('price', 'required', 'on'=>'update'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('product_id, product_number, product_name, description, price, price_net, image, unit_homecare, unit_cabin, netto, treatment, date_start, date_end, discount, discount_rp, user_id, created, changed, active', 'safe', 'on'=>'search'),
-
-
+			array('product_id, product_number, product_name, description, price, price_net, image, unit_homecare, unit_cabin, product_category, netto, type, treatment, date_start, date_end, discount, discount_rp, user_id, created, changed, active', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -67,10 +67,10 @@ class Product extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-                        'productDetails' => array(self::HAS_MANY, 'ProductDetail', 'product_id'),
+			 'productDetails' => array(self::HAS_MANY, 'ProductDetail', 'product_id'),
 						'productDetails1' => array(self::HAS_MANY, 'ProductDetail', 'productset_id'),
                         'unitHomecare' => array(self::BELONGS_TO, 'Unit', 'unit_homecare'),
-						
+                        'productCategory' => array(self::BELONGS_TO, 'ProductCategory', 'product_category'),
 		);
 	}
 
@@ -89,14 +89,15 @@ class Product extends CActiveRecord
 			'image' => 'Image',
 			'unit_homecare' => 'Unit Homecare',
 			'unit_cabin' => 'Unit Cabin',
+			'product_category' => 'Product Category',
 			'netto' => 'Netto',
+			'type' => 'Type',
 			'treatment' => 'Treatment',
 			'date_start' => 'Date Start',
 			'date_end' => 'Date End',
 			'discount' => 'Discount',
 			'discount_rp' => 'Discount Rp',
 			'user_id' => 'User',
-			'type' =>'Type',
 			'created' => 'Created',
 			'changed' => 'Changed',
 			'active' => 'Active',
@@ -130,7 +131,9 @@ class Product extends CActiveRecord
 		$criteria->compare('image',$this->image,true);
 		$criteria->compare('unit_homecare',$this->unit_homecare);
 		$criteria->compare('unit_cabin',$this->unit_cabin);
-		$criteria->compare('netto',$this->netto);
+		$criteria->compare('product_category',$this->product_category);
+		$criteria->compare('netto',$this->netto,true);
+		$criteria->compare('type',$this->type,true);
 		$criteria->compare('treatment',$this->treatment);
 		$criteria->compare('date_start',$this->date_start,true);
 		$criteria->compare('date_end',$this->date_end,true);
@@ -155,17 +158,5 @@ class Product extends CActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
-	}
-
-	protected function beforeValidate()
-	 {
-		 $this->price= Yii::app()->format->unformatNumber($this->price);
-		
-		 return parent::beforeValidate();
-	}
-	protected function afterFind() {
-		$this->price = Yii::app()->format->formatNumber($this->price);
-		
-		return parent::afterFind();
 	}
 }

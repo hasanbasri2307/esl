@@ -59,6 +59,25 @@ class ProductStockController extends RController
 		));
 	}
 
+	public function actionCreateConsumeStock()
+	{
+		$model=new ProductStock;
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['ProductStock']))
+		{
+			$model->attributes=$_POST['ProductStock'];
+			if($model->save())
+				$this->redirect(array('view','id'=>$model->product__stock_id));
+		}
+
+		$this->render('createConsumeStock',array(
+			'model'=>$model,
+		));
+	}
+
 	/**
 	 * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
@@ -122,10 +141,11 @@ class ProductStockController extends RController
 	public function actionIndex($search=NULL)
 	{
 				$branch =  Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
+			
                 $criteria = new CDbCriteria;
                 $criteria->with = array("product"=>array("select"=>"*")); 
 				$criteria->together = true; // ADDED THIS
-                $criteria->condition = 'branch_id=:id';
+                $criteria->condition = 'branch_id=:id AND product.product_category=1 ';
 				$criteria->params = array(':id'=>$branch);
                // $criteria->condition = "type = 'homecare'";
                 if(isset($search)) 
@@ -138,6 +158,30 @@ class ProductStockController extends RController
                     ),
                 ));
                 $this->render('stock',array(
+			'dataProvider'=>$dataProvider,
+		));
+	}
+
+	public function actionConsumeProductStock($search=NULL)
+	{
+				$branch =  Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
+				
+                $criteria = new CDbCriteria;
+                $criteria->with = array("product"=>array("select"=>"*")); 
+				$criteria->together = true; // ADDED THIS
+                $criteria->condition = 'branch_id=:id AND product.product_category=2';
+				$criteria->params = array(':id'=>$branch);
+               // $criteria->condition = "type = 'homecare'";
+                if(isset($search)) 
+                    $criteria->condition = "branch_id=:id AND LOWER(`product_number`) LIKE LOWER('%$search%') OR LOWER(`product_number`) LIKE LOWER('%$search%') OR LOWER(`product_name`) LIKE LOWER('%$search%') OR LOWER(`product_name`) LIKE LOWER('%$search%')";
+					$criteria->params = array(':id'=>$branch);
+		$dataProvider=new CActiveDataProvider('ProductStock', array(
+                    'criteria'=>$criteria,
+                    'pagination'=>array(
+                        'pageSize'=>20,
+                    ),
+                ));
+                $this->render('consumeStock',array(
 			'dataProvider'=>$dataProvider,
 		));
 	}

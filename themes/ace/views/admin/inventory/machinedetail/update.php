@@ -4,8 +4,8 @@ $this->breadcrumbs=array(
 	$model->branch->branch_name=>array('view','id'=>$model->mesin_detail_id),
 	'Update',
 );
-$this->renderPartial('../../menu',array(
-			'active'=>array('13'=>true,'13.7'=>true),
+$this->renderPartial('../menu',array(
+			'active'=>array('1'=>true,'1.13'=>true),
 		));
 ?>
 

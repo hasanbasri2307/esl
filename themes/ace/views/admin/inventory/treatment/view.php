@@ -5,8 +5,8 @@ $this->breadcrumbs=array(
 	$model->treatment_number,
 );
 
-$this->renderPartial('../../menu',array(
-			'active'=>array('13'=>true, '13.5'=>true),
+$this->renderPartial('../menu',array(
+			'active'=>array('1'=>true, '1.11'=>true),
 		));
 ?>
 
@@ -99,14 +99,14 @@ $this->renderPartial('../../menu',array(
  <?php
           $this->widget('bootstrap.widgets.TbButton',array(
                 'label' => ' Create Treatment Product',
-                'url'=>array('inventory/treatment/product/id/'.$model->treatment_id),
+                'url'=>array('treatment/product/id/'.$model->treatment_id),
         ));
           ?>
 &nbsp;
 <?php
            $this->widget('bootstrap.widgets.TbButton',array(
                 'label' => 'Create Treatment Procedure',
-                'url'=>array('inventory/treatment/procedure/id/'.$model->treatment_id),
+                'url'=>array('treatment/procedure/id/'.$model->treatment_id),
         ));
  
  ?>
@@ -114,7 +114,7 @@ $this->renderPartial('../../menu',array(
 <?php
            $this->widget('bootstrap.widgets.TbButton',array(
                 'label' => 'Create Treatment Machine',
-                'url'=>array('inventory/treatment/machine/id/'.$model->treatment_id),
+                'url'=>array('treatment/machine/id/'.$model->treatment_id),
         ));
  
  ?>

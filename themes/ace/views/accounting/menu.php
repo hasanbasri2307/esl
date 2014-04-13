@@ -10,7 +10,7 @@ $this->menu=array(
             )
         ),
     
-    array('label'=>'Accounting','icon' => 'icon-filter', 'url'=>array('/accounting/product'), 'active'=>isset($active['2']) ? true : false,
+    array('label'=>'Pricing','icon' => 'icon-filter', 'url'=>array('/accounting/product'), 'active'=>isset($active['2']) ? true : false,
             'items'=> array(
                 array('label'=>'Product Price', 'url'=>array('/accounting/product'), 'active'=>isset($active['2.1']) ? true : false,),
                  array('label'=>'Treatment Price', 'url'=>array('/accounting/treatment'), 'active'=>isset($active['2.2']) ? true : false,),

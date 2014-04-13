@@ -32,7 +32,7 @@ class Mesin extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('mesin_number, mesin_name, user_id, created, changed', 'required'),
+			
 			array('user_id, created, changed, active', 'numerical', 'integerOnly'=>true),
 			array('mesin_number', 'length', 'max'=>10),
 			array('mesin_name', 'length', 'max'=>50),

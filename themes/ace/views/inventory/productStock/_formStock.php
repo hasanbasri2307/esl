@@ -6,11 +6,14 @@
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
 	<?php echo $form->errorSummary($model,'<button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>'); ?>
         
-        <?php echo $form->select2Row(
+        <?php 
+        $Criteria = new CDbCriteria();
+            $Criteria->condition = "product_category = 1";
+        echo $form->select2Row(
                     $model,
                     'product_id',
                     array(
-                        'data' => CHtml::listData(Product::model()->findAll(), 'product_id', 'product_name'),
+                        'data' => CHtml::listData(Product::model()->findAll($Criteria), 'product_id', 'product_name'),
                     )
                 );
 				?>

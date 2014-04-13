@@ -39,7 +39,7 @@ class Branch extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('branch_number, branch_name, address, phone, fax, ot_start, ot_end, user_id, created, changed', 'required'),
+			
 			array('user_id, created, changed, active', 'numerical', 'integerOnly'=>true),
 			array('branch_number', 'length', 'max'=>10),
 			array('branch_name', 'length', 'max'=>40),

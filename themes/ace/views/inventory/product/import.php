@@ -2,14 +2,14 @@
 /* @var $this DefaultController */
 
 $this->breadcrumbs=array(
-	'Prodcut',
+	'Product',
 );
 $this->renderPartial('../menu',array(
 			'active'=>array('1'=>true, '1.4'=>true),
 		));
 ?>
 <div class="page-header position-relative">
-    <h1>            Import Product
+    <h1>            Import Master Product
             <small>
                     <i class="icon-double-angle-right"></i>
                    

@@ -6,7 +6,7 @@ $this->breadcrumbs=array(
 );
 
 $this->renderPartial('webroot.themes.'.Yii::app()->theme->name.'.views.admin.menu',array(
-            'active'=>array('2'=>true),
+            'active'=>array('2'=>true,'2.1'=>true),
         ));
 ?>
 <div class="page-header position-relative">

@@ -45,7 +45,7 @@ class Room extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('branch_id, room_number, user_id, created, changed', 'required'),
+			
 			array('branch_id, user_id, created, changed, active', 'numerical', 'integerOnly'=>true),
 			array('room_number', 'length', 'max'=>10),
 			array('room_name', 'length', 'max'=>40),

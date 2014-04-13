@@ -4,8 +4,8 @@ $this->breadcrumbs=array(
 	'Supplier',
 );
 
-$this->renderPartial('../../menu',array(
-      'active'=>array('13'=>true,'13.1'=>true),
+$this->renderPartial('../menu',array(
+      'active'=>array('1'=>true,'1.2'=>true),
     ));
 ?>
 <div class="page-header position-relative">
