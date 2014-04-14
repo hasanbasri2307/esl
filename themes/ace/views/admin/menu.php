@@ -29,9 +29,9 @@ $this->menu=array(
 
      array('label'=>'Point','icon' => 'icon-dashboard', 'url'=>array('/admin/consultant/order'), 'active'=>isset($active['7']) ? true : false,
             'items'=> array(
-                array('label'=>'Product', 'url'=>array('/admin/consultant/order'), 'active'=>isset($active['7.1']) ? true : false,),
-                array('label'=>'Treatment', 'url'=>array('/admin/consultant/order/create'), 'active'=>isset($active['7.2']) ? true : false,),
-                array('label'=>'Report', 'url'=>array('/admin/consultant/order/create'), 'active'=>isset($active['7.3']) ? true : false,),
+                array('label'=>'Product', 'url'=>array('#'), 'active'=>isset($active['7.1']) ? true : false,),
+                array('label'=>'Treatment', 'url'=>array('#'), 'active'=>isset($active['7.2']) ? true : false,),
+                array('label'=>'Report', 'url'=>array('#'), 'active'=>isset($active['7.3']) ? true : false,),
             )
         ),
     

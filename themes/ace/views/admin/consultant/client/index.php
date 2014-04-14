@@ -46,7 +46,7 @@ $this->renderPartial('../../menu',array(
 
                                             <div class="infobox-content">
                                                 <span class="bigger-110">~</span>
-                                                ID&nbsp &nbsp &nbsp &nbsp&nbsp&nbsp &nbsp : <?php echo CHtml::link($item->client_number,array('client/view','id'=>$item->client_id)); ?>
+                                                ID&nbsp &nbsp &nbsp &nbsp&nbsp&nbsp &nbsp : <?php echo CHtml::link($item->client_number,array('consultant/client/view','id'=>$item->client_id)); ?>
                                             </div>
                                             <div class="infobox-content">
                                                 <span class="bigger-110">~</span>
