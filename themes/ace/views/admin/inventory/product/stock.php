@@ -3,8 +3,8 @@ $this->breadcrumbs=array(
 	'Master Products Stock',
 );
 
-$this->renderPartial('../menu',array(
-			'active'=>array('1'=>true, '1.8'=>true),
+$this->renderPartial('../../menu',array(
+			'active'=>array('13'=>true, '13.8'=>true),
 		));
 ?>
 

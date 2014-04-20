@@ -4,7 +4,7 @@ $this->breadcrumbs=array(
 	$model->product->product_number,
 );
 
-$this->renderPartial('../menu',array(
+$this->renderPartial('../../menu',array(
 			'active'=>array('1'=>true, '1.8'=>true),
 		));
 ?>

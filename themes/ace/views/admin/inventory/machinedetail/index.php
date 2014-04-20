@@ -4,8 +4,8 @@ $this->breadcrumbs=array(
 	'Machine on Branch',
 );
 
-$this->renderPartial('../menu',array(
-			'active'=>array('1'=>true,'1.13'=>true),
+$this->renderPartial('../../menu',array(
+			'active'=>array('13'=>true,'13.13'=>true),
 		));
 ?>
 <div class="page-header position-relative">

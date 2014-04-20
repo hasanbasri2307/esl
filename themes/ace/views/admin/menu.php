@@ -72,20 +72,22 @@ $this->menu=array(
                  array('label'=>'Report', 'url'=>array('#'), 'active'=>isset($active['12.3']) ? true : false,),
             )
         ),
-      array('label'=>'Product','icon' => 'icon-dashboard', 'url'=>array('/admin/accounting/product'), 'active'=>isset($active['13']) ? true : false,
+       array('label'=>'Product','icon' => 'icon-dashboard', 'url'=>array('/accounting/product'), 'active'=>isset($active['13']) ? true : false,
             'items'=> array(
                
-                 array('label'=>'Supplier', 'url'=>array('/admin/inventory/supplier'), 'active'=>isset($active['13.1']) ? true : false,),
-                  array('label'=>'Input Product', 'url'=>array('/admin/inventory/product/create'), 'active'=>isset($active['13.2']) ? true : false,),
-                 array('label'=>'Master Product', 'url'=>array('/admin/inventory/product'), 'active'=>isset($active['13.3']) ? true : false,),
-                 array('label'=>'Stock Product', 'url'=>array('/admin/inventory/productStock'), 'active'=>isset($active['13.4']) ? true : false,),
-                 array('label'=>'Treatment', 'url'=>array('/admin/inventory/treatment'), 'active'=>isset($active['13.5']) ? true : false,),
-                array('label'=>'Master Machine', 'url'=>array('/admin/inventory/machine'), 'active'=>isset($active['13.6']) ? true : false,),
-                 array('label'=>'Machine on Branch', 'url'=>array('/admin/inventory/machinedetail'), 'active'=>isset($active['13.7']) ? true : false,),
-                  array('label'=>'Product Package', 'url'=>array('/admin/inventory/productpackage'), 'active'=>isset($active['13.8']) ? true : false,),
-                   array('label'=>'Treatment Package', 'url'=>array('/admin/inventory/treatmentpackage'), 'active'=>isset($active['13.9']) ? true : false,),
+                 array('label'=>'Supplier', 'url'=>array('/admin/inventory/supplier'), 'active'=>isset($active['13.2']) ? true : false,),
+                  array('label'=>'Input Product', 'url'=>array('/admin/inventory/product/create'), 'active'=>isset($active['13.3']) ? true : false,),
+                 array('label'=>'Master Product', 'url'=>array('/admin/inventory/product'), 'active'=>isset($active['13.4']) ? true : false,),
+                 array('label'=>'Consume Product', 'url'=>array('/admin/inventory/product/consumeProduct'), 'active'=>isset($active['13.14']) ? true : false,),
+                 array('label'=>'Master Stock Product', 'url'=>array('/admin/inventory/productStock'), 'active'=>isset($active['13.8']) ? true : false,),
+                 array('label'=>'Consume Stock Product', 'url'=>array('/admin/inventory/productStock/consumeProductStock'), 'active'=>isset($active['13.15']) ? true : false,),
+                 array('label'=>'Treatment', 'url'=>array('/admin/inventory/treatment'), 'active'=>isset($active['13.11']) ? true : false,),
+                  array('label'=>'Master Machine', 'url'=>array('/admin/inventory/machine'), 'active'=>isset($active['13.12']) ? true : false,),
+          array('label'=>'Machine on Branch', 'url'=>array('/admin/inventory/machinedetail'), 'active'=>isset($active['13.13']) ? true : false,),
+                  array('label'=>'Product Package', 'url'=>array('/admin/inventory/productpackage'), 'active'=>isset($active['13.9']) ? true : false,),
+                   array('label'=>'Treatment Package', 'url'=>array('/admin/inventory/treatmentpackage'), 'active'=>isset($active['13.10']) ? true : false,),
                 
-                    array('label'=>'Report', 'url'=>array('#'), 'active'=>isset($active['13.10']) ? true : false,),
+                  
 
                 //array('label'=>'Cabin', 'url'=>array('/inventory/product_cabin'), 'active'=>isset($active['1.2']) ? true : false,)
             )
@@ -102,6 +104,13 @@ $this->menu=array(
                     array('label'=>'Incoming From Supplier', 'url'=>array('/admin/inventory/incomingSupplier'), 'active'=>isset($active['14.3']) ? true : false, ),
             )
    ),
+
+     array('label'=>'Report','icon' => 'icon-calendar', 'url'=>array('#'), 'active'=>isset($active['15']) ? true : false,
+            'items'=> array(
+                    array('label'=>'Master Stock', 'url'=>array('/admin/inventory/product/printoutmasterstockproduct'), 'active'=>isset($active['15.1']) ? true : false,),
+                    array('label'=>'Consume Stock', 'url'=>array('/admin/inventory/product/printoutconsumestockproduct'), 'active'=>isset($active['15.2']) ? true : false, ),
+           
+   )),
    
     
    

@@ -4,8 +4,8 @@ $this->breadcrumbs=array(
 	'Procedure',
 );
 
-$this->renderPartial('../menu',array(
-			'active'=>array('1'=>true, '1.11'=>true),
+$this->renderPartial('../../menu',array(
+			'active'=>array('13'=>true, '13.11'=>true),
 		));
 ?>
 

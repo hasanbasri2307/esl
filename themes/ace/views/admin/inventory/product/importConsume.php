@@ -4,7 +4,7 @@
 $this->breadcrumbs=array(
 	'Product',
 );
-$this->renderPartial('../menu',array(
+$this->renderPartial('../../menu',array(
 			'active'=>array('1'=>true, '1.14'=>true),
 		));
 ?>

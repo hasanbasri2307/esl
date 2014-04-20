@@ -9,7 +9,7 @@ $this->breadcrumbs=array(
 );
 
 
-$this->renderPartial('../menu',array(
+$this->renderPartial('../../menu',array(
 			'active'=>array('1'=>true, '1.8'=>true),
 		));
 ?>

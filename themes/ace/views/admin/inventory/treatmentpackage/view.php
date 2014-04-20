@@ -7,8 +7,8 @@ $this->breadcrumbs=array(
 	$model->treatmentpackage_id,
 );
 
-$this->renderPartial('../menu',array(
-			'active'=>array('1'=>true, '1.10'=>true),
+$this->renderPartial('../../menu',array(
+			'active'=>array('13'=>true, '13.10'=>true),
 		));
 ?>
 <div class="page-header position-relative">
