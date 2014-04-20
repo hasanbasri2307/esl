@@ -1,5 +1,6 @@
 <?php
 require_once('excel_reader2.php');
+require_once('tcpdf.php');
 class ProductController extends RController
 {
 	
@@ -317,5 +318,231 @@ class ProductController extends RController
 			
 		}
 		$this->render('importConsume',array('model'=>$model));
+	}
+
+	public function actionPrintOutMasterStockProduct()
+	{
+		$this->render('sample_report');
+	}
+
+	public function actionPrintOutConsumeStockProduct()
+	{
+		$this->render('consumeStockReport');
+	}
+
+	public function actionStockMasterProductPdf()
+	{
+		$branch =  Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
+			
+                $criteria = new CDbCriteria;
+                $criteria->with = array("product"=>array("select"=>"*")); 
+				$criteria->together = true; // ADDED THIS
+                $criteria->condition = 'branch_id=:id AND product.product_category=1 ';
+				$criteria->params = array(':id'=>$branch);
+		$model = ProductStock::model()->findAll($criteria);
+		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+// set document information
+$pdf->SetCreator(PDF_CREATOR);
+$pdf->SetAuthor('Euro Medica');
+$pdf->SetTitle('Master Stock Product Report');
+$pdf->SetSubject('TCPDF Tutorial');
+$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+// set default header data
+
+$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH,'Master Stock Product Report', "Euro Media");
+
+// set header and footer fonts
+$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+// set default monospaced font
+$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+// set margins
+$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+// set auto page breaks
+$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+// set image scale factor
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+// set some language-dependent strings (optional)
+if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+    require_once(dirname(__FILE__).'/lang/eng.php');
+    $pdf->setLanguageArray($l);
+}
+
+// ---------------------------------------------------------
+
+// set font
+$pdf->SetFont('helvetica', 'B', 20);
+
+// add a page
+$pdf->AddPage();
+
+$pdf->Write(0, 'Master Stock Product', '', 0, 'C', true, 0, false, false, 0);
+
+$pdf->SetFont('helvetica', '', 10);
+$pdf->Ln();
+
+// -----------------------------------------------------------------------------
+
+
+
+// NON-BREAKING ROWS (nobr="true")
+$tbl="";
+$tbl .= '
+
+<style type="text/css">
+.myOtherTable { background-color:#FFFFE0;border-collapse:collapse;color:#000;font-size:16px; }
+.myOtherTable th { background-color:#BDB76B;color:white;width:25%; }
+.myOtherTable td { padding:5px;border:0; }
+.myOtherTable td { font-family:Georgia, Garamond, serif; border-bottom:1px dotted #BDB76B; }
+</style>
+
+
+<table class="myOtherTable">
+ <tr>
+ 	<th>Product Code</th>
+ 	<th>Product Name</th>
+ 	<th>Price</th>
+ 	<th>Quantity</th>
+ </tr>
+ ';
+ foreach($model as $data) {
+ 	$tbl .='<tr>
+ 		<td>'.$data->product->product_number.'</td>
+ 		<td>'.$data->product->product_name.'</td>
+ 		<td>'.$this->rupiah($data->product->price).'</td>
+ 		<td>'.$data->quantity.'</td>
+ 		</tr>';
+ }
+ 
+$tbl .="</table>";
+
+$pdf->writeHTML($tbl, true, false, false, false, '');
+
+// -----------------------------------------------------------------------------
+
+//Close and output PDF document
+$pdf->Output('Laporan Master Stock Product.pdf', 'I');
+
+	}
+
+	public function actionStockConsumeProductPdf()
+	{
+		$branch =  Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
+			
+                $criteria = new CDbCriteria;
+                $criteria->with = array("product"=>array("select"=>"*")); 
+				$criteria->together = true; // ADDED THIS
+                $criteria->condition = 'branch_id=:id AND product.product_category=2 ';
+				$criteria->params = array(':id'=>$branch);
+		$model = ProductStock::model()->findAll($criteria);
+		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+// set document information
+$pdf->SetCreator(PDF_CREATOR);
+$pdf->SetAuthor('Euro Medica');
+$pdf->SetTitle('Consume Stock Product Report');
+$pdf->SetSubject('TCPDF Tutorial');
+$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+// set default header data
+
+$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH,'Consume Stock Product Report', "Euro Media");
+
+// set header and footer fonts
+$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+// set default monospaced font
+$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+// set margins
+$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+// set auto page breaks
+$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+// set image scale factor
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+// set some language-dependent strings (optional)
+if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+    require_once(dirname(__FILE__).'/lang/eng.php');
+    $pdf->setLanguageArray($l);
+}
+
+// ---------------------------------------------------------
+
+// set font
+$pdf->SetFont('helvetica', 'B', 20);
+
+// add a page
+$pdf->AddPage();
+
+$pdf->Write(0, 'Consume Stock Product', '', 0, 'C', true, 0, false, false, 0);
+
+$pdf->SetFont('helvetica', '', 10);
+$pdf->Ln();
+
+// -----------------------------------------------------------------------------
+
+
+
+// NON-BREAKING ROWS (nobr="true")
+$tbl="";
+$tbl .= '
+
+<style type="text/css">
+.myOtherTable { background-color:#FFFFE0;border-collapse:collapse;color:#000;font-size:16px; }
+.myOtherTable th { background-color:#BDB76B;color:white;width:25%; }
+.myOtherTable td { padding:5px;border:0; }
+.myOtherTable td { font-family:Georgia, Garamond, serif; border-bottom:1px dotted #BDB76B; }
+</style>
+
+
+<table class="myOtherTable">
+ <tr>
+ 	<th>Product Code</th>
+ 	<th>Product Name</th>
+ 	<th>Price</th>
+ 	<th>Quantity</th>
+ </tr>
+ ';
+ foreach($model as $data) {
+ 	$tbl .='<tr>
+ 		<td>'.$data->product->product_number.'</td>
+ 		<td>'.$data->product->product_name.'</td>
+ 		<td>'.$this->rupiah($data->product->price).'</td>
+ 		<td>'.$data->quantity.'</td>
+ 		</tr>';
+ }
+ 
+$tbl .="</table>";
+
+$pdf->writeHTML($tbl, true, false, false, false, '');
+
+// -----------------------------------------------------------------------------
+
+//Close and output PDF document
+$pdf->Output('Laporan Consume Stock Product.pdf', 'I');
+
+	}
+
+	private function rupiah($rp)
+	{
+
+	 $jadi = "Rp " . number_format($rp,2,',','.');
+	 return $jadi;
+
 	}
 }

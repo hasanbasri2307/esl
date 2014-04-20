@@ -17,7 +17,7 @@ $this->menu=array(
                   array('label'=>'Product Package', 'url'=>array('/inventory/productpackage'), 'active'=>isset($active['1.9']) ? true : false,),
                    array('label'=>'Treatment Package', 'url'=>array('/inventory/treatmentpackage'), 'active'=>isset($active['1.10']) ? true : false,),
                 
-                    array('label'=>'Report', 'url'=>array('/inventory/product'), 'active'=>isset($active['1.7']) ? true : false,),
+                  
 
                 //array('label'=>'Cabin', 'url'=>array('/inventory/product_cabin'), 'active'=>isset($active['1.2']) ? true : false,)
             )
@@ -34,6 +34,13 @@ $this->menu=array(
 					 array('label'=>'Incoming From Supplier', 'url'=>array('/inventory/incomingSupplier'), 'active'=>isset($active['3.3']) ? true : false, ),
             )
    ),
+
+    array('label'=>'Report','icon' => 'icon-calendar', 'url'=>array('#'), 'active'=>isset($active['5']) ? true : false,
+            'items'=> array(
+                    array('label'=>'Master Stock', 'url'=>array('/inventory/product/printoutmasterstockproduct'), 'active'=>isset($active['5.1']) ? true : false,),
+                    array('label'=>'Consume Stock', 'url'=>array('/inventory/product/printoutconsumestockproduct'), 'active'=>isset($active['5.2']) ? true : false, ),
+           
+   )),
 
 
    

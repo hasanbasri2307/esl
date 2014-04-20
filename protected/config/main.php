@@ -44,6 +44,7 @@ return array(
         
 		'ext.giix-components.*', 
 		'ext.phpexcel.*',
+		'ext.tcpdf.*',
 
 	),
 
