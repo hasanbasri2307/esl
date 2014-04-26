@@ -34,6 +34,15 @@ $this->menu=array(
                 array('label'=>'Report', 'url'=>array('/consultant/order/create'), 'active'=>isset($active['5.7']) ? true : false,),
             )
         ),
+array('label'=>'Report','icon' => 'icon-calendar', 'url'=>array('#'), 'active'=>isset($active['7']) ? true : false,
+            'items'=> array(
+                    array('label'=>'Product Price', 'url'=>array('/accounting/product/printoutproductprice'), 'active'=>isset($active['7.1']) ? true : false,),
+                    array('label'=>'Treatment Price', 'url'=>array('/accounting/treatment/printouttreatmentprice'), 'active'=>isset($active['7.2']) ? true : false,),
+                    array('label'=>'Product Package Price', 'url'=>array('/accounting/productpackage/printoutproductpackageprice'), 'active'=>isset($active['7.3']) ? true : false,),
+                    array('label'=>'Treatment Package Price', 'url'=>array('/accounting/treatmentpackage/printouttreatmentpackageprice'), 'active'=>isset($active['7.4']) ? true : false,),
+                    
+           
+   )),
     
    
 );

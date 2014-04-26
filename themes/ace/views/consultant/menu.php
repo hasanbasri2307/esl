@@ -39,7 +39,13 @@ $this->menu=array(
                 array('label'=>'Report', 'url'=>array('/consultant/order/create'), 'active'=>isset($active['5.7']) ? true : false,),
             )
         ),
-    
+     array('label'=>'Report','icon' => 'icon-calendar', 'url'=>array('#'), 'active'=>isset($active['7']) ? true : false,
+            'items'=> array(
+                    array('label'=>'Reservation', 'url'=>array('/consultant/schedule/printoutreservation'), 'active'=>isset($active['7.1']) ? true : false,),
+                    
+           
+   )),
+
    
 );
 

@@ -10,10 +10,12 @@
       <link rel="stylesheet" href="<?php echo Yii::app()->theme->baseUrl; ?>/assets/css/font-awesome-ie7.min.css" />
     <![endif]-->
     <!-- href="http://fonts.googleapis.com/css?family=Open+Sans:400,300"  -->
+    <link rel="stylesheet" href="<?php echo Yii::app()->theme->baseUrl; ?>/assets/css/jquery-ui-1.10.3.custom.min.css" />
 	<link rel="stylesheet" href="<?php echo Yii::app()->theme->baseUrl; ?>/assets/css/font.css" />
     <link rel="stylesheet" href="<?php echo Yii::app()->theme->baseUrl; ?>/assets/css/ace.min.css" />
     <link rel="stylesheet" href="<?php echo Yii::app()->theme->baseUrl; ?>/assets/css/ace-responsive.min.css" />
     <link rel="stylesheet" href="<?php echo Yii::app()->theme->baseUrl; ?>/assets/css/ace-skins.min.css" />
+    <link rel="stylesheet" href="<?php echo Yii::app()->theme->baseUrl; ?>/assets/css/datepicker.css" />
     <!--[if lte IE 8]>
       <link rel="stylesheet" href="<?php echo Yii::app()->theme->baseUrl; ?>/assets/css/ace-ie.min.css" />
     <![endif]-->
@@ -131,11 +133,23 @@
         $cs = Yii::app()->getClientScript();
 ?>
    
-
+<?php
+ $date = ' $(function(){
+             $(".date-picker").datepicker().next().on(ace.click_event, function(){
+                    $(this).prev().focus();
+                });
+        
+    });
+                    ';
+  Yii::app()->clientScript->registerScript('date',$date, CClientScript::POS_END);
+?>
 <script type="text/javascript">
+
             if("ontouchend" in document) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+            
+            });
     </script>
-    <script src="assets/js/date-time/bootstrap-datepicker.min.js"></script>
+
 <!--[if lte IE 8]>
 <?php $cs->registerScriptFile($baseUrl.'/assets/js/excanvas.min.js',CClientScript::POS_END);?>
 <![endif]-->
@@ -151,6 +165,8 @@ $cs->registerScriptFile($baseUrl.'/assets/js/flot/jquery.flot.pie.min.js',CClien
 $cs->registerScriptFile($baseUrl.'/assets/js/flot/jquery.flot.resize.min.js',CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl.'/assets/js/ace-elements.min.js',CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl.'/assets/js/ace.min.js',CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl.'/assets/js/date-time/bootstrap-datepicker.min.js',CClientScript::POS_END);
+
 
 //$cs->registerCssFile($baseUrl.'/css/yourcss.css');
 ?>

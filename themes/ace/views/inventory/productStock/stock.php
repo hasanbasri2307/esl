@@ -42,7 +42,7 @@ $this->renderPartial('../menu',array(
                     array('name'=>'product.product_number', 'header'=>'Product Code'),
                     array('name'=>'product.product_name', 'header'=>'Product Name'),
                      array('name'=>'quantity', 'header'=>'Quantity'),
-                     array('name'=>'unit_homecare', 'header'=>'Unit','value'=>'$data->product->unitHomecare->unit_name'),
+                     
                      array('name'=>'product.price', 'header'=>'Price'),
                      
                      array(

@@ -386,6 +386,8 @@ $pdf->SetFont('helvetica', 'B', 20);
 $pdf->AddPage();
 
 $pdf->Write(0, 'Master Stock Product', '', 0, 'C', true, 0, false, false, 0);
+$pdf->SetFont('helvetica', 'B', 13);
+$pdf->Write(0, 'Branch '.Yii::app()->getModule('user')->user()->profile->branch->branch_name , '', 0, 'C', true, 0, false, false, 0);
 
 $pdf->SetFont('helvetica', '', 10);
 $pdf->Ln();
@@ -490,6 +492,8 @@ $pdf->SetFont('helvetica', 'B', 20);
 $pdf->AddPage();
 
 $pdf->Write(0, 'Consume Stock Product', '', 0, 'C', true, 0, false, false, 0);
+$pdf->SetFont('helvetica', 'B', 13);
+$pdf->Write(0, 'Branch '.Yii::app()->getModule('user')->user()->profile->branch->branch_name , '', 0, 'C', true, 0, false, false, 0);
 
 $pdf->SetFont('helvetica', '', 10);
 $pdf->Ln();

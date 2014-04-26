@@ -109,7 +109,14 @@ $this->menu=array(
             'items'=> array(
                     array('label'=>'Master Stock', 'url'=>array('/admin/inventory/product/printoutmasterstockproduct'), 'active'=>isset($active['15.1']) ? true : false,),
                     array('label'=>'Consume Stock', 'url'=>array('/admin/inventory/product/printoutconsumestockproduct'), 'active'=>isset($active['15.2']) ? true : false, ),
-           
+                    array('label'=>'Incoming Product', 'url'=>array('/admin/inventory/incoming/printoutincoming'), 'active'=>isset($active['15.3']) ? true : false, ),
+                    array('label'=>'Incoming Supplier Product', 'url'=>array('/admin/inventory/incomingsupplier/printoutincoming'), 'active'=>isset($active['15.4']) ? true : false, ),
+                    array('label'=>'Outgoing Product', 'url'=>array('/admin/inventory/outgoing/printoutoutgoing'), 'active'=>isset($active['15.5']) ? true : false, ),
+                    array('label'=>'Product Price', 'url'=>array('/admin/accounting/product/printoutproductprice'), 'active'=>isset($active['15.6']) ? true : false,),
+                    array('label'=>'Treatment Price', 'url'=>array('/admin/accounting/treatment/printouttreatmentprice'), 'active'=>isset($active['15.7']) ? true : false,),
+                    array('label'=>'Product Package Price', 'url'=>array('/admin/accounting/productpackage/printoutproductpackageprice'), 'active'=>isset($active['15.8']) ? true : false,),
+                    array('label'=>'Treatment Package Price', 'url'=>array('/admin/accounting/treatmentpackage/printouttreatmentpackageprice'), 'active'=>isset($active['15.9']) ? true : false,),
+                    array('label'=>'Reservation', 'url'=>array('/admin/consultant/schedule/printoutreservation'), 'active'=>isset($active['15.10']) ? true : false,),
    )),
    
     

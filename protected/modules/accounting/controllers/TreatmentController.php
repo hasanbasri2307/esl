@@ -341,6 +341,125 @@ class TreatmentController extends RController
                         'model_machine'=>$model_machine,
 		));
        }
+
+    public function actionPrintOutTreatmentPrice()
+  {
+    $this->render('report');
+  }
+
+  public function actionTreatmentPriceReport()
+  {
+    $branch =  Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
+  
+    $model = Treatment::model()->findAll();
+    $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+// set document information
+$pdf->SetCreator(PDF_CREATOR);
+$pdf->SetAuthor('Euro Medica');
+$pdf->SetTitle('Treatment Price Report');
+$pdf->SetSubject('TCPDF Tutorial');
+$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+// set default header data
+
+$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH,'Treatment Price Report', "Euro Media");
+
+// set header and footer fonts
+$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+// set default monospaced font
+$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+// set margins
+$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+// set auto page breaks
+$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+// set image scale factor
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+// set some language-dependent strings (optional)
+if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+    require_once(dirname(__FILE__).'/lang/eng.php');
+    $pdf->setLanguageArray($l);
+}
+
+// ---------------------------------------------------------
+
+// set font
+$pdf->SetFont('helvetica', 'B', 20);
+
+// add a page
+$pdf->AddPage();
+
+$pdf->Write(0, 'Treatment Price', '', 0, 'C', true, 0, false, false, 0);
+$pdf->SetFont('helvetica', 'B', 13);
+$pdf->Write(0, 'Branch '.Yii::app()->getModule('user')->user()->profile->branch->branch_name , '', 0, 'C', true, 0, false, false, 0);
+
+$pdf->SetFont('helvetica', '', 10);
+$pdf->Ln();
+
+// -----------------------------------------------------------------------------
+
+
+
+// NON-BREAKING ROWS (nobr="true")
+$tbl="";
+$tbl .= '
+
+<style type="text/css">
+.myOtherTable { background-color:#FFFFE0;border-collapse:collapse;color:#000;font-size:16px; }
+.myOtherTable th { background-color:#BDB76B;color:white;width:17%; }
+.myOtherTable td { padding:5px;border:0; }
+.myOtherTable td { font-family:Georgia, Garamond, serif; border-bottom:1px dotted #BDB76B; }
+</style>
+
+
+<table class="myOtherTable">
+ <tr>
+  <th>Treatment Code</th>
+  <th>Treatment Name</th>
+  <th>Type</th>
+  <th>Duration</th>
+  <th>Price</th>
+  <th>Point</th>
+ </tr>
+ ';
+ foreach($model as $data) {
+  $tbl .='<tr>
+    <td>'.$data->treatment_number.'</td>
+    <td>'.$data->treatment_name.'</td>
+    <td>'.$data->treatment_type.'</td>
+    <td>'.$data->duration.'</td>
+    <td>'.$this->rupiah($data->price).'</td>
+    <td>'.$data->point.'</td>
+    
+    </tr>';
+ }
+ 
+$tbl .="</table>";
+
+$pdf->writeHTML($tbl, true, false, false, false, '');
+
+// -----------------------------------------------------------------------------
+
+//Close and output PDF document
+$pdf->Output('Laporan Treatment Price.pdf', 'I');
+
+  }
+
+  private function rupiah($rp)
+  {
+
+   $jadi = "Rp " . number_format($rp,2,',','.');
+   return $jadi;
+
+  }
 	   
 	   
 }

@@ -15,6 +15,12 @@ $this->menu=array(
                 //array('label'=>'Cabin', 'url'=>array('/inventory/product_cabin'), 'active'=>isset($active['1.2']) ? true : false,)
             )
         ),
+    array('label'=>'Report','icon' => 'icon-calendar', 'url'=>array('#'), 'active'=>isset($active['4']) ? true : false,
+            'items'=> array(
+                    array('label'=>'Reservation', 'url'=>array('/frontdesk/schedule/printoutreservation'), 'active'=>isset($active['4.1']) ? true : false,),
+                    
+           
+   )),
     /*
     array('label'=>'Product Information','icon' => 'icon-flag', 'url'=>array('/frontdesk/product'), 'active'=>isset($active['4']) ? true : false,),
    */

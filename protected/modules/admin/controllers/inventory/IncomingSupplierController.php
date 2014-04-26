@@ -224,6 +224,120 @@ class IncomingSupplierController extends RController
 			Yii::app()->end();
 		}
 	}
+
+	public function actionPrintOutIncoming()
+	{
+		$this->render('incoming_report');
+	}
+
+	public function actionIncomingPdf()
+	{
+		 $branch =  Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
+		 $sql = "SELECT *,sum(esc_io_detail.quantity) as total_qty FROM `esc_io` inner join esc_io_detail on esc_io_detail.io_id = esc_io.io_id inner join esc_supplier on esc_supplier.supplier_id = esc_io.suplier where branch_id = $branch group by esc_io.io_id";
+		 $connection=Yii::app()->db;
+		 $command=$connection->createCommand($sql);
+		 $model = $command->queryAll();	
+      
+		
+		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+// set document information
+$pdf->SetCreator(PDF_CREATOR);
+$pdf->SetAuthor('Euro Medica');
+$pdf->SetTitle('Incoming Supplier Product Report');
+$pdf->SetSubject('TCPDF Tutorial');
+$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+// set default header data
+
+$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH,'Incoming Supplier Product Report', "Euro Media");
+
+// set header and footer fonts
+$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+// set default monospaced font
+$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+// set margins
+$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+// set auto page breaks
+$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+// set image scale factor
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+// set some language-dependent strings (optional)
+if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+    require_once(dirname(__FILE__).'/lang/eng.php');
+    $pdf->setLanguageArray($l);
+}
+
+// ---------------------------------------------------------
+
+// set font
+$pdf->SetFont('helvetica', 'B', 20);
+
+// add a page
+$pdf->AddPage();
+
+$pdf->Write(0, 'Incoming Supplier Product', '', 0, 'C', true, 0, false, false, 0);
+$pdf->SetFont('helvetica', 'B', 13);
+$pdf->Write(0, 'Branch '.Yii::app()->getModule('user')->user()->profile->branch->branch_name , '', 0, 'C', true, 0, false, false, 0);
+$pdf->SetFont('helvetica', '', 10);
+$pdf->Ln();
+
+// -----------------------------------------------------------------------------
+
+
+
+// NON-BREAKING ROWS (nobr="true")
+$tbl="";
+$tbl .= '
+
+<style type="text/css">
+.myOtherTable { background-color:#FFFFE0;border-collapse:collapse;color:#000;font-size:16px; }
+.myOtherTable th { background-color:#BDB76B;color:white;width:16.5%; }
+.myOtherTable td { padding:5px;border:0; }
+.myOtherTable td { font-family:Georgia, Garamond, serif; border-bottom:1px dotted #BDB76B; }
+</style>
+
+
+<table class="myOtherTable">
+ <tr>
+ 	<th>No</th>
+ 	<th>DN-Number</th>
+ 	<th>Date</th>
+ 	<th>Description</th>
+ 	<th>Supplier</th>
+ 	<th>Total Qty</th>
+ </tr>
+ ';
+ $no=1;
+ foreach($model as $data =>$val) {
+ 	$tbl .='<tr>
+ 		<td>'.$no.'</td>
+ 		<td>'.$val['note'].'</td>
+ 		<td>'.$val['date'].'</td>
+ 		<td>'.$val['description'].'</td>
+ 		<td>'.$val['supplier_name'].'</td>
+ 		<td>'.$val['total_qty'].'</td>
+ 		</tr>';
+ $no++;}
+ 
+$tbl .="</table>";
+
+$pdf->writeHTML($tbl, true, false, false, false, '');
+
+// -----------------------------------------------------------------------------
+
+//Close and output PDF document
+$pdf->Output('Laporan Incoming Supplier Product.pdf', 'I');
+
+	}
 	
 	
         

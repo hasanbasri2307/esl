@@ -39,6 +39,9 @@ $this->menu=array(
             'items'=> array(
                     array('label'=>'Master Stock', 'url'=>array('/inventory/product/printoutmasterstockproduct'), 'active'=>isset($active['5.1']) ? true : false,),
                     array('label'=>'Consume Stock', 'url'=>array('/inventory/product/printoutconsumestockproduct'), 'active'=>isset($active['5.2']) ? true : false, ),
+                    array('label'=>'Incoming Product', 'url'=>array('/inventory/incoming/printoutincoming'), 'active'=>isset($active['5.3']) ? true : false, ),
+                    array('label'=>'Incoming Supplier Product', 'url'=>array('/inventory/incomingsupplier/printoutincoming'), 'active'=>isset($active['5.4']) ? true : false, ),
+                    array('label'=>'Outgoing Product', 'url'=>array('/inventory/outgoing/printoutoutgoing'), 'active'=>isset($active['5.5']) ? true : false, ),
            
    )),
 
