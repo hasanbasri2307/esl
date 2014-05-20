@@ -2,34 +2,24 @@
 /* @var $this DefaultController */
 
 $this->breadcrumbs=array(
-	'Client',
+  'Client',
 );
 $this->renderPartial('../menu',array(
-			'active'=>array('2'=>true, '2.1'=>true),
-		));
+      'active'=>array('2'=>true,'2.2'=>true),
+    ));
 ?>
 
 <div class="page-header position-relative">
-    <h1>            Clients  
+    <h1>            New Clients 
             <small>
                     <i class="icon-double-angle-right"></i>
                    
             </small>
-            <?php
-          
-		 $this->widget('bootstrap.widgets.TbButton',array(
-                'label' => 'Import',
-                'url'=>array('import'),
-        ));
-
- ?>
     </h1>
 </div>
     
  <div class="row-fluid">
- 
                                 <div class="span12 infobox-container">
-                                
                                 <?php
                                 foreach ($client as $item ) {
                                     ?>
@@ -37,7 +27,7 @@ $this->renderPartial('../menu',array(
                                     <div class="infobox infobox-blue2  ">
                                         <div class="infobox-progress">
                                             <div class="easy-pie-chart percentage" data-percent="90" data-size="90">
-                                                <a href="<?php echo Yii::app()->createUrl('consultant/client/view', array('id'=>$item->client_id));?>"><?php if($item->pict == NULL) { echo CHtml::image(Yii::app()->request->baseUrl.'/upload/client/test.jpg',"image",array("class"=>"pict")) ; } else { echo CHtml::image(Yii::app()->request->baseUrl.'/upload/client/'.$item->pict,"image",array("class"=>"pict")) ;} ?></a>
+                                                <a href="<?php echo Yii::app()->createUrl('frontdesk/client/view', array('id'=>$item->client_id));?>"><?php if($item->pict == NULL) { echo CHtml::image(Yii::app()->request->baseUrl.'/upload/client/test.jpg',"image",array("class"=>"pict")) ; } else { echo CHtml::image(Yii::app()->request->baseUrl.'/upload/client/'.$item->pict,"image",array("class"=>"pict")) ;} ?></a>
                                             </div>
                                         </div>
 
@@ -93,7 +83,7 @@ $this->renderPartial('../menu',array(
 
  jQuery('#nav-search-input').keypress(function (e) {
   if (e.which == 13) {
-    window.location  = "<?php echo Yii::app()->createUrl('/consultant/client/index/search/')?>/"+jQuery(this).val();
+    window.location  = "<?php echo Yii::app()->createUrl('/frontdesk/client/index/search/')?>/"+jQuery(this).val();
     return false;
   }
 });

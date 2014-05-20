@@ -6,8 +6,6 @@
  * The followings are the available columns in table '{{client}}':
  * @property integer $client_id
  * @property string $client_name
- * @property string $client_middle_name
- * @property string $client_last_name
  * @property string $title
  * @property integer $sex_id
  * @property integer $marital_status_id
@@ -34,10 +32,13 @@
  * @property string $description
  * @property integer $branch_id
  * @property string $date_join
+ * @property integer $subcribe
+ * @property string $subcribe_via
  * @property integer $user_id
  * @property integer $created
  * @property integer $changed
  * @property integer $active
+ * @property integer $status
  */
 class Client extends CActiveRecord
 {
@@ -58,18 +59,20 @@ class Client extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('client_name', 'required','on'=>'create'),
-			array('sex_id, marital_status_id, nationality_id, id_card_id, source_info_id, user_id, created, changed, active', 'numerical', 'integerOnly'=>true),
+			array('client_name,address,hp1,telephone,dob', 'required','on'=>'consultant'),
+			array('sex_id, marital_status_id, nationality_id, id_card_id, source_info_id, branch_id, subcribe, user_id, created, changed, active, status', 'numerical', 'integerOnly'=>true),
 			array('client_name', 'length', 'max'=>30),
-			array('client_name', 'required', 'on'=>'upload'),
-			array('id_card_number, client_number, dop, city', 'length', 'max'=>20),
+			array('title', 'length', 'max'=>4),
+			array('id_card_number, client_number, dop, city, subcribe_via', 'length', 'max'=>20),
 			array('address', 'length', 'max'=>225),
-			array('zip_code', 'length', 'max'=>10),
-			array('telephone, phone_kantor, hp1, hp2,fax_number', 'length', 'max'=>15),
+			array('zip_code, pin_bbm', 'length', 'max'=>10),
+			array('telephone, fax_number, phone_kantor, hp1, hp2', 'length', 'max'=>15),
 			array('email', 'length', 'max'=>50),
-			
+			array('agama', 'length', 'max'=>9),
+			array('pekerjaan, pict', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('client_id, client_name, sex_id, marital_status_id, nationality_id, id_card_id, id_card_number, client_number, dop, dob, address, city, zip_code, telephone, phone_kantor, hp1, hp2, email, pict, source_info_id, branch_id, date_join, user_id, created, changed, active', 'safe', 'on'=>'search'),
+			array('client_id, client_name, title, sex_id, marital_status_id, nationality_id, id_card_id, id_card_number, client_number, dop, dob, address, city, zip_code, telephone, fax_number, phone_kantor, hp1, hp2, email, pin_bbm, agama, pekerjaan, pict, source_info_id, description, branch_id, date_join, subcribe, subcribe_via, user_id, created, changed, active, status', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -97,11 +100,9 @@ class Client extends CActiveRecord
 	{
 		return array(
 			'client_id' => 'Client',
-			'client_name' => 'First Name',
-			'client_middle_name' => 'Middle Name',
-			'client_last_name' => 'Last Name',
+			'client_name' => 'Client Name',
 			'title' => 'Title',
-			'sex_id' => 'Gender',
+			'sex_id' => 'Sex',
 			'marital_status_id' => 'Marital Status',
 			'nationality_id' => 'Nationality',
 			'id_card_id' => 'ID Number Type',
@@ -112,7 +113,6 @@ class Client extends CActiveRecord
 			'address' => 'Address',
 			'city' => 'City',
 			'agama' => 'Religion',
-			'pekerjaan'=> 'Occupation',
 			'zip_code' => 'Zip Code',
 			'telephone' => 'Home Number',
 			'fax_number' => 'Fax Number',
@@ -120,16 +120,21 @@ class Client extends CActiveRecord
 			'hp1' => 'Handphone 1',
 			'hp2' => 'Handphone 2',
 			'email' => 'Email',
+			'pin_bbm' => 'Pin BBM',
+			
+			'pekerjaan' => 'Occupation',
 			'pict' => 'Pict',
 			'source_info_id' => 'Source Info',
-			'branch_id' => 'Join By Branch',
-			'date_join' => 'Date Join',
-			'pin_bbm' => 'Pin BBM',
-			'user_id' => 'User',
 			'description' => 'Description',
+			'branch_id' => 'Join By Branch',
+			'date_join' => 'Join Date',
+			'subcribe' => 'Subcribe',
+			'subcribe_via' => 'Subcribe Via',
+			'user_id' => 'User',
 			'created' => 'Created',
 			'changed' => 'Changed',
 			'active' => 'Active',
+			'status' => 'Status',
 		);
 	}
 
@@ -153,8 +158,6 @@ class Client extends CActiveRecord
 
 		$criteria->compare('client_id',$this->client_id);
 		$criteria->compare('client_name',$this->client_name,true);
-		$criteria->compare('client_middle_name',$this->client_middle_name,true);
-		$criteria->compare('client_last_name',$this->client_last_name,true);
 		$criteria->compare('title',$this->title,true);
 		$criteria->compare('sex_id',$this->sex_id);
 		$criteria->compare('marital_status_id',$this->marital_status_id);
@@ -181,10 +184,13 @@ class Client extends CActiveRecord
 		$criteria->compare('description',$this->description,true);
 		$criteria->compare('branch_id',$this->branch_id);
 		$criteria->compare('date_join',$this->date_join,true);
+		$criteria->compare('subcribe',$this->subcribe);
+		$criteria->compare('subcribe_via',$this->subcribe_via,true);
 		$criteria->compare('user_id',$this->user_id);
 		$criteria->compare('created',$this->created);
 		$criteria->compare('changed',$this->changed);
 		$criteria->compare('active',$this->active);
+		$criteria->compare('status',$this->status);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

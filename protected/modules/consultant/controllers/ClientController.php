@@ -31,7 +31,7 @@ class ClientController extends RController
 	 */
 	public function actionCreate()
 	{
-		$model=new Client('create');
+		$model=new Client('consultant');
 		$model_ch = new ClientHistory('create');
 
 		// Uncomment the following line if AJAX validation is needed
@@ -42,20 +42,20 @@ class ClientController extends RController
 			$model->attributes=$_POST['Client'];
 						$prefix = Yii::app()->getModule('user')->user()->profile->branch->getAttribute('branch_number');
                         $time = time();
+                        $tahun = date("y");
                         $model->user_id =Yii::app()->getModule('user')->user()->id;
                         $model->branch_id =Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id'); 
                         $model->changed =$time;
                         $model->created =$time;
-                        $model->client_middle_name = $_POST['Client']['client_middle_name'];
-                        $model->client_last_name = $_POST['Client']['client_last_name'];
-                        $model->title = $_POST['Client']['title'];
-                        $model->pin_bbm = $_POST['Client']['pin_bbm'];
-                        $model->description = $_POST['Client']['description'];
-                        $model->client_number = Yii::app()->getModule('consultant')->autoNumber("ESL-".$prefix.'-',"client_number","esc_client"); 
+                        $client_middle_name = $_POST['middle_name'];
+                        $client_last_name = $_POST['last_name'];
+                        $model->client_name = $_POST['Client']['client_name'].' '.$client_middle_name.' '.$client_last_name;
+                        $model->client_number = Yii::app()->getModule('consultant')->autoNumber($prefix.$tahun,"client_number","esc_client"); 
                         $model->active =1;
+                        $model->status=0;
                         $model->save();
 
-                        $model_ch->attributes=$_POST['ClientHistory'];
+                        
                         $model_ch->client_id =$model->client_id;
                         $model_ch->user_id =Yii::app()->getModule('user')->user()->id;
                         $model_ch->changed =$time;
@@ -133,6 +133,26 @@ class ClientController extends RController
 		$criteria=new CDbCriteria();
 		$branch_id =Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
         $criteria->condition ="branch_id=$branch_id ";
+         $criteria->condition = "branch_id=$branch_id  and status=1";
+        if(isset($search)) 
+             $criteria->condition = "branch_id=$branch_id   AND  LOWER(`client_number`) LIKE LOWER('%$search%') OR LOWER(`client_number`) LIKE LOWER('%$search%') OR LOWER(`client_name`) LIKE LOWER('%$search%') OR LOWER(`client_name`) LIKE LOWER('%$search%')";
+		$count=Client::model()->count($criteria);
+    	$pages=new CPagination($count);
+    	$pages->pageSize=18;
+    	$pages->applyLimit($criteria);
+		$client = Client::model()->findAll($criteria);
+
+		$this->render('index',array(
+			'client'=>$client,
+			'pages' => $pages
+		));
+	}
+
+	public function actionClientNew($search=NULL)
+	{
+		$criteria=new CDbCriteria();
+		$branch_id =Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
+        $criteria->condition ="branch_id=$branch_id and status =0 ";
         if(isset($search)) 
              $criteria->condition = "branch_id=$branch_id  AND  LOWER(`client_number`) LIKE LOWER('%$search%') OR LOWER(`client_number`) LIKE LOWER('%$search%') OR LOWER(`client_name`) LIKE LOWER('%$search%') OR LOWER(`client_name`) LIKE LOWER('%$search%')";
 		$count=Client::model()->count($criteria);
@@ -141,7 +161,7 @@ class ClientController extends RController
     	$pages->applyLimit($criteria);
 		$client = Client::model()->findAll($criteria);
 
-		$this->render('index',array(
+		$this->render('newclient',array(
 			'client'=>$client,
 			'pages' => $pages
 		));
@@ -216,6 +236,7 @@ class ClientController extends RController
 	{
 		$prefix = Yii::app()->getModule('user')->user()->profile->branch->getAttribute('branch_number');
 		$model=new Client('upload');
+		$tahun = date('y');
 		$model2 = new ClientHistory('upload');
 		if(isset($_POST['Client']))
 		{
@@ -277,12 +298,10 @@ class ClientController extends RController
 
 				
 				$model=new Client('upload');
-				$model->client_name = $client_name[$i];
-				$model->client_middle_name = $client_middle_name[$i];
-				$model->client_last_name = $client_last_name[$i];
+				$model->client_name = $client_name[$i].' '.$client_middle_name[$i].' '.$client_last_name[$i];
 				$model->title = $title[$i];
 				$model->id_card_number=$id_card_number[$i];
-				$model->client_number=Yii::app()->getModule('consultant')->autoNumber("ESL-".$prefix.'-',"client_number","esc_client"); 
+				$model->client_number = Yii::app()->getModule('consultant')->autoNumber($prefix.$tahun,"client_number","esc_client"); 
 				$model->dop=$dop[$i];
 				$model->dob=$dob[$i];
 				$model->address=$address[$i];

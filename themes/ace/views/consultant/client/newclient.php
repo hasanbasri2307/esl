@@ -5,24 +5,18 @@ $this->breadcrumbs=array(
 	'Client',
 );
 $this->renderPartial('../menu',array(
-			'active'=>array('2'=>true, '2.1'=>true),
+			'active'=>array('2'=>true, '2.4'=>true),
 		));
 ?>
 
 <div class="page-header position-relative">
-    <h1>            Clients  
+    <h1>           New Clients  
             <small>
                     <i class="icon-double-angle-right"></i>
                    
             </small>
-            <?php
-          
-		 $this->widget('bootstrap.widgets.TbButton',array(
-                'label' => 'Import',
-                'url'=>array('import'),
-        ));
 
- ?>
+
     </h1>
 </div>
     

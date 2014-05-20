@@ -1,4 +1,10 @@
 <?php
+$criteria=new CDbCriteria();
+        $branch_id =Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
+
+        
+             $criteria->condition = "branch_id=$branch_id AND status=0  ";
+        $count=Client::model()->count($criteria);
 
 $this->menu=array(
   array('label'=>'Dashboard','icon' => 'icon-adjust', 'url'=>array('/consultant'), 'active'=>isset($active['6']) ? true : false,),
@@ -13,6 +19,7 @@ $this->menu=array(
     array('label'=>'Client','icon' => 'icon-user', 'url'=>array('/consultant/client'), 'active'=>isset($active['2']) ? true : false,
             'items'=> array(
                 array('label'=>'List Client', 'url'=>array('/consultant/client'), 'active'=>isset($active['2.1']) ? true : false,),
+                 array('label'=>'New Client ('. $count.')', 'url'=>array('/consultant/client/clientnew'), 'active'=>isset($active['2.4']) ? true : false,),
                 array('label'=>'Input', 'url'=>array('/consultant/client/create'), 'active'=>isset($active['2.2']) ? true : false,),
                 array('label'=>'Historycal', 'url'=>array('/consultant/client/history'), 'active'=>isset($active['2.3']) ? true : false,),
                

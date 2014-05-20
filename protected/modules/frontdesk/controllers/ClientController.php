@@ -32,7 +32,7 @@ class ClientController extends RController
 		$branch_id =Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
         $criteria->condition ="branch_id=$branch_id ";
         if(isset($search)) 
-            $criteria->condition = "branch_id=$branch_id  AND  LOWER(`client_number`) LIKE LOWER('%$search%') OR LOWER(`client_number`) LIKE LOWER('%$search%') OR LOWER(`client_name`) LIKE LOWER('%$search%') OR LOWER(`client_name`) LIKE LOWER('%$search%')";
+            $criteria->condition = "branch_id=$branch_id  AND  LOWER(`client_number`) LIKE LOWER('%$search%') OR LOWER(`client_number`) LIKE LOWER('%$search%') OR LOWER(`client_name`) LIKE LOWER('%$search%') OR LOWER(`client_middle_name`) LIKE LOWER('%$search%') OR LOWER(`client_last_name`) LIKE LOWER('%$search%')";
 		$count=Client::model()->count($criteria);
     	$pages=new CPagination($count);
     	$pages->pageSize=18;
@@ -45,6 +45,59 @@ class ClientController extends RController
 		));
                 
 		
+	}
+
+	public function actionClientNew($search=NULL)
+	{
+		$criteria=new CDbCriteria();
+		$branch_id =Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
+        $criteria->condition ="branch_id=$branch_id and status =0 ";
+        if(isset($search)) 
+             $criteria->condition = "branch_id=$branch_id  AND  LOWER(`client_number`) LIKE LOWER('%$search%') OR LOWER(`client_number`) LIKE LOWER('%$search%') OR LOWER(`client_name`) LIKE LOWER('%$search%') OR LOWER(`client_name`) LIKE LOWER('%$search%')";
+		$count=Client::model()->count($criteria);
+    	$pages=new CPagination($count);
+    	$pages->pageSize=18;
+    	$pages->applyLimit($criteria);
+		$client = Client::model()->findAll($criteria);
+
+		$this->render('clientnew',array(
+			'client'=>$client,
+			'pages' => $pages
+		));
+	}
+
+	public function actionUpdate($id)
+	{
+		
+		$model=$this->loadModel($id);
+		
+		$model->scenario='create';
+		
+		$model_ch=ClientHistory::model()->findByAttributes(array('client_id'=>$model->client_id));
+		$model_ch->scenario='create';
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['Client']) && isset($_POST['ClientHistory']))
+		{
+			$time = time();
+			$model->attributes=$_POST['Client'];
+			  $model_ch->attributes=$_POST['ClientHistory'];
+              
+                        $model_ch->changed =$time;
+                        $model->client_name = $_POST['first_name'].' '.$_POST['middle_name'].' '.$_POST['last_name'];
+                        $model->status= $_POST['Client']['status'];
+                        
+			if(isset($_POST['Client']['filename']))
+				$model->pict = $_POST['Client']['filename'];
+			if($model->save())
+				$this->redirect(array('view','id'=>$model->client_id));
+		}
+
+		$this->render('update',array(
+			'model'=>$model,
+			'model_ch'=>$model_ch,
+		));
 	}
 
 	 

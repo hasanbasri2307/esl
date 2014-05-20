@@ -10,7 +10,7 @@ $this->renderPartial('../menu',array(
 		));
 ?>
 <div class="page-header position-relative">
-    <h1>            View Client #<?php echo $model->client_id; ?>
+    <h1>             View Client #<?php echo $model->client_id; ?> <?php echo CHtml::link('(edit)',array('/frontdesk/client/update/id/'.$model->client_id)); ?>
             <small>
                     <i class="icon-double-angle-right"></i>
                    
@@ -34,12 +34,17 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
 	'attributes'=>array(
 		'client_id',
 		'client_name',
+		'client_middle_name',
+		'client_last_name',
+		'title',
+       array('name'=>'dob', 'label'=>'Date of Birthday'),
+        array('name'=>'dop', 'label'=>'Date of Place'),
 		'sex.sex'=>'Gender',
 		'maritalStatus.marital_status',
 		'nationality.nationality',
 		'idcard.id_card',
 		'id_card_number',
-    'client_number',
+        'client_number',
 		'address',
 		'telephone',
 		'hp1',
@@ -49,9 +54,13 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
 		'city',
 		'zip_code',
 		'telephone',
+		'pin_bbm',
 		'sourceInfo.source_info',
-     array('name'=>'branch.branch_name', 'label'=>'Join By Branch'),
-    'date_join',
+        'description',
+        'subcribe',
+        'subcribe_via',
+    array('name'=>'branch.branch_name', 'label'=>'Join By Branch'),
+    array('name'=>'date_join', 'label'=>'Date of Join'),
 	
 	),
 )); 

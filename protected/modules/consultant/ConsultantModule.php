@@ -30,7 +30,7 @@ class ConsultantModule extends CWebModule
 	{
 		$kode ='';
 		$sql_cek = 'SELECT MAX('.$id.') as max_pref FROM '.$table.' where '.$id.' like "%'.$prefix.'%" ORDER BY '.$id; 
-		$sql = 'SELECT MAX(RIGHT('.$id.', 6)) as max_id FROM '.$table.' where '.$id.' like "%'.$prefix.'%" ORDER BY '.$id;
+		$sql = 'SELECT MAX(RIGHT('.$id.', 7)) as max_id FROM '.$table.' where '.$id.' like "%'.$prefix.'%" ORDER BY '.$id;
 		$connection=Yii::app()->db;
 		$command=$connection->createCommand($sql);
 		$command2=$connection->createCommand($sql_cek);
@@ -40,14 +40,14 @@ class ConsultantModule extends CWebModule
 		
 	    if($result2['max_pref'] === NULL)
 	    {
-	    	$kode = $prefix."000001";
+	    	$kode = $prefix."0000001";
 	    }
 	    else
 	    {
 	    	 $id_max = $result['max_id'];
-			$sort_num = (int) substr($id_max, 1, 6);
+			$sort_num = (int) substr($id_max, 1, 7);
 		    $sort_num++;
-	    	$new_code = sprintf("%06s", $sort_num);
+	    	$new_code = sprintf("%07s", $sort_num);
 	    	$kode = $prefix.$new_code;
 	    }
 	   
