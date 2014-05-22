@@ -232,7 +232,7 @@ class ProductController extends RController
 				$model=new Product('upload');
 				$model->product_name=$product_name[$i];
 				$model->product_category=$category[$i];
-				$model->product_number = Yii::app()->getModule('inventory')->autoNumber("P","product_number","esc_product");
+				$model->product_number = Yii::app()->getModule('inventory')->autoNumber("MP","product_number","esc_product");
 				
 				$model->save();
 					
@@ -274,6 +274,8 @@ class ProductController extends RController
 			$x=0;
 			$product_name=array();
 			$category=array();
+			$satuan= array();
+			$satuan_consume=array();
 			
 			error_reporting(E_ALL ^ E_NOTICE);
 			for ($j = 2; $j <= $data->sheets[0]['numRows']; $j++) 
@@ -281,7 +283,8 @@ class ProductController extends RController
 				
 				$product_name[$x]=$data->sheets[0]['cells'][$j][1];
 				$category[$x]=$data->sheets[0]['cells'][$j][2];
-				
+				$satuan[$x]=$data->sheets[0]['cells'][$j][3];
+				$satuan_consume[$x]=$data->sheets[0]['cells'][$j][4];
 				$x++;
 			}
 		
@@ -292,7 +295,9 @@ class ProductController extends RController
 				$model=new Product('upload');
 				$model->product_name=$product_name[$i];
 				$model->product_category=$category[$i];
-				$model->product_number = Yii::app()->getModule('inventory')->autoNumber("P","product_number","esc_product");
+				$model->satuan=$satuan[$i];
+				$model->satuan_consume=$satuan_consume[$i];
+				$model->product_number = Yii::app()->getModule('inventory')->autoNumber("CP","product_number","esc_product");
 				
 				$model->save();
 					

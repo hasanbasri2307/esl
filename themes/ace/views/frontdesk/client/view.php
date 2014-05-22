@@ -34,12 +34,10 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
 	'attributes'=>array(
 		'client_id',
 		'client_name',
-		'client_middle_name',
-		'client_last_name',
 		'title',
        array('name'=>'dob', 'label'=>'Date of Birthday'),
         array('name'=>'dop', 'label'=>'Date of Place'),
-		'sex.sex'=>'Gender',
+		 array('name'=>'sex.sex', 'label'=>'Gender'),
 		'maritalStatus.marital_status',
 		'nationality.nationality',
 		'idcard.id_card',

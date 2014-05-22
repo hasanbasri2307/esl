@@ -51,6 +51,7 @@ class ClientController extends RController
                         $client_last_name = $_POST['last_name'];
                         $model->client_name = $_POST['Client']['client_name'].' '.$client_middle_name.' '.$client_last_name;
                         $model->client_number = Yii::app()->getModule('consultant')->autoNumber($prefix.$tahun,"client_number","esc_client"); 
+                        
                         $model->active =1;
                         $model->status=0;
                         $model->save();
@@ -249,8 +250,6 @@ class ClientController extends RController
 
 			$x=0;
 			$client_name=array();
-			$client_middle_name=array();
-			$client_last_name=array();
 			$title=array();
 			$id_card_number=array();
 			$dop=array();
@@ -272,24 +271,23 @@ class ClientController extends RController
 			{
 				
 				$client_name[$x]=$data->sheets[0]['cells'][$j][1];
-				$client_middle_name[$x]=$data->sheets[0]['cells'][$j][2];
-				$client_last_name[$x]=$data->sheets[0]['cells'][$j][3];
-				$title[$x] = $data->sheets[0]['cells'][$j][4];
-				$id_card_number[$x]=$data->sheets[0]['cells'][$j][5];
-				$dop[$x]=$data->sheets[0]['cells'][$j][6];
-				$dob[$x]=$data->sheets[0]['cells'][$j][7];
-				$address[$x]=$data->sheets[0]['cells'][$j][8];
-				$city[$x]=$data->sheets[0]['cells'][$j][9];
-				$zip_code[$x]=$data->sheets[0]['cells'][$j][10];
-				$telephone[$x]=$data->sheets[0]['cells'][$j][11];
-				$fax_number[$x]=$data->sheets[0]['cells'][$j][12];
-				$phone_kantor[$x]=$data->sheets[0]['cells'][$j][13];
-				$hp1[$x]=$data->sheets[0]['cells'][$j][14];
-				$hp2[$x]=$data->sheets[0]['cells'][$j][15];
-				$pin_bbm[$x]=$data->sheets[0]['cells'][$j][16];
-				$email[$x]=$data->sheets[0]['cells'][$j][17];
-				$branch_id[$x]=$data->sheets[0]['cells'][$j][18];
-				$date_join[$x]=$data->sheets[0]['cells'][$j][19];
+				$title[$x] = $data->sheets[0]['cells'][$j][2];
+				$id_card_number[$x]=$data->sheets[0]['cells'][$j][3];
+				$dop[$x]=$data->sheets[0]['cells'][$j][4];
+				$dob[$x]=$data->sheets[0]['cells'][$j][5];
+				$address[$x]=$data->sheets[0]['cells'][$j][6];
+				$city[$x]=$data->sheets[0]['cells'][$j][7];
+				$zip_code[$x]=$data->sheets[0]['cells'][$j][8];
+				$telephone[$x]=$data->sheets[0]['cells'][$j][9];
+				$fax_number[$x]=$data->sheets[0]['cells'][$j][10];
+				$phone_kantor[$x]=$data->sheets[0]['cells'][$j][11];
+				$hp1[$x]=$data->sheets[0]['cells'][$j][12];
+				$hp2[$x]=$data->sheets[0]['cells'][$j][13];
+				$pin_bbm[$x]=$data->sheets[0]['cells'][$j][14];
+				$email[$x]=$data->sheets[0]['cells'][$j][15];
+				$branch_id[$x]=$data->sheets[0]['cells'][$j][16];
+				$date_join[$x]=$data->sheets[0]['cells'][$j][17];
+
 				$x++;
 			}
 		
@@ -298,7 +296,7 @@ class ClientController extends RController
 
 				
 				$model=new Client('upload');
-				$model->client_name = $client_name[$i].' '.$client_middle_name[$i].' '.$client_last_name[$i];
+				$model->client_name = $client_name[$i];
 				$model->title = $title[$i];
 				$model->id_card_number=$id_card_number[$i];
 				$model->client_number = Yii::app()->getModule('consultant')->autoNumber($prefix.$tahun,"client_number","esc_client"); 
@@ -316,7 +314,7 @@ class ClientController extends RController
 				$model->email=$email[$i];
 				$model->branch_id=$branch_id[$i];
 				$model->date_join=$date_join[$i];
-
+				$model->status=1;
 				$model->save();
 				
 				$model2 = new ClientHistory('upload');

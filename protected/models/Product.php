@@ -13,10 +13,11 @@
  * @property string $image
  * @property integer $unit_homecare
  * @property integer $unit_cabin
+ * @property integer $satuan
+ * @property integer $satuan_consume
  * @property integer $product_category
  * @property string $netto
  * @property string $type
- * @property integer $treatment
  * @property string $date_start
  * @property string $date_end
  * @property double $discount
@@ -47,15 +48,17 @@ class Product extends CActiveRecord
 			array('product_number', 'required','on'=>'create'),
 			array('product_name', 'required','on'=>'upload'),
 			array('product_number, product_name, price, unit_homecare', 'required','on'=>'update_inventory'),
-			array('price, price_net, unit_homecare, unit_cabin, product_category,treatment, discount, discount_rp, user_id, created, changed, active', 'numerical', 'integerOnly'=>true),
+			array('price, price_net, unit_homecare, unit_cabin, satuan, satuan_consume, product_category, user_id, created, changed, active', 'numerical', 'integerOnly'=>true),
+			array('discount, discount_rp', 'numerical'),
 			array('product_number', 'length', 'max'=>10),
-			array('product_name', 'length', 'max'=>50),
+			array('product_name', 'length', 'max'=>100),
 			array('image', 'length', 'max'=>225),
+			array('netto', 'length', 'max'=>6),
+			array('type', 'length', 'max'=>34),
 			array('description, date_start, date_end', 'safe'),
-			array('price', 'required', 'on'=>'update'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('product_id, product_number, product_name, description, price, price_net, image, unit_homecare, unit_cabin, product_category, netto, type, treatment, date_start, date_end, discount, discount_rp, user_id, created, changed, active', 'safe', 'on'=>'search'),
+			array('product_id, product_number, product_name, description, price, price_net, image, unit_homecare, unit_cabin, satuan, satuan_consume, product_category, netto, type, date_start, date_end, discount, discount_rp, user_id, created, changed, active', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -81,7 +84,7 @@ class Product extends CActiveRecord
 	{
 		return array(
 			'product_id' => 'Product',
-			'product_number' => 'Product Code',
+			'product_number' => 'Product Number',
 			'product_name' => 'Product Name',
 			'description' => 'Description',
 			'price' => 'Price',
@@ -89,10 +92,11 @@ class Product extends CActiveRecord
 			'image' => 'Image',
 			'unit_homecare' => 'Unit Homecare',
 			'unit_cabin' => 'Unit Cabin',
+			'satuan' => 'Satuan',
+			'satuan_consume' => 'Satuan Consume',
 			'product_category' => 'Product Category',
 			'netto' => 'Netto',
 			'type' => 'Type',
-			'treatment' => 'Treatment',
 			'date_start' => 'Date Start',
 			'date_end' => 'Date End',
 			'discount' => 'Discount',
@@ -131,10 +135,11 @@ class Product extends CActiveRecord
 		$criteria->compare('image',$this->image,true);
 		$criteria->compare('unit_homecare',$this->unit_homecare);
 		$criteria->compare('unit_cabin',$this->unit_cabin);
+		$criteria->compare('satuan',$this->satuan);
+		$criteria->compare('satuan_consume',$this->satuan_consume);
 		$criteria->compare('product_category',$this->product_category);
 		$criteria->compare('netto',$this->netto,true);
 		$criteria->compare('type',$this->type,true);
-		$criteria->compare('treatment',$this->treatment);
 		$criteria->compare('date_start',$this->date_start,true);
 		$criteria->compare('date_end',$this->date_end,true);
 		$criteria->compare('discount',$this->discount);

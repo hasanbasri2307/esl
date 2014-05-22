@@ -51,6 +51,4 @@ class InventoryModule extends CWebModule
 		return $prefix.$new_code; 
 	}
 
-//Sumber: http://phpbejo.blogspot.com/2013/10/membuat-script-fungsi-autonumber-dengan-php.html
-//Konten adalah milik dan hak cipta phpbejo.blogspot.com
 }

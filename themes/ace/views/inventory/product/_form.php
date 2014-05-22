@@ -24,7 +24,8 @@
         <?php echo $form->radioButtonListInlineRow($model, 'unit_homecare', CHtml::listData(Unit::model()->findAll(array("condition"=>"type='homecare'")),'unit_id','unit_code')); ?>
         <?php echo $form->radioButtonListInlineRow($model, 'unit_cabin', CHtml::listData(Unit::model()->findAll(array("condition"=>"type='cabin'")),'unit_id','unit_code')); ?>
         <?php echo $form->radioButtonListInlineRow($model, 'product_category', CHtml::listData(ProductCategory::model()->findAll(),'id_product_category','category_name')); ?>
-       
+       <?php echo $form->textFieldRow($model,'satuan'); ?>
+       <?php echo $form->textFieldRow($model,'satuan_consume'); ?>
         <?php echo $form->textFieldRow($model,'netto'); ?>
 
         <div class="control-group ">
