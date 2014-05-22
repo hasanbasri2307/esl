@@ -8,10 +8,14 @@
  * @property integer $branch_id
  * @property integer $room_id
  * @property integer $client_id
+ * @property string $order_number
  * @property string $date_t
  * @property string $time_t
  * @property string $duration
  * @property string $end_time
+ * @property string $description
+ * @property integer $doctor
+ * @property integer $beautician
  * @property integer $user_id
  * @property integer $status
  * @property integer $changed
@@ -35,13 +39,12 @@ class ScheduleRoom extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			
 			array('branch_id', 'required','on'=>'create'),
-			array('branch_id, room_id, client_id, user_id, status, changed, created', 'numerical', 'integerOnly'=>true),
+			array('branch_id, room_id, client_id, doctor, beautician, user_id, status, changed, created', 'numerical', 'integerOnly'=>true),
+			array('order_number', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('schedule_room_id, branch_id, room_id, client_id, date_t,description, time_t, duration, end_time', 'safe', 'on'=>'update'),
-			array('schedule_room_id, branch_id, room_id, client_id, date_t, time_t, duration, end_time, user_id, status, changed, created', 'safe', 'on'=>'search'),
+			array('schedule_room_id, branch_id, room_id, client_id, order_number, date_t, time_t, duration, end_time, description, doctor, beautician, user_id, status, changed, created', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -53,7 +56,7 @@ class ScheduleRoom extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-		'client' => array(self::BELONGS_TO, 'Client', 'client_id'),
+			'client' => array(self::BELONGS_TO, 'Client', 'client_id'),
 		);
 	}
 
@@ -67,14 +70,16 @@ class ScheduleRoom extends CActiveRecord
 			'branch_id' => 'Branch',
 			'room_id' => 'Room',
 			'client_id' => 'Client',
+			'order_number' => 'Order Number',
 			'date_t' => 'Date',
 			'time_t' => 'Time',
 			'duration' => 'Duration',
 			'end_time' => 'End Time',
+			'description' => 'Description',
+			'doctor' => 'Doctor',
+			'beautician' => 'Beautician',
 			'user_id' => 'User',
 			'status' => 'Status',
-			'order_number'=>'Order Number',
-			'description'=>'Description',
 			'changed' => 'Changed',
 			'created' => 'Created',
 		);
@@ -102,10 +107,14 @@ class ScheduleRoom extends CActiveRecord
 		$criteria->compare('branch_id',$this->branch_id);
 		$criteria->compare('room_id',$this->room_id);
 		$criteria->compare('client_id',$this->client_id);
+		$criteria->compare('order_number',$this->order_number,true);
 		$criteria->compare('date_t',$this->date_t,true);
 		$criteria->compare('time_t',$this->time_t,true);
 		$criteria->compare('duration',$this->duration,true);
 		$criteria->compare('end_time',$this->end_time,true);
+		$criteria->compare('description',$this->description,true);
+		$criteria->compare('doctor',$this->doctor);
+		$criteria->compare('beautician',$this->beautician);
 		$criteria->compare('user_id',$this->user_id);
 		$criteria->compare('status',$this->status);
 		$criteria->compare('changed',$this->changed);

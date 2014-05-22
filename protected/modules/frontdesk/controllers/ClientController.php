@@ -32,7 +32,7 @@ class ClientController extends RController
 		$branch_id =Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
         $criteria->condition ="branch_id=$branch_id ";
         if(isset($search)) 
-            $criteria->condition = "branch_id=$branch_id  AND  LOWER(`client_number`) LIKE LOWER('%$search%') OR LOWER(`client_number`) LIKE LOWER('%$search%') OR LOWER(`client_name`) LIKE LOWER('%$search%') OR LOWER(`client_middle_name`) LIKE LOWER('%$search%') OR LOWER(`client_last_name`) LIKE LOWER('%$search%')";
+            $criteria->condition = "branch_id=$branch_id  AND  LOWER(`client_number`) LIKE LOWER('%$search%') OR LOWER(`client_number`) LIKE LOWER('%$search%') OR LOWER(`client_name`) LIKE LOWER('%$search%') ";
 		$count=Client::model()->count($criteria);
     	$pages=new CPagination($count);
     	$pages->pageSize=18;

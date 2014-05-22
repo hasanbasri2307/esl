@@ -15,8 +15,8 @@ if($model){
 		$schedule['id_sr'][$val->date_t][$val->time_t][$val->room_id] =$val->schedule_room_id;
         $duration_hour = explode(":",$val->duration);
         $duration = $duration_hour[0] * 3600 + $duration_hour[1] * 60 + $duration_hour[2];
-        if($duration>1){
-            for($i=0;$i<$duration; $i =$i+1800){
+        if($duration>0){
+            for($i=0;$i<$duration; $i =$i+2400){
                  
                  $unix_time = strtotime($val->date_t." ".$val->time_t) + $i;
                  $hour = date("H:i:s", $unix_time);  
@@ -69,7 +69,7 @@ array(
 'htmlOptions'   => array('id'=> 'ok'),
 )
 );?>
-          <ul class="pager">
+         <ul class="pager">
             <li class="previous">
                     
                     <?php echo CHtml::link("← Prev",array('schedule/index',"date"=>$yesterday)); ?>
@@ -77,53 +77,56 @@ array(
             <li class=""><strong><?php echo date("F d, Y",$date['time']);?></strong></li>
             <li class="next">
                     
-                     <?php echo CHtml::link("Next →",array('schedule/index',"date"=>$tomorrow)); ?>
+                     <?php echo CHtml::link("Next →",array('schedule/index',"date"=>$tomorrow),array('class'=>'next')); ?>
             </li>
             
-            	<table id="sample-table-1" class="table table-striped table-bordered table-hover">
+              <table id="sample-table-1" class="table table-striped table-bordered table-hover">
                         <thead>
                                 <tr>
                                         <th>Time</th>
                                         <?php foreach($room as $item) { ?>
-                                        <th><?php echo $item->room_number;?><br><?php echo $item->room_name;}?></th>
+                                        <th><?php echo $item->room_number;?><br><?php echo $item->room_name; }?></th>
                                         
                                 </tr>
                         </thead>
 
                         <tbody>
                                 <?php
-								
-                                    for($i=8;$i<20;$i++){
-                                        for ($j = 0; $j <= 1; $j++) {
-                                            if($j==1){
-                                                $menit = "30";
-                                                 $menit2="00";
-                                            }else{
-                                                $menit="00";
-                                                $menit2 ="30";
-                                            }
-                                            $jam = $i;
-											$jam2= $i;
-											if($j ==1)
-												$jam2 +=1;
-											else
-                                            	$jam2 = $i;
+                                    $jam = "07:20";
+                                   
+                                    for($i=8;$i<17;$i++){
+                                      if($i==17)
+                                        $l=0;
+                                      else
+                                        $l=1;
+
+                                        for ($j = 0; $j <=$l ; $j++) {
+
+                                            
+                                            
+                                            $jam2= $i;
+                                        
                                             if($i<10){
-                                                $jam = '0'.$i.':'.$menit;
+                                                $jj= strtotime($jam);
+                                                $jam = date("H:i", strtotime('+40 minutes', $jj));
                                             }else{
-                                                 $jam = $i.':'.$menit;
+                                                  $jj= strtotime($jam);
+                                                $jam = date("H:i", strtotime('+40 minutes', $jj));
                                             }
                                             if($jam2<10){
-                                                $jam2 = '0'.$jam2.':'.$menit2;
+                                                $jj= strtotime($jam);
+                                                $jam2 = date("H:i", strtotime('+40 minutes', $jj));
+                                               
                                             }else{
-                                                $jam2 = $jam2.':'.$menit2;
+                                                 $jj= strtotime($jam);
+                                                 $jam2 = date("H:i", strtotime('+40 minutes', $jj));
                                             }
                                             echo '<tr>';
-                                            echo '<td>'.$jam .'- '.$jam2.'</td>';
+                                            echo '<td>'.$jam .' - '.$jam2.'</td>';
                                             //room 1
                                               //$time = strtotime($date['str'].$jam);
-											  
-											  foreach($room as $item) { 
+                        
+                        foreach($room as $item) { 
                                               
                                              //room 5
                                                 if(isset($schedule['name'][$date['str']][$jam.":00"][$item->room_id])){
@@ -141,16 +144,17 @@ array(
                                                    echo '<td></td>';
                                               }}
                                               echo '</tr>';  
-											  
+                        
                                          }
-										 
+                     
                                     }
+                  
                                 
                                 ?>
                                 
                         </tbody>
                 </table>
-		
+    
     </ul>
                   
  
@@ -267,14 +271,6 @@ array(
   Yii::app()->clientScript->registerScript('rescheduleModal',$script4, CClientScript::POS_END);
   
 
-  $script5 = ' $("#ok").click(function(){
-            var tanggal = $(".tanggal").val();
-            
-            window.location  = "'.Yii::app()->createUrl('/frontdesk/schedule/index/date/"+tanggal+"').'";
-        
-    });
-                    ';
-  Yii::app()->clientScript->registerScript('rescheduleModal',$script5, CClientScript::POS_END);
   
  ?>
  

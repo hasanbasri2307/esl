@@ -12,17 +12,18 @@ if($model){
     foreach($model as $row=>$val){
         $schedule['name'][$val->date_t][$val->time_t][$val->room_id] =$val->client['client_name'];
         $schedule['status'][$val->date_t][$val->time_t][$val->room_id] =$val->status;
-		$schedule['id_sr'][$val->date_t][$val->time_t][$val->room_id] =$val->schedule_room_id;
+		    $schedule['id_sr'][$val->date_t][$val->time_t][$val->room_id] =$val->schedule_room_id;
         $duration_hour = explode(":",$val->duration);
-        $duration = $duration_hour[0] * 3600 + $duration_hour[1] * 60 + $duration_hour[2];
-        if($duration>=1){
-            for($i=0;$i<$duration; $i =$i+1800){
+        $duration = ($duration_hour[0] * 3600) + ($duration_hour[1] * 60) + $duration_hour[2];
+       
+        if($duration>0){
+            for($i=0;$i<$duration; $i =$i+2400){
                  
                  $unix_time = strtotime($val->date_t." ".$val->time_t) + $i;
                  $hour = date("H:i:s", $unix_time);  
                  $schedule['name'][$val->date_t][$hour][$val->room_id] = $val->client['client_name'];
                  $schedule['status'][$val->date_t][$hour][$val->room_id] = $val->status;
-				           $schedule['id_sr'][$val->date_t][$hour][$val->room_id] =$val->schedule_room_id;
+				         $schedule['id_sr'][$val->date_t][$hour][$val->room_id] =$val->schedule_room_id;
                 
             }
         }
@@ -94,7 +95,7 @@ array(
                                 <?php
 								                    $jam = "07:20";
                                    
-                                    for($i=8;$i<=16;$i++){
+                                    for($i=8;$i<17;$i++){
                                       if($i==17)
                                         $l=0;
                                       else
@@ -122,7 +123,7 @@ array(
                                                  $jam2 = date("H:i", strtotime('+40 minutes', $jj));
                                             }
                                             echo '<tr>';
-                                            echo '<td>'.$jam .'- '.$jam2.'</td>';
+                                            echo '<td>'.$jam .' - '.$jam2.'</td>';
                                             //room 1
                                               //$time = strtotime($date['str'].$jam);
 											  
@@ -270,15 +271,7 @@ array(
                     ';
   Yii::app()->clientScript->registerScript('rescheduleModal',$script4, CClientScript::POS_END);
 
-  $script5 = ' $("#ok").click(function(){
-            var tanggal = $(".tanggal").val();
-            
-            window.location  = "'.Yii::app()->createUrl('/consultant/schedule/index/date/"+tanggal+"').'";
-        
-    });
-                    ';
-  Yii::app()->clientScript->registerScript('rescheduleModal',$script5, CClientScript::POS_END);
-  
+ 
  ?>
 
 
