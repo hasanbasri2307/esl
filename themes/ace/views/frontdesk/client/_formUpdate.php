@@ -3,26 +3,7 @@
         'type'=>'horizontal',
     )); ?>
 
-     <?php
-     if(is_array($model['client_name']))
-     {
-
-
-    $nama = $model['client_name'];
-    $pecah = explode(' ',$nama);
-    $nama_depan = $pecah[0];
-    $nama_tengah = $pecah[1];
-    $nama_belakang = $pecah[2];
-  }
-  else
-  {
-    $nama_depan = $model['client_name'];
-    
-   
-    $nama_tengah = '';
-    $nama_belakang = '';
-  }
-    ?>
+     
 
     <h4>Personal Information</h4>
     <br>
@@ -30,28 +11,15 @@
 
     <?php echo $form->errorSummary($model,'<button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>'); ?>
      <div class="control-group">
-       <label class="control-label" for="form-field-1">First Name</label>
+       <label class="control-label" for="form-field-1">Client Name</label>
 
             <div class="controls">
-                <input type="text" id="form-field-1" name="first_name" value="<?php echo $nama_depan;?>" />
+                <input type="text" id="form-field-1" name="first_name" value="<?php echo $model['client_name'];?>" />
              </div>
      </div> 
 
 
-    <div class="control-group">
-       <label class="control-label" for="form-field-1">Middle Name</label>
-
-            <div class="controls">
-                <input type="text" id="form-field-1" name="middle_name" value="<?php echo $nama_tengah;?>" />
-             </div>
-     </div> 
-     <div class="control-group">
-       <label class="control-label" for="form-field-1">Last Name</label>
-
-            <div class="controls">
-                <input type="text" id="form-field-1" name="last_name" value="<?php echo $nama_belakang;?>" />
-             </div>
-     </div> 
+    
     <?php echo $form->radioButtonListInlineRow(
 $model,
 'title',

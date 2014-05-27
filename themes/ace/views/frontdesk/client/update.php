@@ -23,7 +23,7 @@ $this->renderPartial('../menu',array(
  <div class="row-fluid">
 	<div class="span12">
       
-           <?php echo $this->renderPartial('_form', array('model'=>$model,'model_ch'=>$model_ch)); ?>
+           <?php echo $this->renderPartial('_formUpdate', array('model'=>$model,'model_ch'=>$model_ch)); ?>
 
     </div>
 </div>
