@@ -23,6 +23,19 @@ $this->renderPartial('webroot.themes.'.Yii::app()->theme->name.'.views.admin.men
 		'divisi.nama_divisi',
 		'level_jabatan.level_jabatan',
 		'jabatan.nama_jabatan',
+		'npwp',
+		'education_background',
+			'working_location' ,
+			'marital_status',
+			'religion',
+			'bank_name',
+			'bank_account',
+			'employee_status',
+			'contract_start',
+			'contract_jatuh_tempo' ,
+			'id_type',
+			'id_number' ,
+			'remarks',
 	);
 
 	

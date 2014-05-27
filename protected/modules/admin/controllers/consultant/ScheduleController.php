@@ -263,7 +263,7 @@ class ScheduleController extends RController
 														Jadwal Berhasil Dibuat
 														<br>
 													</div>');
-								$this->redirect(array('schedule/index/date/'.$_POST['ScheduleRoom']['date_t']));
+								$this->redirect(array('consultant/schedule/index/date/'.$_POST['ScheduleRoom']['date_t']));
 								
 							}
 						}

@@ -1,16 +1,28 @@
 <?php $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
-		'id'=>'horizontalForm',
-		'type'=>'horizontal',
-	)); ?>
+        'id'=>'horizontalForm',
+        'type'=>'horizontal',
+    )); ?>
     <h4>Personal Information</h4>
     <br>
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+    <p class="note">Fields with <span class="required">*</span> are required.</p>
 
-	<?php echo $form->errorSummary($model,'<button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>'); ?>
-	<?php echo $form->textFieldRow($model,'client_name'); ?>
-    <?php echo $form->textFieldRow($model,'client_middle_name'); ?>
-    <?php echo $form->textFieldRow($model,'client_last_name'); ?>
-    <?php echo $form->radioButtonListInlineRow(
+    <?php echo $form->errorSummary($model,'<button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>'); ?>
+    <?php echo $form->textFieldRow($model,'client_name'); ?>
+     <div class="control-group">
+       <label class="control-label" for="form-field-1">Middle Name</label>
+
+            <div class="controls">
+                <input type="text" id="form-field-1" name="middle_name" />
+             </div>
+     </div> 
+     <div class="control-group">
+       <label class="control-label" for="form-field-1">Last Name</label>
+
+            <div class="controls">
+                <input type="text" id="form-field-1" name="last_name" />
+             </div>
+     </div> 
+  <?php echo $form->radioButtonListInlineRow(
 $model,
 'title',
 array(
@@ -23,7 +35,7 @@ array(
         CHtml::listData(Sex::model()->findAll(), 'sex_id', 'sex'),array('empty'=>'-')); ?>
         <?php echo $form->datepickerRow($model, 'dob', array('prepend'=>'<i class="icon-calendar"></i>')); ?>
 <?php echo $form->textFieldRow($model,'dop'); ?>
-	<?php echo $form->radioButtonListInlineRow($model, 'marital_status_id',
+    <?php echo $form->radioButtonListInlineRow($model, 'marital_status_id',
         CHtml::listData(MaritalStatus::model()->findAll(), 'marital_status_id', 'marital_status'),array('empty'=>'-')); ?>
         <?php echo $form->select2Row(
                     $model,
@@ -35,10 +47,10 @@ array(
                 
                 ?>
                  <?php echo $form->textFieldRow($model,'pekerjaan'); ?>
-	<?php echo $form->radioButtonListInlineRow($model, 'nationality_id',
+    <?php echo $form->radioButtonListInlineRow($model, 'nationality_id',
         CHtml::listData(Nationality::model()->findAll(), 'nationality_id', 'nationality'),array('empty'=>'-')); ?>
        
-	  <?php echo $form->select2Row(
+      <?php echo $form->select2Row(
                     $model,
                     'id_card_id',
                     array(
@@ -49,10 +61,10 @@ array(
                 ?>
 
          <?php echo $form->textFieldRow($model,'id_card_number'); ?>
-          <?php echo $form->textFieldRow($model,'client_number'); ?>
+
           <?php echo $form->textAreaRow($model, 'address', array('class'=>'span8', 'rows'=>5)); ?>
-	  <?php echo $form->textFieldRow($model,'city'); ?>
-	 <?php echo $form->textFieldRow($model,'zip_code'); ?>
+      <?php echo $form->textFieldRow($model,'city'); ?>
+     <?php echo $form->textFieldRow($model,'zip_code'); ?>
         <?php echo $form->textFieldRow($model,'telephone'); ?>
          <?php echo $form->textFieldRow($model,'fax_number'); ?>
         <?php echo $form->textFieldRow($model,'phone_kantor'); ?>
@@ -61,7 +73,7 @@ array(
         <?php echo $form->textFieldRow($model,'email'); ?>
         <?php echo $form->textFieldRow($model,'pin_bbm'); ?>
         
-	 <?php echo $form->select2Row(
+     <?php echo $form->select2Row(
                     $model,
                     'source_info_id',
                     array(
@@ -71,7 +83,12 @@ array(
                 
                 ?>
                 <?php echo $form->textAreaRow($model, 'description', array('class'=>'span4', 'rows'=>5)); ?>
-	 <?php echo $form->datepickerRow($model, 'date_join', array('prepend'=>'<i class="icon-calendar"></i>')); ?>
+     <?php echo $form->datepickerRow($model, 'date_join', array('prepend'=>'<i class="icon-calendar"></i>')); ?>
+     <?php echo $form->radioButtonListInlineRow($model, 'subcribe',
+        array('1'=>'Yes', '2' =>'No'),array('empty'=>'-')); ?>
+      <?php echo $form->radioButtonListInlineRow($model, 'subcribe_via',
+        array('Email'=>'Email', 'SMS/BBM/Whatsapp' =>'SMS/BBM/Whatsapp','Phone'=>'Phone'),array('empty'=>'-')); ?>
+         
      <div class="control-group ">
             <label class="control-label required" for="Product_product_image">Image </label>
             <div class="controls">
@@ -98,7 +115,7 @@ array(
                                         var filepath = 'upload/client/'+responseJSON['filename'];  
                                         jQuery('#frame').html('<img src=\"".Yii::app()->request->baseUrl."/'+filepath+'\" />');
   
-										  jQuery('#filename').val(responseJSON['filename']); 
+                                          jQuery('#filename').val(responseJSON['filename']); 
                                         }",
                                        'messages'=>array(
                                                          'typeError'=>"{file} has invalid extension. Only {extensions} are allowed.",
@@ -234,6 +251,20 @@ array(
            
 
         </table>
+        <br />
+         <?php echo $form->select2Row(
+                    $model,
+                    'status',
+                    array(
+                        'data' => array('0'=>'Not Complete','1'=>'Complete'),
+                    )
+                );
+                
+                ?>
+
+
+
+
 <div class="form-actions">
             <?php $this->widget('bootstrap.widgets.TbButton', array('buttonType'=>'submit', 'type'=>'primary', 'label'=>'Submit')); ?>
             <?php $this->widget('bootstrap.widgets.TbButton', array('buttonType'=>'reset', 'label'=>'Cancel')); ?>

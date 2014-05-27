@@ -126,6 +126,36 @@ $this->renderPartial('../../menu',array(
 				
                 
                 ?>
+
+               <?php 
+
+               echo $form->dropDownListRow(
+                    $model,
+                    'doctor',
+                    array(
+                        'Pilih' => CHtml::listData(Profiles::model()->findAll(array(
+        'condition'=>'id_jabatan=:jabatan or id_jabatan=:jabatan2  and branch_id =:branch', 
+        'params'=>array(':branch'=>Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id'),':jabatan'=>38,':jabatan2'=>33)
+    )), 'user_id', 'name'),
+                    )
+                );
+				
+                
+                ?>
+
+                <?php echo $form->dropDownListRow(
+                    $model,
+                    'beautician',
+                    array(
+                        'Pilih' => CHtml::listData(Profile::model()->findAll(array(
+        'condition'=>'id_jabatan=:jabatan and branch_id =:branch', 
+        'params'=>array(':branch'=>Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id'),':jabatan'=>39)
+    )), 'user_id', 'name'),
+                    )
+                );
+				
+                
+                ?>
        
     <div class="form-actions">
         <?php $this->widget('bootstrap.widgets.TbButton', array('buttonType'=>'submit', 'type'=>'primary', 'label'=>'Submit')); ?>
@@ -163,5 +193,3 @@ $this->renderPartial('../../menu',array(
     </div>
 </div>
  
-
-

@@ -50,7 +50,7 @@ $this->renderPartial('../../menu',array(
                                             </div>
                                             <div class="infobox-content">
                                                 <span class="bigger-110">~</span>
-                                                Nama&nbsp &nbsp : <?php echo $item->client_name.' '.$item->client_middle_name.' '.$item->client_last_name;?>
+                                                Nama&nbsp &nbsp : <?php echo $item->title.' '.$item->client_name;?>
                                             </div>
                                              <div class="infobox-content">
                                                 <span class="bigger-110">~</span>
@@ -93,12 +93,10 @@ $this->renderPartial('../../menu',array(
 
  jQuery('#nav-search-input').keypress(function (e) {
   if (e.which == 13) {
-    window.location  = "<?php echo Yii::app()->createUrl('/consultant/client/index/search/')?>/"+jQuery(this).val();
+    window.location  = "<?php echo Yii::app()->createUrl('/admin/consultant/client/index/search/')?>/"+jQuery(this).val();
     return false;
   }
 });
  
 
 </script>
-
-

@@ -6,6 +6,7 @@
  * The followings are the available columns in table '{{profiles}}':
  * @property integer $user_id
  * @property string $name
+ * @property string $nik
  * @property string $dob
  * @property string $address
  * @property string $phone
@@ -13,10 +14,20 @@
  * @property integer $id_divisi
  * @property integer $id_level_jabatan
  * @property integer $id_jabatan
+ * @property string $npwp
+ * @property string $education_background
+ * @property string $working_location
+ * @property string $marital_status
+ * @property string $religion
+ * @property string $bank_name
+ * @property string $bank_account
+ * @property string $employee_status
+ * @property string $contract_start
+ * @property string $contract_jatuh_tempo
+ * @property string $id_type
+ * @property string $id_number
+ * @property string $remarks
  * @property string $foto
- *
- * The followings are the available model relations:
- * @property Users $user
  */
 class Profiles extends CActiveRecord
 {
@@ -31,23 +42,24 @@ class Profiles extends CActiveRecord
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-
-	public $filee;
-	
 	public function rules()
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name', 'required','on'=>'create'),
-			array('name','required','on'=>'upload'),
+			array('nik, id_divisi, id_level_jabatan, id_jabatan, npwp, education_background, working_location, marital_status, religion, bank_name, bank_account, employee_status, contract_start, contract_jatuh_tempo, id_type, id_number, remarks, foto', 'required'),
 			array('branch_id, id_divisi, id_level_jabatan, id_jabatan', 'numerical', 'integerOnly'=>true),
 			array('name, address, phone', 'length', 'max'=>255),
-			array('foto', 'length', 'max'=>50),
+			array('nik, npwp, bank_account, id_number', 'length', 'max'=>30),
+			array('working_location, marital_status, foto', 'length', 'max'=>50),
+			array('religion', 'length', 'max'=>15),
+			array('bank_name', 'length', 'max'=>20),
+			array('employee_status', 'length', 'max'=>10),
+			array('id_type', 'length', 'max'=>5),
 			array('dob', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('user_id, name, dob, address, phone, branch_id, id_divisi, id_level_jabatan, id_jabatan, foto', 'safe', 'on'=>'search'),
+			array('user_id, name, nik, dob, address, phone, branch_id, id_divisi, id_level_jabatan, id_jabatan, npwp, education_background, working_location, marital_status, religion, bank_name, bank_account, employee_status, contract_start, contract_jatuh_tempo, id_type, id_number, remarks, foto', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -74,7 +86,8 @@ class Profiles extends CActiveRecord
 	{
 		return array(
 			'user_id' => 'User',
-			'name' => 'Name',
+			'name' => 'Full Name',
+			'nik' => 'NIK',
 			'dob' => 'Date of Birthday',
 			'address' => 'Address',
 			'phone' => 'Phone',
@@ -82,6 +95,19 @@ class Profiles extends CActiveRecord
 			'id_divisi' => 'Divisi',
 			'id_level_jabatan' => 'Level Jabatan',
 			'id_jabatan' => 'Jabatan',
+			'npwp' => 'NPWP',
+			'education_background' => 'Education Background',
+			'working_location' => 'Working Location',
+			'marital_status' => 'Marital Status',
+			'religion' => 'Religion',
+			'bank_name' => 'Bank Name',
+			'bank_account' => 'Bank Account',
+			'employee_status' => 'Employee Status',
+			'contract_start' => 'Contract Start',
+			'contract_jatuh_tempo' => 'Contract Jatuh Tempo',
+			'id_type' => 'ID Type',
+			'id_number' => 'ID Number',
+			'remarks' => 'Remarks',
 			'foto' => 'Foto',
 		);
 	}
@@ -106,6 +132,7 @@ class Profiles extends CActiveRecord
 
 		$criteria->compare('user_id',$this->user_id);
 		$criteria->compare('name',$this->name,true);
+		$criteria->compare('nik',$this->nik,true);
 		$criteria->compare('dob',$this->dob,true);
 		$criteria->compare('address',$this->address,true);
 		$criteria->compare('phone',$this->phone,true);
@@ -113,6 +140,19 @@ class Profiles extends CActiveRecord
 		$criteria->compare('id_divisi',$this->id_divisi);
 		$criteria->compare('id_level_jabatan',$this->id_level_jabatan);
 		$criteria->compare('id_jabatan',$this->id_jabatan);
+		$criteria->compare('npwp',$this->npwp,true);
+		$criteria->compare('education_background',$this->education_background,true);
+		$criteria->compare('working_location',$this->working_location,true);
+		$criteria->compare('marital_status',$this->marital_status,true);
+		$criteria->compare('religion',$this->religion,true);
+		$criteria->compare('bank_name',$this->bank_name,true);
+		$criteria->compare('bank_account',$this->bank_account,true);
+		$criteria->compare('employee_status',$this->employee_status,true);
+		$criteria->compare('contract_start',$this->contract_start,true);
+		$criteria->compare('contract_jatuh_tempo',$this->contract_jatuh_tempo,true);
+		$criteria->compare('id_type',$this->id_type,true);
+		$criteria->compare('id_number',$this->id_number,true);
+		$criteria->compare('remarks',$this->remarks,true);
 		$criteria->compare('foto',$this->foto,true);
 
 		return new CActiveDataProvider($this, array(

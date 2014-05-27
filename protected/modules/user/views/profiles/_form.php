@@ -11,7 +11,7 @@
 
 	 
 		
-                <?php echo $form->textFieldRow($model,'name',array('size'=>60,'maxlength'=>128)); ?>
+        <?php echo $form->textFieldRow($model,'name',array('size'=>60,'maxlength'=>128)); ?>
         <?php echo $form->textFieldRow($model,'nik',array('size'=>60,'maxlength'=>30)); ?>
         <?php echo $form->datepickerRow(
         $model,
@@ -57,7 +57,50 @@
 				
  <?php echo $form->textAreaRow($model, 'address', array('class'=>'span8', 'rows'=>5)); ?>
  <?php echo $form->textFieldRow($model, 'phone'); ?>
+ <?php echo $form->textFieldRow($model,'npwp'); ?>
+ <?php echo $form->textAreaRow($model, 'education_background', array('class'=>'span8', 'rows'=>5)); ?>
+ <?php echo $form->textFieldRow($model,'working_location'); ?>
+ <?php echo $form->textFieldRow($model,'npwp'); ?>
+ <?php echo $form->textFieldRow($model,'marital_status'); ?>
+ <?php echo $form->select2Row(
+                    $model,
+                    'religion',
+                    array(
+                        'data' => array('Hindu'=>'Hindu','Budha'=>'Budha','Katolik'=>'Katolik','Protestan'=>'Protestan','Islam'=>'Islam','Lain-lain'=>'Lain-lain'),
+                    )
+                );
+                
+                ?>
+  <?php echo $form->textFieldRow($model,'bank_name'); ?> 
+  <?php echo $form->textFieldRow($model,'bank_account'); ?>  
+   <?php echo $form->radioButtonListInlineRow($model, 'employee_status',
+        array('Permanent'=>'Permanent', 'Contract' =>'Contract','Probation'=>'Probation'),array('empty'=>'-')); ?>    
+ <?php echo $form->datepickerRow(
+        $model,
+        'contract_start',
+        array(
+        'prepend' => '<i class="icon-calendar"></i>'
+        )
+    ); ?>   
 
+<?php echo $form->datepickerRow(
+        $model,
+        'contract_jatuh_tempo',
+        array(
+        'prepend' => '<i class="icon-calendar"></i>'
+        )
+    ); ?> 
+    <?php echo $form->select2Row(
+                    $model,
+                    'id_type',
+                    array(
+                        'data' => array('KTP'=>'KTP','SIM'=>'SIM'),
+                    )
+                );
+                
+                ?>
+                <?php echo $form->textFieldRow($model,'id_number'); ?>
+<?php echo $form->textAreaRow($model, 'remarks', array('class'=>'span8', 'rows'=>5)); ?>
       <div class="control-group ">
             <label class="control-label required" for="Product_product_image">Foto </label>
             <div class="controls">

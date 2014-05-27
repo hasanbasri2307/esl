@@ -12,21 +12,22 @@ if($model){
     foreach($model as $row=>$val){
         $schedule['name'][$val->date_t][$val->time_t][$val->room_id] =$val->client['client_name'];
         $schedule['status'][$val->date_t][$val->time_t][$val->room_id] =$val->status;
-		$schedule['id_sr'][$val->date_t][$val->time_t][$val->room_id] =$val->schedule_room_id;
+        $schedule['id_sr'][$val->date_t][$val->time_t][$val->room_id] =$val->schedule_room_id;
         $duration_hour = explode(":",$val->duration);
-        $duration = $duration_hour[0] * 3600 + $duration_hour[1] * 60 + $duration_hour[2];
-        if($duration>1){
-            for($i=0;$i<$duration; $i =$i+2700){
+        $duration = ($duration_hour[0] * 3600) + ($duration_hour[1] * 60) + $duration_hour[2];
+       
+        if($duration>0){
+            for($i=0;$i<$duration; $i =$i+2400){
                  
                  $unix_time = strtotime($val->date_t." ".$val->time_t) + $i;
                  $hour = date("H:i:s", $unix_time);  
                  $schedule['name'][$val->date_t][$hour][$val->room_id] = $val->client['client_name'];
                  $schedule['status'][$val->date_t][$hour][$val->room_id] = $val->status;
-				           $schedule['id_sr'][$val->date_t][$hour][$val->room_id] =$val->schedule_room_id;
+                 $schedule['id_sr'][$val->date_t][$hour][$val->room_id] =$val->schedule_room_id;
                 
             }
         }
-		
+    
     }
     
 }
@@ -44,9 +45,9 @@ if($model){
     
  <div class="row-fluid">
 <?php if(Yii::app()->user->hasFlash('alert')): ?>
-	<?php echo Yii::app()->user->getFlash('alert'); ?>
+  <?php echo Yii::app()->user->getFlash('alert'); ?>
 <?php endif; ?>
-	<div class="span12">
+  <div class="span12">
      <?php     
    $this->widget(
     'bootstrap.widgets.TbDatePicker',
@@ -72,15 +73,15 @@ array(
           <ul class="pager">
             <li class="previous">
                     
-                    <?php echo CHtml::link("← Prev",array('schedule/index',"date"=>$yesterday)); ?>
+                    <?php echo CHtml::link("← Prev",array('consultant/schedule/index',"date"=>$yesterday)); ?>
             </li>
             <li class=""><strong><?php echo date("F d, Y",$date['time']);?></strong></li>
             <li class="next">
                     
-                     <?php echo CHtml::link("Next →",array('schedule/index',"date"=>$tomorrow),array('class'=>'next')); ?>
+                     <?php echo CHtml::link("Next →",array('consultant/schedule/index',"date"=>$tomorrow),array('class'=>'next')); ?>
             </li>
             
-            	<table id="sample-table-1" class="table table-striped table-bordered table-hover">
+              <table id="sample-table-1" class="table table-striped table-bordered table-hover">
                         <thead>
                                 <tr>
                                         <th>Time</th>
@@ -92,10 +93,10 @@ array(
 
                         <tbody>
                                 <?php
-								                    $jam = "07:15";
+                                    $jam = "07:20";
                                    
-                                    for($i=8;$i<16;$i++){
-                                      if($i==16)
+                                    for($i=8;$i<17;$i++){
+                                      if($i==17)
                                         $l=0;
                                       else
                                         $l=1;
@@ -104,29 +105,29 @@ array(
 
                                             
                                             
-                      											$jam2= $i;
-                      											
+                                            $jam2= $i;
+                                        
                                             if($i<10){
                                                 $jj= strtotime($jam);
-                                                $jam = date("H:i", strtotime('+45 minutes', $jj));
+                                                $jam = date("H:i", strtotime('+40 minutes', $jj));
                                             }else{
                                                   $jj= strtotime($jam);
-                                                $jam = date("H:i", strtotime('+45 minutes', $jj));
+                                                $jam = date("H:i", strtotime('+40 minutes', $jj));
                                             }
                                             if($jam2<10){
                                                 $jj= strtotime($jam);
-                                                $jam2 = date("H:i", strtotime('+45 minutes', $jj));
+                                                $jam2 = date("H:i", strtotime('+40 minutes', $jj));
                                                
                                             }else{
                                                  $jj= strtotime($jam);
-                                                 $jam2 = date("H:i", strtotime('+45 minutes', $jj));
+                                                 $jam2 = date("H:i", strtotime('+40 minutes', $jj));
                                             }
                                             echo '<tr>';
-                                            echo '<td>'.$jam .'- '.$jam2.'</td>';
+                                            echo '<td>'.$jam .' - '.$jam2.'</td>';
                                             //room 1
                                               //$time = strtotime($date['str'].$jam);
-											  
-											  foreach($room as $item) { 
+                        
+                        foreach($room as $item) { 
                                               
                                              //room 5
                                                 if(isset($schedule['name'][$date['str']][$jam.":00"][$item->room_id])){
@@ -144,17 +145,17 @@ array(
                                                    echo '<td></td>';
                                               }}
                                               echo '</tr>';  
-											  
+                        
                                          }
-										 
+                     
                                     }
-									
+                  
                                 
                                 ?>
                                 
                         </tbody>
                 </table>
-		
+    
     </ul>
                   
  
@@ -170,10 +171,10 @@ array(
  
 <div class="modal-body">
     
-    	<div id="modal-body-1">
+      <div id="modal-body-1">
         
         </div>
-    	<input type="hidden" name="schedule_room_id" id="schedule_room_id">
+      <input type="hidden" name="schedule_room_id" id="schedule_room_id">
 </div>
  
 <div class="modal-footer">
@@ -201,28 +202,28 @@ array(
  <?php
  $quotedUrl =$this->createUrl('/consultant/schedule/data_client');
  $script = ' $("#sample-table-1 tr td").click(function(){
-	 		var id = $(this).attr("id");
-			
-			$("#myModal").modal({
-					show: "true"
-				}); 
-	 		$.ajax({
-			type:"POST",
-			url:"'.$quotedUrl.'",
-			cache:false,
-			data:"id="+ id ,
-			dataType:"json",
-			success:function(data){
-			
-       		 
-				
-			  
-       		 $("#modal-body-1").html("<table><tr><td>Client ID</td><td>:</td><td>"+data[0].client_number+"</td></tr><tr><td>Client Name</td><td>:</td><td>"+data[0].client_name+"</td></tr><tr><td>Date</td><td>:</td><td>"+data[0].date_t+"</td></tr><tr><td>Start</td><td>:</td><td>"+data[0].time_t+"</td></tr><tr><td>Finish</td><td>:</td><td>"+data[0].selesai+"</td></tr><tr><td>Duration</td><td>:</td><td>"+data[0].duration+"</td></tr><tr><td>Description</td><td>:</td><td>"+data[0].des+"</td></tr></table>");
-			 
-			$("#schedule_room_id").val(data[0].schedule_room_id);
-			}
-		});
-		
+      var id = $(this).attr("id");
+      
+      $("#myModal").modal({
+          show: "true"
+        }); 
+      $.ajax({
+      type:"POST",
+      url:"'.$quotedUrl.'",
+      cache:false,
+      data:"id="+ id ,
+      dataType:"json",
+      success:function(data){
+      
+           
+        
+        
+           $("#modal-body-1").html("<table><tr><td>Client ID</td><td>:</td><td>"+data[0].client_number+"</td></tr><tr><td>Client Name</td><td>:</td><td>"+data[0].client_name+"</td></tr><tr><td>Date</td><td>:</td><td>"+data[0].date_t+"</td></tr><tr><td>Start</td><td>:</td><td>"+data[0].time_t+"</td></tr><tr><td>Finish</td><td>:</td><td>"+data[0].selesai+"</td></tr><tr><td>Duration</td><td>:</td><td>"+data[0].duration+"</td></tr><tr><td>Description</td><td>:</td><td>"+data[0].des+"</td></tr></table>");
+       
+      $("#schedule_room_id").val(data[0].schedule_room_id);
+      }
+    });
+    
         
     });
                     ';
@@ -230,21 +231,21 @@ array(
   
   $url1 =$this->createUrl('/consultant/schedule/confirmation');
  $script2 = ' $("#confirm").click(function(){
-	 		var id = $("#schedule_room_id").val();
-			
-			$.ajax({
-			type:"POST",
-			url:"'.$url1.'",
-			cache:false,
-			data:"id="+ id ,
-			success:function(){
-				$("#myModal").modal("hide");
-				location.reload();
-			},
-			error:function (xhr, ajaxOptions, thrownError){
+      var id = $("#schedule_room_id").val();
+      
+      $.ajax({
+      type:"POST",
+      url:"'.$url1.'",
+      cache:false,
+      data:"id="+ id ,
+      success:function(){
+        $("#myModal").modal("hide");
+        location.reload();
+      },
+      error:function (xhr, ajaxOptions, thrownError){
         alert("Error Status: " + xhr.status + " Thrown Errors: "+thrownError);
     }
-		 });
+     });
         
     });
                     ';
@@ -252,9 +253,9 @@ array(
   
   $url2 =$this->createUrl('/consultant/schedule/cancel');
  $script3 = ' $("#cancel").click(function(){
-	 		var id = $("#schedule_room_id").val();
-			
-			window.location  = "'.Yii::app()->createUrl('/consultant/schedule/cancelled/id/"+id+"').'";
+      var id = $("#schedule_room_id").val();
+      
+      window.location  = "'.Yii::app()->createUrl('/consultant/schedule/cancelled/id/"+id+"').'";
         
     });
                     ';
@@ -262,23 +263,15 @@ array(
   
    
  $script4 = ' $("#reschedule").click(function(){
-	 		var id = $("#schedule_room_id").val();
-			
-			window.location  = "'.Yii::app()->createUrl('/consultant/schedule/update/id/"+id+"').'";
+      var id = $("#schedule_room_id").val();
+      
+      window.location  = "'.Yii::app()->createUrl('/consultant/schedule/update/id/"+id+"').'";
         
     });
                     ';
   Yii::app()->clientScript->registerScript('rescheduleModal',$script4, CClientScript::POS_END);
 
-  $script5 = ' $("#ok").click(function(){
-            var tanggal = $(".tanggal").val();
-            
-            window.location  = "'.Yii::app()->createUrl('/consultant/schedule/index/date/"+tanggal+"').'";
-        
-    });
-                    ';
-  Yii::app()->clientScript->registerScript('rescheduleModal',$script5, CClientScript::POS_END);
-  
+ 
  ?>
 
 
