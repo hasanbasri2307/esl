@@ -34,6 +34,7 @@
  * @property string $date_join
  * @property integer $subcribe
  * @property string $subcribe_via
+ * @property integer $face_profile
  * @property integer $user_id
  * @property integer $created
  * @property integer $changed
@@ -186,6 +187,7 @@ class Client extends CActiveRecord
 		$criteria->compare('date_join',$this->date_join,true);
 		$criteria->compare('subcribe',$this->subcribe);
 		$criteria->compare('subcribe_via',$this->subcribe_via,true);
+		$criteria->compare('face_profile',$this->face_profile);
 		$criteria->compare('user_id',$this->user_id);
 		$criteria->compare('created',$this->created);
 		$criteria->compare('changed',$this->changed);

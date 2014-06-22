@@ -3,12 +3,14 @@
 /* @var $model Product */
 
 $this->breadcrumbs=array(
-	'Order'=>array('index'),
-	'Create',
+	'Products'=>array('index'),
+	$model->product_number=>array('view','id'=>$model->product_id),
+	'Update',
 );
 
+
 $this->renderPartial('../menu',array(
-			'active'=>array('1'=>true, '1.2'=>true),
+			'active'=>array('1'=>true, '1.1'=>true),
 		));
 ?>
 
@@ -16,9 +18,9 @@ $this->renderPartial('../menu',array(
 
 
 <div class="page-header position-relative">
-    <h1>            Create Order
+    <h1>            Update Product
             <small>
-                    <i class="icon-double-angle-right">Home Care</i>
+                    <i class="icon-double-angle-right"></i>
                    
             </small>
     </h1>
@@ -26,7 +28,8 @@ $this->renderPartial('../menu',array(
     
  <div class="row-fluid">
 	<div class="span12">
-           <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
+      
+           <?php echo $this->renderPartial('_form', array('model'=>$model,)); ?>
 
     </div>
 </div>

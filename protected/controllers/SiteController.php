@@ -41,6 +41,10 @@ class SiteController extends Controller
                          $this->redirect(Yii::app()->createUrl('inventory'));
                  }elseif (!Yii::app()->user->checkAccess('Administrator') && Yii::app()->user->checkAccess('Frontdesk')) {
                          $this->redirect(Yii::app()->createUrl('frontdesk'));
+                 }elseif (!Yii::app()->user->checkAccess('Administrator') && Yii::app()->user->checkAccess('Hr')) {
+                         $this->redirect(Yii::app()->createUrl('hr'));
+                  }elseif (!Yii::app()->user->checkAccess('Administrator') && Yii::app()->user->checkAccess('Cashier')) {
+                         $this->redirect(Yii::app()->createUrl('cashier'));       
 				}else{
                         $this->redirect(Yii::app()->createUrl('user/login'));
                 }

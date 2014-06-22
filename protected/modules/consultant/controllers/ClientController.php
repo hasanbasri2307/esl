@@ -19,9 +19,11 @@ class ClientController extends RController
 	{
 		$model = $this->loadModel($id);
 		$model_ch=ClientHistory::model()->findByAttributes(array('client_id'=>$model->client_id));
+		$model_face = FaceProfile::model()->findByAttributes(array('client_id'=>$model->client_id));
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 			'model_ch' =>$model_ch,
+			'model_face'=>$model_face,
 		));
 	}
 
@@ -189,6 +191,8 @@ class ClientController extends RController
 			'model'=>$model,
 		));
 	}
+
+	
 
 	/**
 	 * Manages all models.

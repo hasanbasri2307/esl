@@ -65,7 +65,7 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
 
 ?>
 <br />
-<h4>Patient History</h4>
+<h4><b>Patient History</b></h4>
 <table>
   <tr>
                 <td>1.</td>
@@ -182,7 +182,86 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
             </tr>
     </table>
     <br />
-<h4>History Treathment</h4>
+   
+    
+    <h4><b>Face Profile</b></h4>
+     <?php 
+        if(isset($model_face->client_id))
+    {
+        ?>
+    <table>
+        <tr>
+            <td>Problems</td>
+            <td>:</td>
+            <td><?php echo $model_face->problems;?></td>
+        </tr>
+        <tr>
+            <td>Skin Texture Grade</td>
+            <td>:</td>
+            <td><?php echo $model_face->skintexture_grade;?></td>
+            <td>Skin Texture Level</td>
+            <td>:</td>
+            <td><?php echo $model_face->skintexture_level;?></td>
+        </tr>
+       
+        <tr>
+            <td>Pigmentation Grade</td>
+            <td>:</td>
+            <td><?php echo $model_face->pigmentation_grade;?></td>
+             <td>Pigmentation Level</td>
+            <td>:</td>
+            <td><?php echo $model_face->pigmentation_level;?></td>
+        </tr>
+       
+        <tr>
+            <td>Sebum Grade</td>
+            <td>:</td>
+            <td><?php echo $model_face->sebum_grade;?></td>
+            <td>Sebum Level</td>
+            <td>:</td>
+            <td><?php echo $model_face->sebum_grade;?></td>
+        </tr>
+        
+        <tr>
+            <td>Skin Tone Grade</td>
+            <td>:</td>
+            <td><?php echo $model_face->skintone_grade;?></td>
+            <td>Skin Tone Level</td>
+            <td>:</td>
+            <td><?php echo $model_face->skintone_level;?></td>
+        </tr>
+       
+        <tr>
+            <td>Pores Grade</td>
+            <td>:</td>
+            <td><?php echo $model_face->pores_grade;?></td>
+             <td>Pores Level</td>
+            <td>:</td>
+            <td><?php echo $model_face->pores_level;?></td>
+        </tr>
+       
+        <tr>
+            <td>Eye Wrinkles Grade</td>
+            <td>:</td>
+            <td><?php echo $model_face->eyewrinkles_grade;?></td>
+             <td>Eye Wrinkles Level</td>
+            <td>:</td>
+            <td><?php echo $model_face->eyewrinkles_level;?></td>
+        </tr>
+       
+         <tr>
+            <td>Level Skin Type</td>
+            <td>:</td>
+            <td><?php echo $model_face->level_skin_type;?></td>
+             <td>Level Skin Problem</td>
+            <td>:</td>
+            <td><?php echo $model_face->level_skin_problem;?></td>
+        </tr>
+       
+    </table>
+    <?php } else { echo "-";}?>
+    <br>
+<h4><b>History Treathment</b></h4>
   <table id="autocomplete_table" class="table table-striped table-bordered table-hover">
             <thead>
                     <tr>
@@ -201,7 +280,7 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
                   </tbody> 
         </table>
 <br />
-<h4>History Product</h4>
+<h4><b>History Product</b></h4>
   <table id="autocomplete_table" class="table table-striped table-bordered table-hover">
             <thead>
                     <tr>
@@ -220,7 +299,7 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
                   </tbody> 
         </table>
 
-        <h4>History Transaksi</h4>
+        <h4><b>History Transaksi</b></h4>
   <table id="autocomplete_table" class="table table-striped table-bordered table-hover">
             <thead>
                     <tr>

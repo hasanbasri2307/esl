@@ -1,24 +1,18 @@
 <?php
-/* @var $this ProductController */
-/* @var $model Product */
-
 $this->breadcrumbs=array(
-	'Order'=>array('index'),
+	'Rooms'=>array('index'),
 	'Create',
 );
 
 $this->renderPartial('../menu',array(
-			'active'=>array('1'=>true, '1.2'=>true),
-		));
+            'active'=>array('6'=>true),
+        ));
 ?>
 
-
-
-
 <div class="page-header position-relative">
-    <h1>            Create Order
+    <h1>            Create Branch
             <small>
-                    <i class="icon-double-angle-right">Home Care</i>
+                    <i class="icon-double-angle-right"></i>
                    
             </small>
     </h1>

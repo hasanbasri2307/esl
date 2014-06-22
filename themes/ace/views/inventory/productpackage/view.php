@@ -29,7 +29,7 @@ $this->renderPartial('../menu',array(
 		'productpackage_number',
 		'productpackage_name',
 		'price',
-        'discount_percent',
+    'discount_percent',
 		'discount_rp',
 		'description',
 	),

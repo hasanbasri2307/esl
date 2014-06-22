@@ -1,24 +1,22 @@
-<?php
-/* @var $this ProductController */
-/* @var $model Product */
 
+
+
+<?php
 $this->breadcrumbs=array(
-	'Order'=>array('index'),
-	'Create',
+	'Rooms'=>array('index'),
+	$model->room_name=>array('view','id'=>$model->room_id),
+	'Update',
 );
 
 $this->renderPartial('../menu',array(
-			'active'=>array('1'=>true, '1.2'=>true),
-		));
+            'active'=>array('6'=>true),
+        ));
 ?>
 
-
-
-
 <div class="page-header position-relative">
-    <h1>            Create Order
+    <h1>            Update Room #<?php echo $model->room_name; ?>
             <small>
-                    <i class="icon-double-angle-right">Home Care</i>
+                    <i class="icon-double-angle-right"></i>
                    
             </small>
     </h1>

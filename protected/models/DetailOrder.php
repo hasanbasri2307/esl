@@ -1,28 +1,23 @@
 <?php
 
 /**
- * This is the model class for table "{{order}}".
+ * This is the model class for table "{{detail_order}}".
  *
- * The followings are the available columns in table '{{order}}':
+ * The followings are the available columns in table '{{detail_order}}':
+ * @property integer $id_detail_order
  * @property integer $order_id
- * @property string $order_number
- * @property integer $client_id
- * @property integer $total
- * @property string $date
- * @property integer $status
- * @property integer $user_id
- * @property integer $branch_id
- * @property integer $created
- * @property integer $changed
+ * @property integer $product_id
+ * @property integer $qty
+ * @property double $price
  */
-class Order extends CActiveRecord
+class DetailOrder extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return '{{order}}';
+		return '{{detail_order}}';
 	}
 
 	/**
@@ -33,12 +28,12 @@ class Order extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('order_number, client_id, date, user_id, branch_id, created', 'required'),
-			array('client_id, total, status, user_id, branch_id, created, changed', 'numerical', 'integerOnly'=>true),
-			array('order_number', 'length', 'max'=>10),
+			array('order_id, product_id, qty, price', 'required'),
+			array('order_id, product_id, qty', 'numerical', 'integerOnly'=>true),
+			array('price', 'numerical'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('order_id, order_number, client_id, total, date, status, user_id, branch_id, created, changed', 'safe', 'on'=>'search'),
+			array('id_detail_order, order_id, product_id, qty, price', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -50,8 +45,8 @@ class Order extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'branch' => array(self::BELONGS_TO, 'Branch', 'branch_id'),
-			'client' => array(self::BELONGS_TO, 'Client', 'client_id'),
+			'product' => array(self::BELONGS_TO, 'Product', 'product_id'),
+
 		);
 	}
 
@@ -61,16 +56,11 @@ class Order extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
+			'id_detail_order' => 'Id Detail Order',
 			'order_id' => 'Order',
-			'order_number' => 'Order Number',
-			'client_id' => 'Client',
-			'total' => 'Total',
-			'date' => 'Date',
-			'status' => 'Status',
-			'user_id' => 'User',
-			'branch_id' => 'Branch',
-			'created' => 'Created',
-			'changed' => 'Changed',
+			'product_id' => 'Product',
+			'qty' => 'Qty',
+			'price' => 'Price',
 		);
 	}
 
@@ -92,16 +82,11 @@ class Order extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
+		$criteria->compare('id_detail_order',$this->id_detail_order);
 		$criteria->compare('order_id',$this->order_id);
-		$criteria->compare('order_number',$this->order_number,true);
-		$criteria->compare('client_id',$this->client_id);
-		$criteria->compare('total',$this->total);
-		$criteria->compare('date',$this->date,true);
-		$criteria->compare('status',$this->status);
-		$criteria->compare('user_id',$this->user_id);
-		$criteria->compare('branch_id',$this->branch_id);
-		$criteria->compare('created',$this->created);
-		$criteria->compare('changed',$this->changed);
+		$criteria->compare('product_id',$this->product_id);
+		$criteria->compare('qty',$this->qty);
+		$criteria->compare('price',$this->price);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -112,10 +97,12 @@ class Order extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Order the static model class
+	 * @return DetailOrder the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
+
+	
 }

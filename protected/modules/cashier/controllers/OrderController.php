@@ -212,6 +212,34 @@ class OrderController extends RController
 		 
 	}
 
+	public function actionPayment($id)
+	{
+		$model=$this->loadModel($id);
+		$model_slip = new SlipOrder;
+		$model_detail = DetailOrder::model()->findAll(array("condition"=>"order_id=$model->order_id"));
+
+		if(isset($_POST['SlipOrder']))
+		{
+			$model_slip->attributes=$_POST['SlipOrder'];
+			$model_slip->tgl_slip = date("Y-m-d");
+			$model_slip->user_id =Yii::app()->getModule('user')->user()->id;
+			$model_slip->order_id = $_POST['order_id'];
+
+
+			if($model_slip->save())
+				$model->status=1;
+				$model->save();
+				$this->redirect(array('view','id'=>$model->order_id));
+		}
+
+		$this->render('payment',array(
+			'model'=>$model,
+			'model_slip'=>$model_slip,
+			'model_detail'=>$model_detail,
+		));
+
+	}
+
 	public function actionAutocomplete_number()
       	{
          

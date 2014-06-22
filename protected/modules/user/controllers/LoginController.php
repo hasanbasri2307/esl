@@ -1,4 +1,4 @@
-<?php
+`<?php
 
 class LoginController extends RController
 {
@@ -30,13 +30,15 @@ class LoginController extends RController
 					$this->lastViset();
 					if (Yii::app()->user->returnUrl=='/index.php'){
 						$this->redirect(Yii::app()->request->baseUrl);
-                                        }else{
-                                            echo Yii::app()->request->baseUrl;
+                    }
+                    else
+                    {
+                         
 						
-                                                $this->redirect(Yii::app()->createUrl('site'));
+                        $this->redirect(Yii::app()->createUrl('site'));
                                              
 
-                                        }
+                     }
 				}
 			}
 			// display the login form

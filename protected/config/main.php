@@ -41,7 +41,10 @@ return array(
 		'application.modules.frontdesk.*', 
 		'application.modules.frontdesk.models*',
 		'application.modules.frontdesk.components*',
-        
+        'application.modules.hr.*', 
+		'application.modules.hr.models*',
+		'application.modules.hr.components*',
+
 		'ext.giix-components.*', 
 		'ext.phpexcel.*',
 		'ext.tcpdf.*',
@@ -51,11 +54,13 @@ return array(
 	'modules'=>array(
 		'skin',
                 'admin',
-                 'accounting',
+                'accounting',
                 'inventory',
-            'service',
+            	'service',
                 'consultant',
 				'frontdesk',
+				'hr',
+				'cashier',
 		// uncomment the following to enable the Gii tool
 		 'rights'=>array( 
 			'superuserName'=>'Administrator',      // Name of the role with super user privileges. 
