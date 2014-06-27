@@ -1,24 +1,17 @@
 <?php
-/* @var $this ProductController */
-/* @var $model Product */
-
 $this->breadcrumbs=array(
-	'Order'=>array('index'),
-	'Create',
+    
+    HrModule::t('Employee'),
 );
 
-$this->renderPartial('../../menu',array(
-			'active'=>array('9'=>true, '9.2'=>true),
-		));
+$this->renderPartial('../menu',array(
+            'active'=>array('2'=>true,'2.1'=>true),
+        ));
 ?>
-
-
-
-
 <div class="page-header position-relative">
-    <h1>            Create Order
+    <h1>            Create Employee
             <small>
-                    <i class="icon-double-angle-right">Home Care</i>
+                    <i class="icon-double-angle-right"></i>
                    
             </small>
     </h1>

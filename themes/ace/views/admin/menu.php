@@ -49,8 +49,8 @@ $this->menu=array(
         ),
 	array('label'=>'Order','icon' => 'icon-dashboard', 'url'=>array('/admin/consultant'), 'active'=>isset($active['9']) ? true : false,
             'items'=> array(
-                array('label'=>'Order List', 'url'=>array('#'), 'active'=>isset($active['9.1']) ? true : false,),
-                array('label'=>'Create Order', 'url'=>array('#'), 'active'=>isset($active['9.2']) ? true : false,),
+                array('label'=>'Order List', 'url'=>array('/admin/consultant/order'), 'active'=>isset($active['9.1']) ? true : false,),
+                array('label'=>'Create Order', 'url'=>array('/admin/consultant/order/create'), 'active'=>isset($active['9.2']) ? true : false,),
             )
         ),
     
@@ -104,6 +104,7 @@ $this->menu=array(
                     array('label'=>'Incoming From Supplier', 'url'=>array('/admin/inventory/incomingSupplier'), 'active'=>isset($active['14.3']) ? true : false, ),
             )
    ),
+    
 
      array('label'=>'Report','icon' => 'icon-calendar', 'url'=>array('#'), 'active'=>isset($active['15']) ? true : false,
             'items'=> array(

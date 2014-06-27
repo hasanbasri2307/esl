@@ -19,9 +19,11 @@ class ClientController extends RController
 	{
 		$model = $this->loadModel($id);
 		$model_ch=ClientHistory::model()->findByAttributes(array('client_id'=>$model->client_id));
+		$model_face = FaceProfile::model()->findByAttributes(array('client_id'=>$model->client_id));
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 			'model_ch' =>$model_ch,
+			'model_face'=>$model_face,
 		));
 	}
 
@@ -31,7 +33,7 @@ class ClientController extends RController
 	 */
 	public function actionCreate()
 	{
-		$model=new Client('create');
+		$model=new Client('consultant');
 		$model_ch = new ClientHistory('create');
 
 		// Uncomment the following line if AJAX validation is needed
@@ -42,20 +44,21 @@ class ClientController extends RController
 			$model->attributes=$_POST['Client'];
 						$prefix = Yii::app()->getModule('user')->user()->profile->branch->getAttribute('branch_number');
                         $time = time();
+                        $tahun = date("y");
                         $model->user_id =Yii::app()->getModule('user')->user()->id;
                         $model->branch_id =Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id'); 
                         $model->changed =$time;
                         $model->created =$time;
-                        $model->client_middle_name = $_POST['Client']['client_middle_name'];
-                        $model->client_last_name = $_POST['Client']['client_last_name'];
-                        $model->title = $_POST['Client']['title'];
-                        $model->pin_bbm = $_POST['Client']['pin_bbm'];
-                        $model->description = $_POST['Client']['description'];
-                        $model->client_number = Yii::app()->getModule('consultant')->autoNumber("ESL-".$prefix.'-',"client_number","esc_client"); 
+                        $client_middle_name = $_POST['middle_name'];
+                        $client_last_name = $_POST['last_name'];
+                        $model->client_name = $_POST['Client']['client_name'].' '.$client_middle_name.' '.$client_last_name;
+                        $model->client_number = Yii::app()->getModule('consultant')->autoNumber($prefix.$tahun,"client_number","esc_client"); 
+                        
                         $model->active =1;
+                        $model->status=0;
                         $model->save();
 
-                        $model_ch->attributes=$_POST['ClientHistory'];
+                        
                         $model_ch->client_id =$model->client_id;
                         $model_ch->user_id =Yii::app()->getModule('user')->user()->id;
                         $model_ch->changed =$time;
@@ -133,6 +136,26 @@ class ClientController extends RController
 		$criteria=new CDbCriteria();
 		$branch_id =Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
         $criteria->condition ="branch_id=$branch_id ";
+         $criteria->condition = "branch_id=$branch_id  and status=1";
+        if(isset($search)) 
+             $criteria->condition = "branch_id=$branch_id   AND  LOWER(`client_number`) LIKE LOWER('%$search%') OR LOWER(`client_number`) LIKE LOWER('%$search%') OR LOWER(`client_name`) LIKE LOWER('%$search%') OR LOWER(`client_name`) LIKE LOWER('%$search%')";
+		$count=Client::model()->count($criteria);
+    	$pages=new CPagination($count);
+    	$pages->pageSize=18;
+    	$pages->applyLimit($criteria);
+		$client = Client::model()->findAll($criteria);
+
+		$this->render('index',array(
+			'client'=>$client,
+			'pages' => $pages
+		));
+	}
+
+	public function actionClientNew($search=NULL)
+	{
+		$criteria=new CDbCriteria();
+		$branch_id =Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
+        $criteria->condition ="branch_id=$branch_id and status =0 ";
         if(isset($search)) 
              $criteria->condition = "branch_id=$branch_id  AND  LOWER(`client_number`) LIKE LOWER('%$search%') OR LOWER(`client_number`) LIKE LOWER('%$search%') OR LOWER(`client_name`) LIKE LOWER('%$search%') OR LOWER(`client_name`) LIKE LOWER('%$search%')";
 		$count=Client::model()->count($criteria);
@@ -141,7 +164,7 @@ class ClientController extends RController
     	$pages->applyLimit($criteria);
 		$client = Client::model()->findAll($criteria);
 
-		$this->render('index',array(
+		$this->render('newclient',array(
 			'client'=>$client,
 			'pages' => $pages
 		));
@@ -168,6 +191,8 @@ class ClientController extends RController
 			'model'=>$model,
 		));
 	}
+
+	
 
 	/**
 	 * Manages all models.
@@ -216,6 +241,7 @@ class ClientController extends RController
 	{
 		$prefix = Yii::app()->getModule('user')->user()->profile->branch->getAttribute('branch_number');
 		$model=new Client('upload');
+		$tahun = date('y');
 		$model2 = new ClientHistory('upload');
 		if(isset($_POST['Client']))
 		{
@@ -228,8 +254,6 @@ class ClientController extends RController
 
 			$x=0;
 			$client_name=array();
-			$client_middle_name=array();
-			$client_last_name=array();
 			$title=array();
 			$id_card_number=array();
 			$dop=array();
@@ -251,24 +275,23 @@ class ClientController extends RController
 			{
 				
 				$client_name[$x]=$data->sheets[0]['cells'][$j][1];
-				$client_middle_name[$x]=$data->sheets[0]['cells'][$j][2];
-				$client_last_name[$x]=$data->sheets[0]['cells'][$j][3];
-				$title[$x] = $data->sheets[0]['cells'][$j][4];
-				$id_card_number[$x]=$data->sheets[0]['cells'][$j][5];
-				$dop[$x]=$data->sheets[0]['cells'][$j][6];
-				$dob[$x]=$data->sheets[0]['cells'][$j][7];
-				$address[$x]=$data->sheets[0]['cells'][$j][8];
-				$city[$x]=$data->sheets[0]['cells'][$j][9];
-				$zip_code[$x]=$data->sheets[0]['cells'][$j][10];
-				$telephone[$x]=$data->sheets[0]['cells'][$j][11];
-				$fax_number[$x]=$data->sheets[0]['cells'][$j][12];
-				$phone_kantor[$x]=$data->sheets[0]['cells'][$j][13];
-				$hp1[$x]=$data->sheets[0]['cells'][$j][14];
-				$hp2[$x]=$data->sheets[0]['cells'][$j][15];
-				$pin_bbm[$x]=$data->sheets[0]['cells'][$j][16];
-				$email[$x]=$data->sheets[0]['cells'][$j][17];
-				$branch_id[$x]=$data->sheets[0]['cells'][$j][18];
-				$date_join[$x]=$data->sheets[0]['cells'][$j][19];
+				$title[$x] = $data->sheets[0]['cells'][$j][2];
+				$id_card_number[$x]=$data->sheets[0]['cells'][$j][3];
+				$dop[$x]=$data->sheets[0]['cells'][$j][4];
+				$dob[$x]=$data->sheets[0]['cells'][$j][5];
+				$address[$x]=$data->sheets[0]['cells'][$j][6];
+				$city[$x]=$data->sheets[0]['cells'][$j][7];
+				$zip_code[$x]=$data->sheets[0]['cells'][$j][8];
+				$telephone[$x]=$data->sheets[0]['cells'][$j][9];
+				$fax_number[$x]=$data->sheets[0]['cells'][$j][10];
+				$phone_kantor[$x]=$data->sheets[0]['cells'][$j][11];
+				$hp1[$x]=$data->sheets[0]['cells'][$j][12];
+				$hp2[$x]=$data->sheets[0]['cells'][$j][13];
+				$pin_bbm[$x]=$data->sheets[0]['cells'][$j][14];
+				$email[$x]=$data->sheets[0]['cells'][$j][15];
+				$branch_id[$x]=$data->sheets[0]['cells'][$j][16];
+				$date_join[$x]=$data->sheets[0]['cells'][$j][17];
+
 				$x++;
 			}
 		
@@ -278,11 +301,9 @@ class ClientController extends RController
 				
 				$model=new Client('upload');
 				$model->client_name = $client_name[$i];
-				$model->client_middle_name = $client_middle_name[$i];
-				$model->client_last_name = $client_last_name[$i];
 				$model->title = $title[$i];
 				$model->id_card_number=$id_card_number[$i];
-				$model->client_number=Yii::app()->getModule('consultant')->autoNumber("ESL-".$prefix.'-',"client_number","esc_client"); 
+				$model->client_number = Yii::app()->getModule('consultant')->autoNumber($prefix.$tahun,"client_number","esc_client"); 
 				$model->dop=$dop[$i];
 				$model->dob=$dob[$i];
 				$model->address=$address[$i];
@@ -297,7 +318,7 @@ class ClientController extends RController
 				$model->email=$email[$i];
 				$model->branch_id=$branch_id[$i];
 				$model->date_join=$date_join[$i];
-
+				$model->status=1;
 				$model->save();
 				
 				$model2 = new ClientHistory('upload');

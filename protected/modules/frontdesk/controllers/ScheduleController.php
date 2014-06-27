@@ -7,7 +7,7 @@ class ScheduleController extends RController
 	{
 		 return array( 
                     'rights', 
-                     array('ext.activityLog.QLogFilter','logCategory'=>'Backend','logLevel'=>'action'),
+                    array('ext.activityLog.QLogFilter','logCategory'=>'Backend','logLevel'=>'action'),
              ); 
 	}
 
@@ -32,7 +32,7 @@ class ScheduleController extends RController
                    
                 }
                 
-                     $branch_id =  Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
+                     $branch_id = Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');  
                     
                 
                 $model = ScheduleRoom::model()->findAll(array('condition'=>'branch_id=:branch_id','params'=>array(':branch_id'=>$branch_id)));
@@ -49,7 +49,7 @@ class ScheduleController extends RController
 	{
 		
          $id =$_POST['id'];
-		 $sql = "select *, ADDTIME(s.time_t,s.duration) as selesai, s.description as des from esc_schedule_room s inner join esc_client c on s.client_id = c.client_id where s.schedule_room_id ='".$id."'";
+		 $sql = "select *, ADDTIME(s.time_t,s.duration) as selesai,s.description as des from esc_schedule_room s inner join esc_client c on s.client_id = c.client_id where s.schedule_room_id ='".$id."'";
 		$connection=Yii::app()->db;
 		$command=$connection->createCommand($sql);
 		$dataReader=$command->queryAll();
@@ -146,8 +146,7 @@ class ScheduleController extends RController
 			'model'=>$model
 		));
 	}
-
-
+	
 	public function actionCancelled($id)
 	{
 		$model=ScheduleRoom::model()->findByPk($id);
@@ -196,11 +195,10 @@ class ScheduleController extends RController
 			'model'=>$model
 		));
 	}
-	
-	
+
 	public function actionCreate()
 	{
-		$model=new ScheduleRoom('create');
+		$model=new ScheduleRoom;
                 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -212,6 +210,9 @@ class ScheduleController extends RController
                         $model->branch_id =Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
 						$model->user_id =Yii::app()->getModule('user')->user()->profile->getAttribute('user_id');
 						$model->client_id =$_POST['client_id'];
+						$model->time_t =$_POST['ScheduleRoom']['time_t'];
+						$model->date_t =$_POST['ScheduleRoom']['date_t'];
+						$model->duration =$_POST['ScheduleRoom']['duration'];
                         $model->changed =$time;
                         $model->created =$time;
 						$model->status = 1;
@@ -262,7 +263,8 @@ class ScheduleController extends RController
 														Jadwal Berhasil Dibuat
 														<br>
 													</div>');
-								$this->redirect(array('schedule/index/date/'.$model->date_t));
+								$this->redirect(array('schedule/index/date/'.$_POST['ScheduleRoom']['date_t']));
+								
 							}
 						}
 					
@@ -293,7 +295,7 @@ class ScheduleController extends RController
             echo CJSON::encode($output);   
               
         }
-        
+
         public function actionGetClient()
       {
     
@@ -305,7 +307,7 @@ class ScheduleController extends RController
               
         }
 
-        public function actionPrintOutReservation()
+    public function actionPrintOutReservation()
 	{
 		$model=new Client('create');
 		$this->render('reservation_report',array(
@@ -804,7 +806,6 @@ $pdf->Output('Laporan Reservation Monthly.pdf', 'I');
 		}
 		return $month_name;
 	}
-
 
 	
 }

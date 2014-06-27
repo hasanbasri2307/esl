@@ -7,7 +7,7 @@ class ScheduleController extends RController
 	{
 		 return array( 
                     'rights', 
-                     array('ext.activityLog.QLogFilter','logCategory'=>'Backend','logLevel'=>'action'),
+                    array('ext.activityLog.QLogFilter','logCategory'=>'Backend','logLevel'=>'action'),
              ); 
 	}
 
@@ -32,7 +32,7 @@ class ScheduleController extends RController
                    
                 }
                 
-                     $branch_id =  Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
+                     $branch_id = Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');  
                     
                 
                 $model = ScheduleRoom::model()->findAll(array('condition'=>'branch_id=:branch_id','params'=>array(':branch_id'=>$branch_id)));
@@ -49,7 +49,7 @@ class ScheduleController extends RController
 	{
 		
          $id =$_POST['id'];
-		 $sql = "select *, ADDTIME(s.time_t,s.duration) as selesai, s.description as des from esc_schedule_room s inner join esc_client c on s.client_id = c.client_id where s.schedule_room_id ='".$id."'";
+		 $sql = "select *, ADDTIME(s.time_t,s.duration) as selesai,s.description as des from esc_schedule_room s inner join esc_client c on s.client_id = c.client_id where s.schedule_room_id ='".$id."'";
 		$connection=Yii::app()->db;
 		$command=$connection->createCommand($sql);
 		$dataReader=$command->queryAll();
@@ -146,8 +146,7 @@ class ScheduleController extends RController
 			'model'=>$model
 		));
 	}
-
-
+	
 	public function actionCancelled($id)
 	{
 		$model=ScheduleRoom::model()->findByPk($id);
@@ -196,11 +195,10 @@ class ScheduleController extends RController
 			'model'=>$model
 		));
 	}
-	
-	
+
 	public function actionCreate()
 	{
-		$model=new ScheduleRoom('create');
+		$model=new ScheduleRoom;
                 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -212,6 +210,9 @@ class ScheduleController extends RController
                         $model->branch_id =Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
 						$model->user_id =Yii::app()->getModule('user')->user()->profile->getAttribute('user_id');
 						$model->client_id =$_POST['client_id'];
+						$model->time_t =$_POST['ScheduleRoom']['time_t'];
+						$model->date_t =$_POST['ScheduleRoom']['date_t'];
+						$model->duration =$_POST['ScheduleRoom']['duration'];
                         $model->changed =$time;
                         $model->created =$time;
 						$model->status = 1;
@@ -262,7 +263,8 @@ class ScheduleController extends RController
 														Jadwal Berhasil Dibuat
 														<br>
 													</div>');
-								$this->redirect(array('schedule/index/date/'.$model->date_t));
+								$this->redirect(array('schedule/index/date/'.$_POST['ScheduleRoom']['date_t']));
+								
 							}
 						}
 					
@@ -293,7 +295,7 @@ class ScheduleController extends RController
             echo CJSON::encode($output);   
               
         }
-        
+
         public function actionGetClient()
       {
     
@@ -304,6 +306,506 @@ class ScheduleController extends RController
               
               
         }
+
+    public function actionPrintOutReservation()
+	{
+		$model=new Client('create');
+		$this->render('reservation_report',array(
+			'model'=>$model
+		));
+	}
+
+	public function actionPrintDaily()
+	{
+		$date= $_POST['tanggal'];
+		$branch =  Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
+		$sql = "SELECT * FROM esc_schedule_room inner join esc_room on esc_room.room_id = esc_schedule_room.room_id inner join esc_client on esc_client.client_id = esc_schedule_room.client_id inner join esc_branch on esc_branch.branch_id = esc_schedule_room.branch_id where esc_schedule_room.branch_id = $branch and esc_schedule_room.date_t = '$date'";
+		 $connection=Yii::app()->db;
+		 $command=$connection->createCommand($sql);
+		 $model = $command->queryAll();	
+		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+// set document information
+$pdf->SetCreator(PDF_CREATOR);
+$pdf->SetAuthor('Euro Medica');
+$pdf->SetTitle('Reservation Daily Report');
+$pdf->SetSubject('TCPDF Tutorial');
+$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+// set default header data
+
+$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH,'Reservation Daily Report', "Euro Media");
+
+// set header and footer fonts
+$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+// set default monospaced font
+$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+// set margins
+$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+// set auto page breaks
+$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+// set image scale factor
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+// set some language-dependent strings (optional)
+if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+    require_once(dirname(__FILE__).'/lang/eng.php');
+    $pdf->setLanguageArray($l);
+}
+
+// ---------------------------------------------------------
+
+// set font
+$pdf->SetFont('helvetica', 'B', 20);
+
+// add a page
+$pdf->AddPage();
+
+$pdf->Write(0, 'Reservation Daily Report', '', 0, 'C', true, 0, false, false, 0);
+$pdf->SetFont('helvetica', 'B', 13);
+$pdf->Write(0, 'Branch '.Yii::app()->getModule('user')->user()->profile->branch->branch_name , '', 0, 'C', true, 0, false, false, 0);
+$pdf->SetFont('helvetica', 'B', 10);
+$pdf->Write(0, $date  , '', 0, 'C', true, 0, false, false, 0);
+$pdf->SetFont('helvetica', '', 10);
+$pdf->Ln();
+
+// -----------------------------------------------------------------------------
+
+
+
+// NON-BREAKING ROWS (nobr="true")
+$tbl="";
+$tbl .= '
+
+<style type="text/css">
+.myOtherTable { background-color:#FFFFE0;border-collapse:collapse;color:#000;font-size:16px; }
+.myOtherTable th { background-color:#BDB76B;color:white;width:14.5%; }
+.myOtherTable td { padding:5px;border:0; }
+.myOtherTable td { font-family:Georgia, Garamond, serif; border-bottom:1px dotted #BDB76B; }
+</style>
+
+
+<table class="myOtherTable">
+ <tr>
+ 	<th>Client ID</th>
+ 	<th>Client Name</th>
+ 	<th>Branch</th>
+ 	<th>Room</th>
+ 	<th>Date</th>
+ 	<th>Time</th>
+ 	<th>Duration</th>
+ </tr>
+ ';
+ foreach($model as $data) {
+ 	$tbl .='<tr>
+ 		<td>'.$data['client_number'].'</td>
+ 		<td>'.$data['client_name'].'</td>
+ 		<td>'.$data['branch_name'].'</td>
+ 		<td>'.$data['room_name'].'</td>
+ 		<td>'.$data['date_t'].'</td>
+ 		<td>'.$data['time_t'].'</td>
+ 		<td>'.$data['duration'].'</td>
+ 		</tr>';
+ }
+ 
+$tbl .="</table>";
+
+$pdf->writeHTML($tbl, true, false, false, false, '');
+
+// -----------------------------------------------------------------------------
+
+//Close and output PDF document
+$pdf->Output('Laporan Reservation Daily.pdf', 'I');
+
+	}
+
+	public function actionPrintMonthly()
+	{
+		$year = $_POST['tahun'];
+		$month= $_POST['bulan'];
+		$branch =  Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
+		$sql = "SELECT * FROM esc_schedule_room inner join esc_room on esc_room.room_id = esc_schedule_room.room_id inner join esc_client on esc_client.client_id = esc_schedule_room.client_id inner join esc_branch on esc_branch.branch_id = esc_schedule_room.branch_id where esc_schedule_room.branch_id = $branch and MONTH(esc_schedule_room.date_t) = '$month' and YEAR(esc_schedule_room.date_t) = '$year'";
+		 $connection=Yii::app()->db;
+		 $command=$connection->createCommand($sql);
+		 $model = $command->queryAll();	
+		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+// set document information
+$pdf->SetCreator(PDF_CREATOR);
+$pdf->SetAuthor('Euro Medica');
+$pdf->SetTitle('Reservation Monthly Report');
+$pdf->SetSubject('TCPDF Tutorial');
+$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+// set default header data
+
+$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH,'Reservation Monthly Report', "Euro Media");
+
+// set header and footer fonts
+$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+// set default monospaced font
+$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+// set margins
+$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+// set auto page breaks
+$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+// set image scale factor
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+// set some language-dependent strings (optional)
+if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+    require_once(dirname(__FILE__).'/lang/eng.php');
+    $pdf->setLanguageArray($l);
+}
+
+// ---------------------------------------------------------
+
+// set font
+$pdf->SetFont('helvetica', 'B', 20);
+
+// add a page
+$pdf->AddPage();
+
+$pdf->Write(0, 'Reservation Monthly Report', '', 0, 'C', true, 0, false, false, 0);
+$pdf->SetFont('helvetica', 'B', 13);
+$pdf->Write(0, 'Branch '.Yii::app()->getModule('user')->user()->profile->branch->branch_name , '', 0, 'C', true, 0, false, false, 0);
+$pdf->SetFont('helvetica', 'B', 10);
+$pdf->Write(0, $this->bulan($month).' '.$year  , '', 0, 'C', true, 0, false, false, 0);
+$pdf->SetFont('helvetica', '', 10);
+$pdf->Ln();
+
+// -----------------------------------------------------------------------------
+
+
+
+// NON-BREAKING ROWS (nobr="true")
+$tbl="";
+$tbl .= '
+
+<style type="text/css">
+.myOtherTable { background-color:#FFFFE0;border-collapse:collapse;color:#000;font-size:16px; }
+.myOtherTable th { background-color:#BDB76B;color:white;width:14.5%; }
+.myOtherTable td { padding:5px;border:0; }
+.myOtherTable td { font-family:Georgia, Garamond, serif; border-bottom:1px dotted #BDB76B; }
+</style>
+
+
+<table class="myOtherTable">
+ <tr>
+ 	<th>Client ID</th>
+ 	<th>Client Name</th>
+ 	<th>Branch</th>
+ 	<th>Room</th>
+ 	<th>Date</th>
+ 	<th>Time</th>
+ 	<th>Duration</th>
+ </tr>
+ ';
+ foreach($model as $data) {
+ 	$tbl .='<tr>
+ 		<td>'.$data['client_number'].'</td>
+ 		<td>'.$data['client_name'].'</td>
+ 		<td>'.$data['branch_name'].'</td>
+ 		<td>'.$data['room_name'].'</td>
+ 		<td>'.$data['date_t'].'</td>
+ 		<td>'.$data['time_t'].'</td>
+ 		<td>'.$data['duration'].'</td>
+ 		</tr>';
+ }
+ 
+$tbl .="</table>";
+
+$pdf->writeHTML($tbl, true, false, false, false, '');
+
+// -----------------------------------------------------------------------------
+
+//Close and output PDF document
+$pdf->Output('Laporan Reservation Monthly.pdf', 'I');
+
+	}
+
+	public function actionPrintYearly()
+	{
+		$year = $_POST['tahun'];
+		$branch =  Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
+		$sql = "SELECT * FROM esc_schedule_room inner join esc_room on esc_room.room_id = esc_schedule_room.room_id inner join esc_client on esc_client.client_id = esc_schedule_room.client_id inner join esc_branch on esc_branch.branch_id = esc_schedule_room.branch_id where esc_schedule_room.branch_id = $branch and YEAR(esc_schedule_room.date_t) = '$year'";
+		 $connection=Yii::app()->db;
+		 $command=$connection->createCommand($sql);
+		 $model = $command->queryAll();	
+		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+// set document information
+$pdf->SetCreator(PDF_CREATOR);
+$pdf->SetAuthor('Euro Medica');
+$pdf->SetTitle('Reservation Yearly Report');
+$pdf->SetSubject('TCPDF Tutorial');
+$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+// set default header data
+
+$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH,'Reservation Yearly Report', "Euro Media");
+
+// set header and footer fonts
+$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+// set default monospaced font
+$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+// set margins
+$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+// set auto page breaks
+$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+// set image scale factor
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+// set some language-dependent strings (optional)
+if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+    require_once(dirname(__FILE__).'/lang/eng.php');
+    $pdf->setLanguageArray($l);
+}
+
+// ---------------------------------------------------------
+
+// set font
+$pdf->SetFont('helvetica', 'B', 20);
+
+// add a page
+$pdf->AddPage();
+
+$pdf->Write(0, 'Reservation Yearly Report', '', 0, 'C', true, 0, false, false, 0);
+$pdf->SetFont('helvetica', 'B', 13);
+$pdf->Write(0, 'Branch '.Yii::app()->getModule('user')->user()->profile->branch->branch_name , '', 0, 'C', true, 0, false, false, 0);
+$pdf->SetFont('helvetica', 'B', 10);
+$pdf->Write(0, $year  , '', 0, 'C', true, 0, false, false, 0);
+$pdf->SetFont('helvetica', '', 10);
+$pdf->Ln();
+
+// -----------------------------------------------------------------------------
+
+
+
+// NON-BREAKING ROWS (nobr="true")
+$tbl="";
+$tbl .= '
+
+<style type="text/css">
+.myOtherTable { background-color:#FFFFE0;border-collapse:collapse;color:#000;font-size:16px; }
+.myOtherTable th { background-color:#BDB76B;color:white;width:14.5%; }
+.myOtherTable td { padding:5px;border:0; }
+.myOtherTable td { font-family:Georgia, Garamond, serif; border-bottom:1px dotted #BDB76B; }
+</style>
+
+
+<table class="myOtherTable">
+ <tr>
+ 	<th>Client ID</th>
+ 	<th>Client Name</th>
+ 	<th>Branch</th>
+ 	<th>Room</th>
+ 	<th>Date</th>
+ 	<th>Time</th>
+ 	<th>Duration</th>
+ </tr>
+ ';
+ foreach($model as $data) {
+ 	$tbl .='<tr>
+ 		<td>'.$data['client_number'].'</td>
+ 		<td>'.$data['client_name'].'</td>
+ 		<td>'.$data['branch_name'].'</td>
+ 		<td>'.$data['room_name'].'</td>
+ 		<td>'.$data['date_t'].'</td>
+ 		<td>'.$data['time_t'].'</td>
+ 		<td>'.$data['duration'].'</td>
+ 		</tr>';
+ }
+ 
+$tbl .="</table>";
+
+$pdf->writeHTML($tbl, true, false, false, false, '');
+
+// -----------------------------------------------------------------------------
+
+//Close and output PDF document
+$pdf->Output('Laporan Reservation Yearly.pdf', 'I');
+
+	}
+
+	public function actionPrintPeriode()
+	{
+		$from = $_POST['dari'];
+		$to = $_POST['sampai'];
+		$branch =  Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
+		$sql = "SELECT * FROM esc_schedule_room inner join esc_room on esc_room.room_id = esc_schedule_room.room_id inner join esc_client on esc_client.client_id = esc_schedule_room.client_id inner join esc_branch on esc_branch.branch_id = esc_schedule_room.branch_id where esc_schedule_room.branch_id = $branch and esc_schedule_room.date_t between '$from' and '$to'";
+		 $connection=Yii::app()->db;
+		 $command=$connection->createCommand($sql);
+		 $model = $command->queryAll();	
+		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+// set document information
+$pdf->SetCreator(PDF_CREATOR);
+$pdf->SetAuthor('Euro Medica');
+$pdf->SetTitle('Reservation Periode Report');
+$pdf->SetSubject('TCPDF Tutorial');
+$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+// set default header data
+
+$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH,'Reservation Periode Report', "Euro Media");
+
+// set header and footer fonts
+$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+// set default monospaced font
+$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+// set margins
+$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+// set auto page breaks
+$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+// set image scale factor
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+// set some language-dependent strings (optional)
+if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+    require_once(dirname(__FILE__).'/lang/eng.php');
+    $pdf->setLanguageArray($l);
+}
+
+// ---------------------------------------------------------
+
+// set font
+$pdf->SetFont('helvetica', 'B', 20);
+
+// add a page
+$pdf->AddPage();
+
+$pdf->Write(0, 'Reservation Periode Report', '', 0, 'C', true, 0, false, false, 0);
+$pdf->SetFont('helvetica', 'B', 13);
+$pdf->Write(0, 'Branch '.Yii::app()->getModule('user')->user()->profile->branch->branch_name , '', 0, 'C', true, 0, false, false, 0);
+$pdf->SetFont('helvetica', 'B', 10);
+$pdf->Write(0, $from.' - '.$to  , '', 0, 'C', true, 0, false, false, 0);
+$pdf->SetFont('helvetica', '', 10);
+$pdf->Ln();
+
+// -----------------------------------------------------------------------------
+
+
+
+// NON-BREAKING ROWS (nobr="true")
+$tbl="";
+$tbl .= '
+
+<style type="text/css">
+.myOtherTable { background-color:#FFFFE0;border-collapse:collapse;color:#000;font-size:16px; }
+.myOtherTable th { background-color:#BDB76B;color:white;width:14.5%; }
+.myOtherTable td { padding:5px;border:0; }
+.myOtherTable td { font-family:Georgia, Garamond, serif; border-bottom:1px dotted #BDB76B; }
+</style>
+
+
+<table class="myOtherTable">
+ <tr>
+ 	<th>Client ID</th>
+ 	<th>Client Name</th>
+ 	<th>Branch</th>
+ 	<th>Room</th>
+ 	<th>Date</th>
+ 	<th>Time</th>
+ 	<th>Duration</th>
+ </tr>
+ ';
+ foreach($model as $data) {
+ 	$tbl .='<tr>
+ 		<td>'.$data['client_number'].'</td>
+ 		<td>'.$data['client_name'].'</td>
+ 		<td>'.$data['branch_name'].'</td>
+ 		<td>'.$data['room_name'].'</td>
+ 		<td>'.$data['date_t'].'</td>
+ 		<td>'.$data['time_t'].'</td>
+ 		<td>'.$data['duration'].'</td>
+ 		</tr>';
+ }
+ 
+$tbl .="</table>";
+
+$pdf->writeHTML($tbl, true, false, false, false, '');
+
+// -----------------------------------------------------------------------------
+
+//Close and output PDF document
+$pdf->Output('Laporan Reservation Monthly.pdf', 'I');
+
+	}
+
+	private function bulan($bulan)
+	{
+		switch ($bulan) {
+			case '1':
+				$month_name = "January";
+				break;
+			case '2':
+				$month_name = "February";
+				break;
+			case '3':
+				$month_name = "March";
+				break;
+			case '4':
+				$month_name = "April";
+				break;
+			case '5':
+				$month_name = "May";
+				break;
+			case '6':
+				$month_name = "June";
+				break;
+			case '7':
+				$month_name = "July";
+				break;
+			case '8':
+				$month_name = "August";
+				break;
+			case '9':
+				$month_name = "September";
+				break;
+			case '10':
+				$month_name = "October";
+				break;
+			case '11':
+				$month_name = "November";
+				break;
+			case '12':
+				$month_name = "December";
+				break;
+			default:
+				# code...
+				break;
+		}
+		return $month_name;
+	}
 
 	
 }

@@ -24,7 +24,7 @@ $this->menu=array(
                
                  array('label'=>'Reservation', 'url'=>array('/frontdesk/schedule'), 'active'=>isset($active['3.2']) ? true : false,),
                   array('label'=>'Input', 'url'=>array('/frontdesk/schedule/create'), 'active'=>isset($active['3.3']) ? true : false,),
-                 array('label'=>'Report', 'url'=>array('/inventory/product'), 'active'=>isset($active['3.4']) ? true : false,),
+                 
                  
                 //array('label'=>'Cabin', 'url'=>array('/inventory/product_cabin'), 'active'=>isset($active['1.2']) ? true : false,)
             )
