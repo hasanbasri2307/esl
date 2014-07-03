@@ -200,7 +200,7 @@ array(
 
 
  <?php
- $quotedUrl =$this->createUrl('/consultant/schedule/data_client');
+ $quotedUrl =$this->createUrl('/admin/consultant/schedule/data_client');
  $script = ' $("#sample-table-1 tr td").click(function(){
       var id = $(this).attr("id");
       
@@ -217,8 +217,7 @@ array(
       
            
         
-        
-           $("#modal-body-1").html("<table><tr><td>Client ID</td><td>:</td><td>"+data[0].client_number+"</td></tr><tr><td>Client Name</td><td>:</td><td>"+data[0].client_name+"</td></tr><tr><td>Date</td><td>:</td><td>"+data[0].date_t+"</td></tr><tr><td>Start</td><td>:</td><td>"+data[0].time_t+"</td></tr><tr><td>Finish</td><td>:</td><td>"+data[0].selesai+"</td></tr><tr><td>Duration</td><td>:</td><td>"+data[0].duration+"</td></tr><tr><td>Description</td><td>:</td><td>"+data[0].des+"</td></tr></table>");
+           $("#modal-body-1").html("<table><tr><td>Client ID</td><td>:</td><td>"+data[0].client_number+"</td></tr><tr><td>Client Name</td><td>:</td><td>"+data[0].client_name+"</td></tr><tr><td>Date</td><td>:</td><td>"+data[0].date_t+"</td></tr><tr><td>Start</td><td>:</td><td>"+data[0].time_t+"</td></tr><tr><td>Finish</td><td>:</td><td>"+data[0].selesai+"</td></tr><tr><td>Duration</td><td>:</td><td>"+data[0].duration+"</td></tr><tr><td>Description</td><td>:</td><td>"+data[0].des+"</td></tr><tr><td>Doctor</td><td>:</td><td>"+data[0].dokter+"</td></tr><tr><td>Beautician</td><td>:</td><td>"+data[0].beautician+"</td></tr></table>");
        
       $("#schedule_room_id").val(data[0].schedule_room_id);
       }
@@ -229,7 +228,7 @@ array(
                     ';
   Yii::app()->clientScript->registerScript('popup',$script, CClientScript::POS_END);
   
-  $url1 =$this->createUrl('/consultant/schedule/confirmation');
+  $url1 =$this->createUrl('/admin/consultant/schedule/confirmation');
  $script2 = ' $("#confirm").click(function(){
       var id = $("#schedule_room_id").val();
       
@@ -251,11 +250,11 @@ array(
                     ';
   Yii::app()->clientScript->registerScript('confirmModal',$script2, CClientScript::POS_END);
   
-  $url2 =$this->createUrl('/consultant/schedule/cancel');
+  $url2 =$this->createUrl('/admin/consultant/schedule/cancel');
  $script3 = ' $("#cancel").click(function(){
       var id = $("#schedule_room_id").val();
       
-      window.location  = "'.Yii::app()->createUrl('/consultant/schedule/cancelled/id/"+id+"').'";
+      window.location  = "'.Yii::app()->createUrl('/admin/consultant/schedule/cancelled/id/"+id+"').'";
         
     });
                     ';
@@ -265,7 +264,7 @@ array(
  $script4 = ' $("#reschedule").click(function(){
       var id = $("#schedule_room_id").val();
       
-      window.location  = "'.Yii::app()->createUrl('/consultant/schedule/update/id/"+id+"').'";
+      window.location  = "'.Yii::app()->createUrl('/admin/consultant/schedule/update/id/"+id+"').'";
         
     });
                     ';

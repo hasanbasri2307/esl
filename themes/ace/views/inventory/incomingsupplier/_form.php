@@ -46,7 +46,7 @@
                                 <td><input readonly="readonly" type="text" value="'.$ProductName.'" name="ProductName[]"></td>
                                 <td><input readonly="readonly" type="text" value="'.$ProductQuantity.'" name="ProductQuantity[]"></td>
                                 <td><input readonly="readonly" type="text" value="'.$kadaluarsa.'" name="kadaluarsa[]"></td>
-                                    <td><a class="delete2" title="Delete" rel="tooltip" href="#" onclick="javascript:delete_row(\'product'.$val.'\');" id="product'.$val.'"><i class="icon-trash"></i></a></td>
+                                    <td><a class="delete2" title="Delete" rel="tooltip" href="#" onclick="javascript:delete_row(\'product'.$val.'\');" id="product'.$val.'">hh</a></td>
                           </tr>';
                 }
             }

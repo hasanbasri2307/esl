@@ -90,6 +90,7 @@ class ProductpackageController extends RController
 		if(isset($_POST['Productpackage']))
 		{
 			$model->attributes=$_POST['Productpackage'];
+			$model->price =  Yii::app()->format->unformatNumber($_POST['Productpackage']['price']);
 			if($model->save())
 			{
 				if(isset($_POST['ProductId'])){

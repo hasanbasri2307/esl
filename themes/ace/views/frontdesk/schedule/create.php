@@ -40,6 +40,34 @@ $this->renderPartial('../menu',array(
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
 	<?php echo $form->errorSummary($model,'<button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>'); ?>
 	<div class="control-group">
+        <label class="control-label" for="form-field-1">Order Number</label>
+
+        <div class="controls">
+            <?php
+            $branch=Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
+            $status = 1;
+            $Criteria = new CDbCriteria();
+            $Criteria->condition = "branch_id = $branch and status=1";
+            
+                $this->widget(
+                'bootstrap.widgets.TbSelect2',
+                array(
+                    'name' => 'order_nubmer',
+                    'model'=> $model->order_number,
+                    'data' => CHtml::listData(Order::model()->findAll($Criteria) , 'order_number', 'order_number'),
+                    'options' => array(
+                        'placeholder' => 'type clever, or is, or just type!',
+                        'width' => '20%',
+                       
+                        
+                    ),
+                  
+                )
+            );
+            ?>
+        </div>
+    </div>
+    <div class="control-group">
 		<label class="control-label" for="form-field-1">Client Name</label>
 
 		<div class="controls">
@@ -166,7 +194,7 @@ $this->renderPartial('../menu',array(
 
      
 <?php
- $url1 =$this->createUrl('/consultant/schedule/getClient');
+ $url1 =$this->createUrl('/frontdesk/schedule/getClient');
  $script2 = ' $(".cc").change(function(){
 	 		var id = $("#test").val();
 			

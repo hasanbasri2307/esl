@@ -85,6 +85,7 @@ class TreatmentpackageController extends RController
 		if(isset($_POST['Treatmentpackage']))
 		{
 			$model->attributes=$_POST['Treatmentpackage'];
+			$model->price =  Yii::app()->format->unformatNumber($_POST['Treatmentpackage']['price']);
 			if($model->save())
 			{
 				if(isset($_POST['TreatmentId'])){

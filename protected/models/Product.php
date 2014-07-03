@@ -164,4 +164,16 @@ class Product extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+	public function beforeSave()
+    {
+        if($this->isNewRecord)
+        {          
+           
+           
+        }else{
+            Yii::app()->format->unformatNumber($this->price);
+        }
+        return parent::beforeSave();
+    }
 }

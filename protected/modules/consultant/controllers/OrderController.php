@@ -253,5 +253,569 @@ class OrderController extends RController
             echo CJSON::encode($output);   
               
         }
+
+         public function actionPrintOrder()
+	{
+		$branch =  Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
+		$sql = "SELECT * FROM esc_product_stock inner join esc_product on esc_product.product_id = esc_product_stock.product_id where esc_product_stock.branch_id = $branch";
+		 $connection=Yii::app()->db;
+		 $command=$connection->createCommand($sql);
+		 $model = $command->queryAll();
+
+		$this->render('order_report',array(
+			'model'=>$model
+		));
+	}
+
+        public function actionPrintOrderDaily()
+	{
+		$date= $_POST['tanggal'];
+		$branch =  Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
+		$sql = "SELECT *,sum(esc_detail_order.qty * esc_detail_order.price) as total FROM esc_order inner join esc_detail_order on esc_detail_order.order_id = esc_order.order_id inner join esc_client on esc_client.client_id = esc_order.client_id inner join esc_branch on esc_branch.branch_id = esc_order.branch_id where esc_order.branch_id = $branch and esc_order.date = '$date' group by esc_order.order_id";
+		 $connection=Yii::app()->db;
+		 $command=$connection->createCommand($sql);
+		 $model = $command->queryAll();	
+		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+// set document information
+$pdf->SetCreator(PDF_CREATOR);
+$pdf->SetAuthor('Euro Medica');
+$pdf->SetTitle('Order Daily Report');
+$pdf->SetSubject('TCPDF Tutorial');
+$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+// set default header data
+
+$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH,'Order Daily Report', "Euro Media");
+
+// set header and footer fonts
+$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+// set default monospaced font
+$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+// set margins
+$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+// set auto page breaks
+$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+// set image scale factor
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+// set some language-dependent strings (optional)
+if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+    require_once(dirname(__FILE__).'/lang/eng.php');
+    $pdf->setLanguageArray($l);
+}
+
+// ---------------------------------------------------------
+
+// set font
+$pdf->SetFont('helvetica', 'B', 20);
+
+// add a page
+$pdf->AddPage();
+
+$pdf->Write(0, 'Order Daily Report', '', 0, 'C', true, 0, false, false, 0);
+$pdf->SetFont('helvetica', 'B', 13);
+$pdf->Write(0, 'Branch '.Yii::app()->getModule('user')->user()->profile->branch->branch_name , '', 0, 'C', true, 0, false, false, 0);
+$pdf->SetFont('helvetica', 'B', 10);
+$pdf->Write(0, $date  , '', 0, 'C', true, 0, false, false, 0);
+$pdf->SetFont('helvetica', '', 10);
+$pdf->Ln();
+
+// -----------------------------------------------------------------------------
+
+
+
+// NON-BREAKING ROWS (nobr="true")
+$tbl="";
+$tbl .= '
+
+<style type="text/css">
+.myOtherTable { background-color:#FFFFE0;border-collapse:collapse;color:#000;font-size:16px; }
+.myOtherTable th { background-color:#BDB76B;color:white;width:20%; }
+.myOtherTable td { padding:5px;border:0; }
+.myOtherTable td { font-family:Georgia, Garamond, serif; border-bottom:1px dotted #BDB76B; }
+</style>
+
+
+<table class="myOtherTable">
+ <tr>
+ 	<th>Order Number</th>
+ 	<th>Client Name</th>
+ 	<th>Branch</th>
+ 	<th>Date</th>
+ 	<th>Total</th>
+ 	
+ </tr>
+ ';
+ foreach($model as $data) {
+ 	$tbl .='<tr>
+ 		<td>'.$data['order_number'].'</td>
+ 		<td>'.$data['client_name'].'</td>
+ 		<td>'.$data['branch_name'].'</td>
+ 		<td>'.$data['date'].'</td>
+ 		<td>'.Yii::app()->format->formatNumber($data['total']).'</td>
+ 		</tr>';
+ }
+ 
+$tbl .="</table>";
+
+$pdf->writeHTML($tbl, true, false, false, false, '');
+
+// -----------------------------------------------------------------------------
+
+//Close and output PDF document
+$pdf->Output('Laporan Order Daily.pdf', 'I');
+
+	}
+
+
+	public function actionPrintOrderMonthly()
+	{
+		$year = $_POST['tahun'];
+		$month= $_POST['bulan'];
+		$branch =  Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
+		$sql = "SELECT *,sum(esc_detail_order.qty * esc_detail_order.price) as total FROM esc_order inner join esc_detail_order on esc_detail_order.order_id = esc_order.order_id inner join esc_client on esc_client.client_id = esc_order.client_id inner join esc_branch on esc_branch.branch_id = esc_order.branch_id where esc_order.branch_id = $branch and MONTH(esc_order.date) = '$month' and YEAR(esc_order.date) = '$year' group by esc_order.order_id";
+		 $connection=Yii::app()->db;
+		 $command=$connection->createCommand($sql);
+		 $model = $command->queryAll();	
+		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+// set document information
+$pdf->SetCreator(PDF_CREATOR);
+$pdf->SetAuthor('Euro Medica');
+$pdf->SetTitle('Order Monthly Report');
+$pdf->SetSubject('TCPDF Tutorial');
+$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+// set default header data
+
+$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH,'Order Monthly Report', "Euro Media");
+
+// set header and footer fonts
+$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+// set default monospaced font
+$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+// set margins
+$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+// set auto page breaks
+$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+// set image scale factor
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+// set some language-dependent strings (optional)
+if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+    require_once(dirname(__FILE__).'/lang/eng.php');
+    $pdf->setLanguageArray($l);
+}
+
+// ---------------------------------------------------------
+
+// set font
+$pdf->SetFont('helvetica', 'B', 20);
+
+// add a page
+$pdf->AddPage();
+
+$pdf->Write(0, 'Order Monthly Report', '', 0, 'C', true, 0, false, false, 0);
+$pdf->SetFont('helvetica', 'B', 13);
+$pdf->Write(0, 'Branch '.Yii::app()->getModule('user')->user()->profile->branch->branch_name , '', 0, 'C', true, 0, false, false, 0);
+$pdf->SetFont('helvetica', 'B', 10);
+$pdf->Write(0, $this->bulan($month).' '.$year  , '', 0, 'C', true, 0, false, false, 0);
+$pdf->SetFont('helvetica', '', 10);
+$pdf->Ln();
+
+// -----------------------------------------------------------------------------
+
+
+
+// NON-BREAKING ROWS (nobr="true")
+$tbl="";
+$tbl .= '
+
+<style type="text/css">
+.myOtherTable { background-color:#FFFFE0;border-collapse:collapse;color:#000;font-size:16px; }
+.myOtherTable th { background-color:#BDB76B;color:white;width:20%; }
+.myOtherTable td { padding:5px;border:0; }
+.myOtherTable td { font-family:Georgia, Garamond, serif; border-bottom:1px dotted #BDB76B; }
+</style>
+
+
+<table class="myOtherTable">
+ <tr>
+ 	<th>Order Number</th>
+ 	<th>Client Name</th>
+ 	<th>Branch</th>
+ 	<th>Date</th>
+ 	<th>Total</th>
+ 	
+ </tr>
+ ';
+ foreach($model as $data) {
+ 	$tbl .='<tr>
+ 		<td>'.$data['order_number'].'</td>
+ 		<td>'.$data['client_name'].'</td>
+ 		<td>'.$data['branch_name'].'</td>
+ 		<td>'.$data['date'].'</td>
+ 		<td>'.Yii::app()->format->formatNumber($data['total']).'</td>
+ 		</tr>';
+ }
+ 
+$tbl .="</table>";
+
+$pdf->writeHTML($tbl, true, false, false, false, '');
+
+// -----------------------------------------------------------------------------
+
+//Close and output PDF document
+$pdf->Output('Laporan Order Monthly.pdf', 'I');
+
+	}
+
+	public function actionPrintOrderYearly()
+	{
+		$year = $_POST['tahun'];
+		$branch =  Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
+		$sql = "SELECT *,sum(esc_detail_order.qty * esc_detail_order.price) as total FROM esc_order inner join esc_detail_order on esc_detail_order.order_id = esc_order.order_id inner join esc_client on esc_client.client_id = esc_order.client_id inner join esc_branch on esc_branch.branch_id = esc_order.branch_id where esc_order.branch_id = $branch and  YEAR(esc_order.date) = '$year' group by esc_order.order_id";
+		 $connection=Yii::app()->db;
+		 $command=$connection->createCommand($sql);
+		 $model = $command->queryAll();	
+		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+// set document information
+$pdf->SetCreator(PDF_CREATOR);
+$pdf->SetAuthor('Euro Medica');
+$pdf->SetTitle('Order Yearly Report');
+$pdf->SetSubject('TCPDF Tutorial');
+$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+// set default header data
+
+$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH,'Order Yearly Report', "Euro Media");
+
+// set header and footer fonts
+$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+// set default monospaced font
+$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+// set margins
+$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+// set auto page breaks
+$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+// set image scale factor
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+// set some language-dependent strings (optional)
+if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+    require_once(dirname(__FILE__).'/lang/eng.php');
+    $pdf->setLanguageArray($l);
+}
+
+// ---------------------------------------------------------
+
+// set font
+$pdf->SetFont('helvetica', 'B', 20);
+
+// add a page
+$pdf->AddPage();
+
+$pdf->Write(0, 'Order Yearly Report', '', 0, 'C', true, 0, false, false, 0);
+$pdf->SetFont('helvetica', 'B', 13);
+$pdf->Write(0, 'Branch '.Yii::app()->getModule('user')->user()->profile->branch->branch_name , '', 0, 'C', true, 0, false, false, 0);
+$pdf->SetFont('helvetica', 'B', 10);
+$pdf->Write(0, $year  , '', 0, 'C', true, 0, false, false, 0);
+$pdf->SetFont('helvetica', '', 10);
+$pdf->Ln();
+
+// -----------------------------------------------------------------------------
+
+
+
+// NON-BREAKING ROWS (nobr="true")
+$tbl="";
+$tbl .= '
+
+<style type="text/css">
+.myOtherTable { background-color:#FFFFE0;border-collapse:collapse;color:#000;font-size:16px; }
+.myOtherTable th { background-color:#BDB76B;color:white;width:20%; }
+.myOtherTable td { padding:5px;border:0; }
+.myOtherTable td { font-family:Georgia, Garamond, serif; border-bottom:1px dotted #BDB76B; }
+</style>
+
+
+<table class="myOtherTable">
+ <tr>
+ 	<th>Order Number</th>
+ 	<th>Client Name</th>
+ 	<th>Branch</th>
+ 	<th>Date</th>
+ 	<th>Total</th>
+ 	
+ </tr>
+ ';
+ foreach($model as $data) {
+ 	$tbl .='<tr>
+ 		<td>'.$data['order_number'].'</td>
+ 		<td>'.$data['client_name'].'</td>
+ 		<td>'.$data['branch_name'].'</td>
+ 		<td>'.$data['date'].'</td>
+ 		<td>'.Yii::app()->format->formatNumber($data['total']).'</td>
+ 		</tr>';
+ }
+ 
+$tbl .="</table>";
+
+$pdf->writeHTML($tbl, true, false, false, false, '');
+
+// -----------------------------------------------------------------------------
+
+//Close and output PDF document
+$pdf->Output('Laporan Order Yearly.pdf', 'I');
+
+	}
+
+	public function actionPrintOrderPeriode()
+	{
+		$from = $_POST['dari'];
+		$to = $_POST['sampai'];
+		$branch =  Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
+		$sql = "SELECT *,sum(esc_detail_order.qty * esc_detail_order.price) as total FROM esc_order inner join esc_detail_order on esc_detail_order.order_id = esc_order.order_id inner join esc_client on esc_client.client_id = esc_order.client_id inner join esc_branch on esc_branch.branch_id = esc_order.branch_id where esc_order.branch_id = $branch and esc_order.date between '$from' and '$to' group by esc_order.order_id";
+		 $connection=Yii::app()->db;
+		 $command=$connection->createCommand($sql);
+		 $model = $command->queryAll();	
+		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+// set document information
+$pdf->SetCreator(PDF_CREATOR);
+$pdf->SetAuthor('Euro Medica');
+$pdf->SetTitle('Order Periode Report');
+$pdf->SetSubject('TCPDF Tutorial');
+$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+// set default header data
+
+$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH,'Order Periode Report', "Euro Media");
+
+// set header and footer fonts
+$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+// set default monospaced font
+$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+// set margins
+$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+// set auto page breaks
+$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+// set image scale factor
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+// set some language-dependent strings (optional)
+if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+    require_once(dirname(__FILE__).'/lang/eng.php');
+    $pdf->setLanguageArray($l);
+}
+
+// ---------------------------------------------------------
+
+// set font
+$pdf->SetFont('helvetica', 'B', 20);
+
+// add a page
+$pdf->AddPage();
+
+$pdf->Write(0, 'Order Periode Report', '', 0, 'C', true, 0, false, false, 0);
+$pdf->SetFont('helvetica', 'B', 13);
+$pdf->Write(0, 'Branch '.Yii::app()->getModule('user')->user()->profile->branch->branch_name , '', 0, 'C', true, 0, false, false, 0);
+$pdf->SetFont('helvetica', 'B', 10);
+$pdf->Write(0, $from.' - '.$to  , '', 0, 'C', true, 0, false, false, 0);
+$pdf->SetFont('helvetica', '', 10);
+$pdf->Ln();
+
+// -----------------------------------------------------------------------------
+
+
+
+// NON-BREAKING ROWS (nobr="true")
+$tbl="";
+$tbl .= '
+
+<style type="text/css">
+.myOtherTable { background-color:#FFFFE0;border-collapse:collapse;color:#000;font-size:16px; }
+.myOtherTable th { background-color:#BDB76B;color:white;width:20%; }
+.myOtherTable td { padding:5px;border:0; }
+.myOtherTable td { font-family:Georgia, Garamond, serif; border-bottom:1px dotted #BDB76B; }
+</style>
+
+
+<table class="myOtherTable">
+ <tr>
+ 	<th>Order Number</th>
+ 	<th>Client Name</th>
+ 	<th>Branch</th>
+ 	<th>Date</th>
+ 	<th>Total</th>
+ 	
+ </tr>
+ ';
+ foreach($model as $data) {
+ 	$tbl .='<tr>
+ 		<td>'.$data['order_number'].'</td>
+ 		<td>'.$data['client_name'].'</td>
+ 		<td>'.$data['branch_name'].'</td>
+ 		<td>'.$data['date'].'</td>
+ 		<td>'.Yii::app()->format->formatNumber($data['total']).'</td>
+ 		</tr>';
+ }
+ 
+$tbl .="</table>";
+
+
+$pdf->writeHTML($tbl, true, false, false, false, '');
+
+// -----------------------------------------------------------------------------
+
+//Close and output PDF document
+$pdf->Output('Laporan Order periode.pdf', 'I');
+
+	}
+
+	public function actionPrintOrderProduct()
+	{
+		$product = $_POST['product'];
+		
+		$branch =  Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id');
+		$sql = "SELECT *,sum(esc_detail_order.qty * esc_detail_order.price) as total FROM esc_order inner join esc_detail_order on esc_detail_order.order_id = esc_order.order_id inner join esc_client on esc_client.client_id = esc_order.client_id inner join esc_branch on esc_branch.branch_id = esc_order.branch_id where esc_order.branch_id = $branch and esc_detail_order.product_id = '$product' group by esc_order.order_id";
+		 $connection=Yii::app()->db;
+		 $command=$connection->createCommand($sql);
+		 $model = $command->queryAll();	
+
+		 $sql2 = "select * from esc_product where product_id='$product'";
+		 $connection=Yii::app()->db;
+		 $command=$connection->createCommand($sql2);
+		 $model2 = $command->queryRow();	
+		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+// set document information
+$pdf->SetCreator(PDF_CREATOR);
+$pdf->SetAuthor('Euro Medica');
+$pdf->SetTitle('Order Per Product Report');
+$pdf->SetSubject('TCPDF Tutorial');
+$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+// set default header data
+
+$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH,'Order Per Product Report', "Euro Media");
+
+// set header and footer fonts
+$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+// set default monospaced font
+$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+// set margins
+$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+// set auto page breaks
+$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+// set image scale factor
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+// set some language-dependent strings (optional)
+if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+    require_once(dirname(__FILE__).'/lang/eng.php');
+    $pdf->setLanguageArray($l);
+}
+
+// ---------------------------------------------------------
+
+// set font
+$pdf->SetFont('helvetica', 'B', 20);
+
+// add a page
+$pdf->AddPage();
+
+$pdf->Write(0, 'Order Per Product Report', '', 0, 'C', true, 0, false, false, 0);
+$pdf->SetFont('helvetica', 'B', 13);
+$pdf->Write(0, 'Branch '.Yii::app()->getModule('user')->user()->profile->branch->branch_name , '', 0, 'C', true, 0, false, false, 0);
+$pdf->SetFont('helvetica', 'B', 10);
+$pdf->Write(0, $model2['product_name'] , '', 0, 'C', true, 0, false, false, 0);
+$pdf->SetFont('helvetica', '', 10);
+$pdf->Ln();
+
+// -----------------------------------------------------------------------------
+
+
+
+// NON-BREAKING ROWS (nobr="true")
+$tbl="";
+$tbl .= '
+
+<style type="text/css">
+.myOtherTable { background-color:#FFFFE0;border-collapse:collapse;color:#000;font-size:16px; }
+.myOtherTable th { background-color:#BDB76B;color:white;width:20%; }
+.myOtherTable td { padding:5px;border:0; }
+.myOtherTable td { font-family:Georgia, Garamond, serif; border-bottom:1px dotted #BDB76B; }
+</style>
+
+
+<table class="myOtherTable">
+ <tr>
+ 	<th>Order Number</th>
+ 	<th>Client Name</th>
+ 	<th>Branch</th>
+ 	<th>Date</th>
+ 	<th>Total</th>
+ 	
+ </tr>
+ ';
+ foreach($model as $data) {
+ 	$tbl .='<tr>
+ 		<td>'.$data['order_number'].'</td>
+ 		<td>'.$data['client_name'].'</td>
+ 		<td>'.$data['branch_name'].'</td>
+ 		<td>'.$data['date'].'</td>
+ 		<td>'.Yii::app()->format->formatNumber($data['total']).'</td>
+ 		</tr>';
+ }
+ 
+$tbl .="</table>";
+
+
+$pdf->writeHTML($tbl, true, false, false, false, '');
+
+// -----------------------------------------------------------------------------
+
+//Close and output PDF document
+$pdf->Output('Laporan Order Per Product.pdf', 'I');
+
+	}
 	
 }

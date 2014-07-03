@@ -41,7 +41,7 @@ $this->renderPartial('../../menu',array(
                         <td><?php echo $val->date;?></td>
                         <td><?php echo $val->client->client_name;?></td>
                         <td><?php if($val->status==0) { echo '<span class="label label-important arrowed-in">Unpaid</span>';} else { echo '<span class="label label-success arrowed">Paid</span>';}?></td>
-                        <td><a href="<?php echo Yii::app()->createUrl('/consultant/order/view', array('id' => $val->order_id))?>">View</a></td>
+                        <td><a href="<?php echo Yii::app()->createUrl('/admin/consultant/order/view', array('id' => $val->order_id))?>">View</a></td>
 
                     </tr>
                     <?php 

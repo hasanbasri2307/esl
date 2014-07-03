@@ -33,7 +33,7 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
 	'attributes'=>array(
 		'product_number',
 		'product_name',
-		
+		'product.unitHomecare.unit_name',
 		'price',
 		
 		

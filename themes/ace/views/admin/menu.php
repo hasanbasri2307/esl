@@ -27,13 +27,7 @@ $this->menu=array(
            
         ),
 
-     array('label'=>'Point','icon' => 'icon-dashboard', 'url'=>array('/admin/consultant/order'), 'active'=>isset($active['7']) ? true : false,
-            'items'=> array(
-                array('label'=>'Product', 'url'=>array('#'), 'active'=>isset($active['7.1']) ? true : false,),
-                array('label'=>'Treatment', 'url'=>array('#'), 'active'=>isset($active['7.2']) ? true : false,),
-                array('label'=>'Report', 'url'=>array('#'), 'active'=>isset($active['7.3']) ? true : false,),
-            )
-        ),
+   
     
     array('label'=>'Pricing','icon' => 'icon-filter', 'url'=>array('/admin/accounting/product'), 'active'=>isset($active['8']) ? true : false,
             'items'=> array(
@@ -41,9 +35,7 @@ $this->menu=array(
                  array('label'=>'Treatment Price', 'url'=>array('/admin/accounting/treatment'), 'active'=>isset($active['8.2']) ? true : false,),
                   array('label'=>'Product Package Price', 'url'=>array('/admin/accounting/productpackage'), 'active'=>isset($active['8.3']) ? true : false,),
 				  array('label'=>'Treatment Package Price', 'url'=>array('/admin/accounting/treatmentpackage'), 'active'=>isset($active['8.4']) ? true : false,),
-                 array('label'=>'Voucher', 'url'=>array('/admin/inventory/product'), 'active'=>isset($active['8.5']) ? true : false,),
-                  array('label'=>'Report', 'url'=>array('/admin/inventory/product'), 'active'=>isset($active['8.6']) ? true : false,),
-                   
+               
                 //array('label'=>'Cabin', 'url'=>array('/inventory/product_cabin'), 'active'=>isset($active['1.2']) ? true : false,)
             )
         ),
@@ -60,7 +52,7 @@ $this->menu=array(
                 array('label'=>'List Client', 'url'=>array('/admin/consultant/client'), 'active'=>isset($active['10.1']) ? true : false,),
                 array('label'=>'Input', 'url'=>array('/admin/consultant/client/create'), 'active'=>isset($active['10.2']) ? true : false,),
                 array('label'=>'Historycal', 'url'=>array('/admin/consultant/client/history'), 'active'=>isset($active['10.3']) ? true : false,),
-               
+                 array('label'=>'Face Profile', 'url'=>array('/admin/consultant/faceProfile/create'), 'active'=>isset($active['10.4']) ? true : false,),
             )
         ),
     
@@ -69,7 +61,7 @@ $this->menu=array(
                
                  array('label'=>'Reservation', 'url'=>array('/admin/consultant/schedule'), 'active'=>isset($active['12.1']) ? true : false,),
                   array('label'=>'Input', 'url'=>array('/admin/consultant/schedule/create'), 'active'=>isset($active['12.2']) ? true : false,),
-                 array('label'=>'Report', 'url'=>array('#'), 'active'=>isset($active['12.3']) ? true : false,),
+                
             )
         ),
        array('label'=>'Product','icon' => 'icon-dashboard', 'url'=>array('/accounting/product'), 'active'=>isset($active['13']) ? true : false,
@@ -118,6 +110,7 @@ $this->menu=array(
                     array('label'=>'Product Package Price', 'url'=>array('/admin/accounting/productpackage/printoutproductpackageprice'), 'active'=>isset($active['15.8']) ? true : false,),
                     array('label'=>'Treatment Package Price', 'url'=>array('/admin/accounting/treatmentpackage/printouttreatmentpackageprice'), 'active'=>isset($active['15.9']) ? true : false,),
                     array('label'=>'Reservation', 'url'=>array('/admin/consultant/schedule/printoutreservation'), 'active'=>isset($active['15.10']) ? true : false,),
+                    array('label'=>'Order', 'url'=>array('/admin/consultant/order/printOrder'), 'active'=>isset($active['15.11']) ? true : false,),
    )),
    
     

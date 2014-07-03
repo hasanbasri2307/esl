@@ -77,6 +77,7 @@ class ProductController extends RController
 			$model->attributes=$_POST['Product'];
 
                         $time = time();
+                        $model->price =  Yii::app()->format->unformatNumber($_POST['Product']['price']);
                         $model->user_id =Yii::app()->getModule('user')->user()->id;
                         $model->changed =$time;
      if ($model->validate()) {                   

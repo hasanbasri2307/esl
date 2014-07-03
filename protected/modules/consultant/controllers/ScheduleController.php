@@ -48,8 +48,8 @@ class ScheduleController extends RController
 	public function actionData_client()
 	{
 		
-         $id =$_POST['id'];
-		 $sql = "select *, ADDTIME(s.time_t,s.duration) as selesai,s.description as des from esc_schedule_room s inner join esc_client c on s.client_id = c.client_id where s.schedule_room_id ='".$id."'";
+       $id =$_POST['id'];
+		 $sql = "select *, ADDTIME(s.time_t,s.duration) as selesai,s.description as des,p1.name as dokter, p2.name as beautician from esc_schedule_room s inner join esc_client c on s.client_id = c.client_id inner join esc_profiles p1 on p1.user_id = s.doctor inner join esc_profiles p2 on p2.user_id = s.beautician where s.schedule_room_id ='".$id."'";
 		$connection=Yii::app()->db;
 		$command=$connection->createCommand($sql);
 		$dataReader=$command->queryAll();
@@ -314,6 +314,8 @@ class ScheduleController extends RController
 			'model'=>$model
 		));
 	}
+
+	
 
 	public function actionPrintDaily()
 	{
@@ -757,9 +759,11 @@ $pdf->writeHTML($tbl, true, false, false, false, '');
 // -----------------------------------------------------------------------------
 
 //Close and output PDF document
-$pdf->Output('Laporan Reservation Monthly.pdf', 'I');
+$pdf->Output('Laporan Reservation Periode.pdf', 'I');
 
 	}
+
+	
 
 	private function bulan($bulan)
 	{

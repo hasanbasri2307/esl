@@ -177,24 +177,7 @@ array(
     	<input type="hidden" name="schedule_room_id" id="schedule_room_id">
 </div>
  
-<div class="modal-footer">
-    <?php $this->widget('bootstrap.widgets.TbButton', array(
-        'type'=>'primary',
-        'label'=>'Confirm',
-        'url'=>'#',
-        'htmlOptions'=>array('id'=>'confirm'),
-    )); ?>
-    <?php $this->widget('bootstrap.widgets.TbButton', array(
-        'label'=>'Reschedule',
-        'url'=>'#',
-        'htmlOptions'=>array('id'=>'reschedule'),
-    )); ?>
-    <?php $this->widget('bootstrap.widgets.TbButton', array(
-        'label'=>'Cancel',
-        'url'=>'#',
-        'htmlOptions'=>array('id'=>'cancel'),
-    )); ?>
-</div>
+
  
 <?php $this->endWidget(); ?>
 
@@ -218,9 +201,9 @@ array(
        		 
 				
 			  
-       		 $("#modal-body-1").html("<table><tr><td>Client ID</td><td>:</td><td>"+data[0].client_number+"</td></tr><tr><td>Client Name</td><td>:</td><td>"+data[0].client_name+"</td></tr><tr><td>Date</td><td>:</td><td>"+data[0].date_t+"</td></tr><tr><td>Start</td><td>:</td><td>"+data[0].time_t+"</td></tr><tr><td>Finish</td><td>:</td><td>"+data[0].selesai+"</td></tr><tr><td>Duration</td><td>:</td><td>"+data[0].duration+"</td></tr><tr><td>Description</td><td>:</td><td>"+data[0].des+"</td></tr></table>");
-			 
-			$("#schedule_room_id").val(data[0].schedule_room_id);
+       	 $("#modal-body-1").html("<table><tr><td>Client ID</td><td>:</td><td>"+data[0].client_number+"</td></tr><tr><td>Client Name</td><td>:</td><td>"+data[0].client_name+"</td></tr><tr><td>Date</td><td>:</td><td>"+data[0].date_t+"</td></tr><tr><td>Start</td><td>:</td><td>"+data[0].time_t+"</td></tr><tr><td>Finish</td><td>:</td><td>"+data[0].selesai+"</td></tr><tr><td>Duration</td><td>:</td><td>"+data[0].duration+"</td></tr><tr><td>Description</td><td>:</td><td>"+data[0].des+"</td></tr><tr><td>Doctor</td><td>:</td><td>"+data[0].dokter+"</td></tr><tr><td>Beautician</td><td>:</td><td>"+data[0].beautician+"</td></tr></table>");
+       
+      $("#schedule_room_id").val(data[0].schedule_room_id);
 			}
 		});
 		
@@ -270,7 +253,15 @@ array(
     });
                     ';
   Yii::app()->clientScript->registerScript('rescheduleModal',$script4, CClientScript::POS_END);
-
+  
+  $script5 = ' $("#ok").click(function(){
+      var tanggal = $(".tanggal").val();
+      
+      window.location  = "'.Yii::app()->createUrl('/consultant/schedule/index/date/"+tanggal+"').'";
+        
+    });
+                    ';
+  Yii::app()->clientScript->registerScript('rescheduleModal',$script5, CClientScript::POS_END);
  
  ?>
 

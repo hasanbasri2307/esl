@@ -49,7 +49,7 @@ class ScheduleController extends RController
 	{
 		
          $id =$_POST['id'];
-		 $sql = "select *, ADDTIME(s.time_t,s.duration) as selesai,s.description as des from esc_schedule_room s inner join esc_client c on s.client_id = c.client_id where s.schedule_room_id ='".$id."'";
+		 $sql = "select *, ADDTIME(s.time_t,s.duration) as selesai,s.description as des,p1.name as dokter, p2.name as beautician from esc_schedule_room s inner join esc_client c on s.client_id = c.client_id inner join esc_profiles p1 on p1.user_id = s.doctor inner join esc_profiles p2 on p2.user_id = s.beautician where s.schedule_room_id ='".$id."'";
 		$connection=Yii::app()->db;
 		$command=$connection->createCommand($sql);
 		$dataReader=$command->queryAll();
@@ -85,20 +85,34 @@ class ScheduleController extends RController
 		if(isset($_POST['ScheduleRoom']))
 		{
 			$model->attributes=$_POST['ScheduleRoom'];
-			$date = $model->date_t;
+
+			$date = $_POST['ScheduleRoom']['date_t'];
+
+			
+
 			$branch_id = $model->branch_id;
-			$room_id = $model->room_id;
-			$time = $model->time_t;
-			$duration = $model->duration;
+			$room_id =$_POST['ScheduleRoom']['room_id'];
+			$time = $_POST['ScheduleRoom']['time_t'];
+			$duration = $_POST['ScheduleRoom']['duration'];
 			$secs = strtotime("00:00:01")-strtotime("00:00:00");
 			$result = date("H:i:s",strtotime($time)+$secs);
 			$secs1 = strtotime($duration)-strtotime("00:00:00");
 			$result1 = date("H:i:s",strtotime($time)+$secs);
 			$model->end_time = $result1;
 			
+			$time_t = $_POST['ScheduleRoom']['time_t'].':00';
+			$end_time = $result1;
+
+			$model->date_t = $date;
+			$model->room_id = $room_id;
+			$model->time_t = $time;
+			$model->duration = $duration;
+			$model->end_time = $end_time;
+			$model->description = $_POST['ScheduleRoom']['description'];
+
 			$criteria = new CDbCriteria();
-			$criteria->condition = " branch_id = :branch_id and room_id = :room_id and date_t = :date and CAST(:waktu AS TIME ) BETWEEN time_t AND end_time";
-			$criteria->params = array(':waktu'=>$result,':branch_id'=>$branch_id,':room_id'=>$room_id,':date'=>$date);
+			$criteria->condition = " branch_id = :branch_id and room_id = :room_id and date_t = :date and time_t >= '$time_t' and end_time <= '$end_time'";
+			$criteria->params = array(':branch_id'=>$branch_id,':room_id'=>$room_id,':date'=>$date);
 			$count = ScheduleRoom::model()->count($criteria);
 			if($count > 0)
 			{
@@ -115,7 +129,7 @@ class ScheduleController extends RController
 										Jadwal Bentrok
 										<br>
 									</div>');
-					$this->redirect(array('Schedule/update/id/'.$model->schedule_room_id));			
+					$this->redirect(array('consultant/Schedule/update/id/'.$model->schedule_room_id));			
 			}
 			else
 			{
@@ -137,7 +151,7 @@ class ScheduleController extends RController
 										Jadwal Berhasil Diubah
 										<br>
 									</div>');
-				$this->redirect(array('schedule/index/date/'.$model->date_t));
+				$this->redirect(array('consultant/schedule/index/date/'.$model->date_t));
 			}}
 
 		}
@@ -186,13 +200,13 @@ class ScheduleController extends RController
 										Jadwal Berhasil Diubah
 										<br>
 									</div>');
-				$this->redirect(array('schedule/index/date/'.$model->date_t));
+				$this->redirect(array('consultant/schedule/index/date/'.$model->date_t));
 			}
 
 		}
 
 		$this->render('update',array(
-			'model'=>$model
+			'model'=>$model,
 		));
 	}
 
@@ -213,6 +227,7 @@ class ScheduleController extends RController
 						$model->time_t =$_POST['ScheduleRoom']['time_t'];
 						$model->date_t =$_POST['ScheduleRoom']['date_t'];
 						$model->duration =$_POST['ScheduleRoom']['duration'];
+						$model->order_number = $_POST['ScheduleRoom']['order_number'];
                         $model->changed =$time;
                         $model->created =$time;
 						$model->status = 1;
@@ -222,9 +237,12 @@ class ScheduleController extends RController
 						$result1 = date("H:i:s",strtotime($_POST['ScheduleRoom']['time_t'])+$secs1);
 						$model->end_time = $result1;
 						
+						$time_t = $_POST['ScheduleRoom']['time_t'].':00';
+						$end_time = $result1;
+
 						$criteria = new CDbCriteria();
-						$criteria->condition = " branch_id = :branch_id and room_id = :room_id and date_t = :date and CAST(:waktu AS TIME ) BETWEEN time_t AND end_time";
-						$criteria->params = array(':waktu'=>$result,':branch_id'=>Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id'),':room_id'=>$_POST['ScheduleRoom']['room_id'],':date'=>$_POST['ScheduleRoom']['date_t']);
+						$criteria->condition = " branch_id = :branch_id and room_id = :room_id and date_t = :date and time_t >= '$time_t' and end_time <= '$end_time'";
+						$criteria->params = array(':branch_id'=>Yii::app()->getModule('user')->user()->profile->getAttribute('branch_id'),':room_id'=>$_POST['ScheduleRoom']['room_id'],':date'=>$_POST['ScheduleRoom']['date_t']);
 						$count = ScheduleRoom::model()->count($criteria);
 						if($count > 0)
 						{
@@ -241,7 +259,7 @@ class ScheduleController extends RController
 													Jadwal Bentrok
 													<br>
 												</div>');
-								$this->redirect(array('schedule/create/'));			
+								$this->redirect(array('consultant/schedule/create/'));			
 						}
 						else
 						{
@@ -263,7 +281,7 @@ class ScheduleController extends RController
 														Jadwal Berhasil Dibuat
 														<br>
 													</div>');
-								$this->redirect(array('schedule/index/date/'.$_POST['ScheduleRoom']['date_t']));
+								$this->redirect(array('consultant/schedule/index/date/'.$_POST['ScheduleRoom']['date_t']));
 								
 							}
 						}

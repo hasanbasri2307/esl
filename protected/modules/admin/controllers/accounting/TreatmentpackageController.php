@@ -38,6 +38,7 @@ class TreatmentpackageController extends RController
 		if(isset($_POST['Treatmentpackage']))
 		{
 			$model->attributes=$_POST['Treatmentpackage'];
+
 			$time = time();
             $model->user_id =Yii::app()->getModule('user')->user()->id;
             $model->changed =$time;
@@ -85,6 +86,7 @@ class TreatmentpackageController extends RController
 		if(isset($_POST['Treatmentpackage']))
 		{
 			$model->attributes=$_POST['Treatmentpackage'];
+			$model->price =  Yii::app()->format->unformatNumber($_POST['Treatmentpackage']['price']);
 			if($model->save())
 			{
 				if(isset($_POST['TreatmentId'])){
